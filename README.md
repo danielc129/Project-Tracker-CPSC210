@@ -25,9 +25,11 @@ project
 - As a user, I want to be able to add multiple projects, and select a project to view details
 - As a user, I want to be able to add subtasks to tasks 
 - As a user, I want to be able to change the name, due date, description, and completion weighting of tasks
-- As a user, I want to be able to view all of the tasks and subtasks required to complete a project
+- As a user, I want to be able to view a list of all of the tasks and subtasks required to complete a project
 - As a user, I want to be able to mark a task as completed, with overall project progress increasing by the completion weighting of the task
 - As a user, I want to be able to delete a task, subtask, or project
 - As a user, I want to be able to see a summary of the next tasks among all projects that I should work on
 - As a user, I want to be able to see the overall project progress (expressed as a percentage) for each project
 - As a user, I want to be able to see a report of the progress over time that I have made for a certain project
+- As a user, I want to be able to save my changes when the program closes, so that my tasks and projects appear again when the program restarts
+
