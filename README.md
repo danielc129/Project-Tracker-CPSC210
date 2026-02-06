@@ -6,9 +6,9 @@ Each **task/subtask** can be assigned a:
 - Name
 - Due date
 - Description
-- Progress weighting (as a percentage)
+- Progress weighting (unitless)
 
-The program will list tasks and subtasks in order of due date. Subsequent tasks must be in chronological order of due date, and the last subtask of a task must have the same due date as the parent task. The progress weighting of all tasks and subtasks within a project must sum to 100%. The progress weighting of subtasks must sum to the progress weighting of the parent task. 
+The program will list tasks and subtasks in order of due date. Subsequent tasks must be in chronological order of due date, and the last subtask of a task must have the same due date as the parent task. If a task contains subtasks, its due date and progress weighting are determined by its subtasks. As a result, only tasks without subtasks can have their due date and progress weighting edited. Additionally, projects as well as tasks with subtasks will show a completion percentage, determined from the progress weighting and completion status of the subtasks.
 
 When a task is marked as complete, the percentage completion of the total project
 increases depending on the *progress weighting* of the task. Additionally, the program keeps track of progress over time, and can show you that information textually and graphically. On program launch, 
@@ -20,11 +20,11 @@ This project is of interest to me because as a student, I have to manage multipl
 
 - As a user, I want to be able to create a project and specify a name and description
 - As a user, I want to be able to add a task under a project and specify a name, due date, description, and completion weighting
-- As a user, I want to be able to add multiple tasks under a 
-project
+- As a user, I want to be able to add multiple tasks under a project
 - As a user, I want to be able to add multiple projects, and select a project to view details
 - As a user, I want to be able to add subtasks to tasks 
-- As a user, I want to be able to change the name, due date, description, and completion weighting of tasks
+- As a user, I want to be able to change the name, due date, description, and completion weighting of tasks without subtasks
+- As a user, I want to be able to change the name and description of tasks with subtasks
 - As a user, I want to be able to view a list of all of the tasks and subtasks required to complete a project
 - As a user, I want to be able to mark a task as completed, with overall project progress increasing by the completion weighting of the task
 - As a user, I want to be able to delete a task, subtask, or project
