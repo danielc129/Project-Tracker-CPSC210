@@ -56,5 +56,16 @@ public class LeafTaskTest {
         task1.setCompletion(false);
         assertFalse(task1.isCompleted());
     }
+
+    @Test
+    public void testGetStringFormat() throws IllegalMonthException {
+        assertEquals("[ ] Test Name 1: Test Description 1 (Due: February 15, 2026 | Weight: 20)", task1.getStringFormat());
+        task1.setName("Name 2");
+        task1.setDescription("Description 2");
+        task1.setDueDate(new Date(3, 5, 2025));
+        task1.setWeight(10);
+        task1.setCompletion(true);
+        assertEquals("[✓] Name 2: Description 2 (Due: May 3, 2025 | Weight: 10)", task1.getStringFormat());
+    }
      
 }

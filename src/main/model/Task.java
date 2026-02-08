@@ -24,6 +24,9 @@ public abstract class Task {
         this.description = description;
     }
 
+    // EFFECTS: returns a string representation of the task, suitable for command line viewing
+    public abstract String getStringFormat();
+
     // EFFECTS: returns the name of the task
     public String getName() {
         return this.name;

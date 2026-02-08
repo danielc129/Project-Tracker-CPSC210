@@ -50,5 +50,16 @@ public class LeafTask extends Task {
     public boolean isCompleted() {
         return this.isCompleted;
     }
+
+    // EFFECTS: returns a string representation of the task, suitable for command line viewing
+    //          in the format "[[Completion Status]] [Name]: [Description] (Due: [Due Date] | Weight: [Weight])"
+    @Override
+    public String getStringFormat() {
+        if (isCompleted()) {
+            return "[✓] " + this.name + ": " + this.description + " (Due: " + this.dueDate.getDateAsString() + " | Weight: " + this.weight + ")";
+        } else {
+            return "[ ] " + this.name + ": " + this.description + " (Due: " + this.dueDate.getDateAsString() + " | Weight: " + this.weight + ")";
+        }
+    }
     
 }
