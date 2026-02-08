@@ -1,12 +1,15 @@
 package model;
 
 // Represents a task 
-// Inter-class structure based on D4 (Composite Pattern) Lecture Lab
+// Inter-class structure based on D4 (Composite Pattern) Lecture Labs
 public abstract class Task {
+    protected String name;
+    protected String description;
 
     // EFFECTS: creates a task with the given name and description
     public Task(String name, String description) {
-
+        this.name = name;
+        this.description = description;
     }
 
     // MODIFIES: this
@@ -17,23 +20,23 @@ public abstract class Task {
     // MODIFIES: this
     // EFFECTS: sets the task name to the given name
     public void setName(String name) {
-
+        this.name = name;
     }
 
     // MODIFIES: this
     // EFFECTS: sets the task description to the given description
     public void setDescription(String description) {
-
+        this.description = description;
     }
 
     // EFFECTS: returns the name of the task
     public String getName() {
-        return null;
+        return this.name;
     }
 
     // EFFECTS: returns the description of the task
     public String getDescription() {
-        return null;
+        return this.description;
     }
 
     // EFFECTS: returns the due date of the task
