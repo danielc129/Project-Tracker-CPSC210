@@ -11,22 +11,21 @@ public class LeafTask extends Task {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds a subtask to this task with the given name, description, due date, and weight
-    @Override
-    public void addSubtask(String name, String description, Date dueDate, int weight) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addSubtask'");
-    }
-
-    // MODIFIES: this
     // EFFECTS: sets the due date to the given date
     public void setDueDate(Date newDate) {
 
     }
 
+    // REQUIRES: weight > 0
     // MODIFIES: this
     // EFFECTS: sets the task weight to the given weight
     public void setWeight(int newWeight) {
+
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets the completion status of the task to the given boolean value
+    public void setCompletion(boolean isCompleted) {
         
     }
 

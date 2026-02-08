@@ -13,11 +13,6 @@ public abstract class Task {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds a subtask to this task with the given name, description, due date, and weight
-    public abstract void addSubtask(String name, String description, Date dueDate, int weight);
-
-
-    // MODIFIES: this
     // EFFECTS: sets the task name to the given name
     public void setName(String name) {
         this.name = name;
