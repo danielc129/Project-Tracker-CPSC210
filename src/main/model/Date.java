@@ -8,13 +8,9 @@ public class Date {
     private int month;
     private int year;
 
-    // REQUIRES: day is valid for the given month (for example, 1 <= day <= 31 for month = 1)
+    // REQUIRES: 1 <= month <= 12, day is valid for the given month (for example, 1 <= day <= 31 for month = 1)
     // EFFECTS: creates a date object with the given date of the month, the month, and the year
-    //          if month is not between 1 and 12, throws IllegalMonthException
     public Date(int day, int month, int year) throws IllegalMonthException {
-        if (month < 1 || month > 12) {
-            throw new IllegalMonthException();
-        }
         this.day = day;
         this.month = month;
         this.year = year;
@@ -55,10 +51,9 @@ public class Date {
                 return "October";
             case 11:
                 return "November";
-            case 12:
+            default:
                 return "December";
         }
-        return null;
     }
 
     // EFFECTS: returns a string in the format "getMonthAsString() day, year"
