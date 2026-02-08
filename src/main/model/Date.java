@@ -1,7 +1,5 @@
 package model;
 
-import model.exceptions.IllegalMonthException;
-
 // Represents a date with a day, month, and year
 public class Date {
     private int day;
@@ -10,7 +8,7 @@ public class Date {
 
     // REQUIRES: 1 <= month <= 12, day is valid for the given month (for example, 1 <= day <= 31 for month = 1)
     // EFFECTS: creates a date object with the given date of the month, the month, and the year
-    public Date(int day, int month, int year) throws IllegalMonthException {
+    public Date(int day, int month, int year) {
         this.day = day;
         this.month = month;
         this.year = year;
