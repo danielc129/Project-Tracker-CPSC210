@@ -45,4 +45,7 @@ public abstract class Task {
     // EFFECTS: returns the weight of the task
     public abstract int getWeight();
 
+    // EFFECTS: returns whether the task has been completed
+    public abstract boolean isCompleted();
+
 }
