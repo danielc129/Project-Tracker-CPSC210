@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import model.exceptions.IllegalMonthException;
+
 public class DateTest {
     private Date date1;
     private Date date2;
@@ -23,7 +25,7 @@ public class DateTest {
     private Date date15;
 
     @BeforeEach
-    public void setup() {
+    public void setup() throws IllegalMonthException {
         date1 = new Date(8, 1, 2025);
         date2 = new Date(12, 2, 2024);
         date3 = new Date(31, 3, 2025);
