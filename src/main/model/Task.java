@@ -1,7 +1,7 @@
 package model;
 
 // Represents a task 
-// Inter-class structure based on D4 (Composite Pattern) Lecture Labs
+// ATTRIBUTION: Inter-class structure based on D4 (Composite Pattern) Lecture Labs
 public abstract class Task {
     protected String name;
     protected String description;

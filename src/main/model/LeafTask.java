@@ -1,7 +1,7 @@
 package model;
 
 // Represents a task with no subtasks of its own
-// Inter-class structure based on D4 (Composite Pattern) Lecture Labs
+// ATTRIBUTION: Inter-class structure based on D4 (Composite Pattern) Lecture Labs
 public class LeafTask extends Task {
     private Date dueDate;
     private int weight;
