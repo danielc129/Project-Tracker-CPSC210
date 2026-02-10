@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import model.exceptions.IllegalMonthException;
-
 public class BranchTaskTest {
     private BranchTask branch1;
     private LeafTask leaf1;
@@ -27,7 +25,7 @@ public class BranchTaskTest {
     private BranchTask branch5;
 
     @BeforeEach
-    public void setup() throws IllegalMonthException {
+    public void setup() {
         leaf1 = new LeafTask("Leaf Task 1", "Test Description L1", new Date(1, 1, 2026), 10);
         leaf2 = new LeafTask("Leaf Task 2", "Test Description L2", new Date(5, 1, 2026), 5);
         leaf3 = new LeafTask("Leaf Task 3", "Test Description L3", new Date(3, 1, 2026), 20);

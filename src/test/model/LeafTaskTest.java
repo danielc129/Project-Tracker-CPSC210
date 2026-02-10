@@ -7,13 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import model.exceptions.IllegalMonthException;
-
 public class LeafTaskTest {
     private LeafTask task1;
 
     @BeforeEach
-    public void setup() throws IllegalMonthException {
+    public void setup() {
         task1 = new LeafTask("Test Name 1", "Test Description 1", new Date(15, 2, 2026), 20);
     }
 
@@ -29,7 +27,7 @@ public class LeafTaskTest {
     }
 
     @Test
-    public void testSetDueDate() throws IllegalMonthException {
+    public void testSetDueDate() {
         task1.setDueDate(new Date(13, 3, 2025));
         assertEquals(13, task1.getDueDate().getDay());
         assertEquals(3, task1.getDueDate().getMonth());
@@ -58,7 +56,7 @@ public class LeafTaskTest {
     }
 
     @Test
-    public void testGetStringFormat() throws IllegalMonthException {
+    public void testGetStringFormat() {
         assertEquals("[ ] Test Name 1: Test Description 1 (Due: February 15, 2026 | Weight: 20)", task1.getStringFormat());
         task1.setName("Name 2");
         task1.setDescription("Description 2");
