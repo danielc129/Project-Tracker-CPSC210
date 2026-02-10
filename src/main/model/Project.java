@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 // Represents a project 
 public class Project {
 
@@ -23,5 +25,25 @@ public class Project {
     // EFFECTS: gets the percentage completion of the project (as an int from 0 to 100), taking into account task weights
     public int getCompletionPercentage() {
         return -1;
+    }
+
+    // EFFECTS: returns the project name
+    public String getName() {
+        return null;
+    }
+
+    // EFFECTS: returns the project description
+    public String getDescription() {
+        return null;
+    }
+
+    // EFFECTS: returns this project's tasks
+    public List<Task> getTasks() {
+        return null;
+    }
+
+    // EFFECTS: returns this project's tasks, sorted in order of closest to furthest due date
+    public List<Task> getSortedSubtasks() {
+        return null;
     }
 }
