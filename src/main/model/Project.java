@@ -29,7 +29,8 @@ public class Project {
         this.tasks.remove(task);
     }
 
-    // EFFECTS: gets the percentage completion of the project (as an int from 0 to 100), taking into account task weights
+    // EFFECTS: gets the percentage completion of the project (as an int from 0 to 100), 
+    //          taking into account task weights
     public int getCompletionPercentage() {
         double completedSubtaskWeight = getCompletedTasksWeight();
         double totalSubtaskWeight = getWeight();

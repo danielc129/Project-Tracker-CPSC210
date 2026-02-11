@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 // Represents a task with subtasks of its own
@@ -115,16 +114,20 @@ public class BranchTask extends Task {
     }
 
     // EFFECTS: returns a string representation of the task and its subtasks, suitable for command line viewing
-    //          in the format "[[Completion Status]] [Name]: [Description] (Due: [Due Date] | Progress: [Completion Percentage])"
-    //          with subsequent lines being the result of calling getStringFormat() on subtasks ordered by due date, indented by 4 spaces
+    //          in the format 
+    //          "[[Completion Status]] [Name]: [Description] (Due: [Due Date] | Progress: [Completion Percentage])"
+    //          with subsequent lines being the result of calling getStringFormat() on subtasks ordered by due date, 
+    //          indented by 4 spaces
     @Override
     public String getStringFormat() {
         String result = "";
         if (isCompleted()) {
-            result = "[✓] " + this.name + ": " + this.description + " (Due: " + this.getDueDate().getDateAsString() + " | Progress: " + this.getCompletionPercentage() + "%)";
+            result = "[✓] "; 
         } else {
-            result = "[ ] " + this.name + ": " + this.description + " (Due: " + this.getDueDate().getDateAsString() + " | Progress: " + this.getCompletionPercentage() + "%)";
+            result = "[ ] ";
         }
+        result = result + this.name + ": " + this.description + " (Due: " 
+                + this.getDueDate().getDateAsString() + " | Progress: " + this.getCompletionPercentage() + "%)";
 
         List<Task> sortedSubtasks = getSortedSubtasks();
         for (Task subtask : sortedSubtasks) {

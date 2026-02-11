@@ -16,13 +16,12 @@ public class BranchTaskTest {
     private LeafTask leaf3;
     private BranchTask branch2;
     private BranchTask branch3;
-    private BranchTask branch4;
     private LeafTask leaf4;
     private LeafTask leaf5;
     private LeafTask leaf6;
     private LeafTask leaf7;
     private LeafTask leaf8;
-    private BranchTask branch5;
+    private BranchTask branch4;
 
     @BeforeEach
     public void setup() {
@@ -49,7 +48,7 @@ public class BranchTaskTest {
         leaf8 = new LeafTask("Leaf Task 8", "Test Description L8", new Date(7, 1, 2025), 10);
         ArrayList<Task> subtaskList4 = new ArrayList<>();
         subtaskList4.add(leaf8);
-        branch5 = new BranchTask("Branch Task 5", "Test Description B5", subtaskList4);
+        branch4 = new BranchTask("Branch Task 5", "Test Description B5", subtaskList4);
     }
 
     @Test
@@ -136,7 +135,7 @@ public class BranchTaskTest {
 
     @Test
     public void testGetDueDateSingleSubtask() {
-        Date result = branch5.getDueDate();
+        Date result = branch4.getDueDate();
         assertEquals(7, result.getDay());
         assertEquals(1, result.getMonth());
         assertEquals(2025, result.getYear());
@@ -171,14 +170,14 @@ public class BranchTaskTest {
     @Test
     public void testGetCompletionPercentageOneSubtaskIncomplete() {
         assertFalse(leaf8.isCompleted());
-        assertEquals(0, branch5.getCompletionPercentage());
+        assertEquals(0, branch4.getCompletionPercentage());
     }
 
     @Test
     public void testGetCompletionPercentageOneSubtaskComplete() {
         leaf8.setCompletion(true);
         assertTrue(leaf8.isCompleted());
-        assertEquals(100, branch5.getCompletionPercentage());
+        assertEquals(100, branch4.getCompletionPercentage());
     }
 
     @Test
