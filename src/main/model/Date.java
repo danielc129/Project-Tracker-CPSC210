@@ -25,6 +25,7 @@ public class Date {
     }
 
     // EFFECTS: return the month in string form (for example, month = 1 would return "January")
+    @SuppressWarnings("methodlength")
     public String getMonthAsString() {
         switch (month) {
             case 1:

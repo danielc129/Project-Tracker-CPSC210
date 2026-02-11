@@ -28,6 +28,14 @@ public class BranchTask extends Task {
         this.subtasks.remove(task);
     }
 
+    // MODIFIES: this
+    // EFFECTS: calls setCompletion() on all subtasks so that isCompleted()
+    //          returns the given copmletionStatus
+    @Override
+    public void setCompletion(boolean completionStatus) {
+        
+    }
+
     // EFFECTS: returns the due date of the task, which is the due date of the subtask with the latest due date
     @Override
     public Date getDueDate() {

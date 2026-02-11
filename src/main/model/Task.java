@@ -27,6 +27,10 @@ public abstract class Task {
     // EFFECTS: returns a string representation of the task, suitable for command line viewing
     public abstract String getStringFormat();
 
+    // MODIFIES: this
+    // EFFECTS: sets the completion status of the task to the given boolean
+    public abstract void setCompletion(boolean completionStatus);
+
     // EFFECTS: returns the name of the task
     public String getName() {
         return this.name;
