@@ -280,4 +280,17 @@ public class BranchTaskTest {
         expectedResult.add(leafA);
         assertEquals(expectedResult, branchTask.getSortedSubtasks());
     }
+
+    @Test
+    public void testSetCompletionTrue() {
+        branch2.setCompletion(true);
+        assertTrue(branch2.isCompleted());
+    }
+
+    @Test
+    public void testSetCompletionFalse() {
+        branch2.setCompletion(true);
+        branch2.setCompletion(false);
+        assertFalse(branch2.isCompleted());
+    }
 }
