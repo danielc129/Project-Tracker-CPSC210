@@ -44,7 +44,7 @@ public class Project {
     }
 
     // EFFECTS: returns this project's tasks, sorted in order of closest to furthest due date
-    public List<Task> getSortedSubtasks() {
+    public List<Task> getSortedTasks() {
         return null;
     }
 }
