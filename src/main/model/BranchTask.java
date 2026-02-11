@@ -22,7 +22,7 @@ public class BranchTask extends Task {
         this.subtasks.add(task);
     }
 
-    // REQUIRES: getSubtasks().length() > 1
+    // REQUIRES: getSubtasks().length() > 1, given task is in the list of subtasks
     // MODIFIES: this
     // EFFECTS: removes the given task from the list of subtasks of this task
     public void removeSubtask(Task task) {

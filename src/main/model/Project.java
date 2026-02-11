@@ -16,6 +16,7 @@ public class Project {
 
     }
 
+    // REQUIRES: given task is in the list of tasks
     // MODIFIES: this
     // EFFECTS: removes the given task from the project
     public void removeTask(Task task) {
