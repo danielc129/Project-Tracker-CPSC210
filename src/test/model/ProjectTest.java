@@ -26,7 +26,7 @@ public class ProjectTest {
     @Test
     public void testConstructor() {
         assertEquals("Test Project 1", project1.getName());
-        assertEquals("Test Description 1", project1.getName());
+        assertEquals("Test Description 1", project1.getDescription());
     }
 
     @Test
