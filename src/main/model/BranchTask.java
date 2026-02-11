@@ -33,7 +33,9 @@ public class BranchTask extends Task {
     //          returns the given copmletionStatus
     @Override
     public void setCompletion(boolean completionStatus) {
-        
+        for (Task subtask : subtasks) {
+            subtask.setCompletion(completionStatus);
+        }
     }
 
     // EFFECTS: returns the due date of the task, which is the due date of the subtask with the latest due date
