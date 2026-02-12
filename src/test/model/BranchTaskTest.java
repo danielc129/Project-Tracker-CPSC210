@@ -266,7 +266,7 @@ public class BranchTaskTest {
     }
 
     @Test
-    public void testGetSortedSubtasksAlreadyReverseOrder() {
+    public void testGetSortedSubtasksReverseOrder() {
         LeafTask leafA = new LeafTask("", "", new Date(3, 1, 2025), 5);
         LeafTask leafB = new LeafTask("", "", new Date(2, 1, 2025), 5);
         LeafTask leafC = new LeafTask("", "", new Date(1, 1, 2025), 5);
