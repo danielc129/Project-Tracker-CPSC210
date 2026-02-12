@@ -49,6 +49,7 @@ public class Project {
     }
 
     // EFFECTS: returns the sum of the weights of the tasks which are completed
+    // TODO: test thoroughness issue, completed sub-subtask
     private int getCompletedTasksWeight() {
         int totalWeight = 0;
         for (Task task : tasks) {

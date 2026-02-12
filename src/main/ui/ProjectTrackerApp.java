@@ -15,6 +15,9 @@ import model.Task;
 // Project tracker application
 // ATTRIBUTION: Based on Teller project 
 public class ProjectTrackerApp {
+    private final LeafTask REFERENCE_LEAF_TASK = new LeafTask("", "", 
+        new Date(1, 1, 1), 1);
+
     private Project currentProject;
     private Task currentTask;
     private Scanner input;
@@ -61,6 +64,14 @@ public class ProjectTrackerApp {
             case "s":
                 selectTask();
                 break;
+            case "e":
+                editTask();
+                break;
+            case "p":
+                selectParentTask();
+                break;
+            case "c":
+                toggleCompletion();
             default:
                 System.out.println("Invalid command");
                 break;
@@ -82,15 +93,18 @@ public class ProjectTrackerApp {
 
     // EFFECTS: displays list of tasks to user
     private void displayList() {
-        System.out.println("Project: " + currentProject.getName());
-        System.out.println();
+        System.out.println("Project: " + currentProject.getName() + " (" 
+            + currentProject.getCompletionPercentage() + "% completed)");
+
         List<Task> tasks = currentProject.getSortedTasks();
         if (tasks.isEmpty()) {
-            System.out.println("There are no tasks added to this project");
+            System.out.println("\nThere are no tasks added to this project");
         } else if (currentTask != null) {
             System.out.println("Selected task: " + currentTask.getName());
+            System.out.println();
             System.out.println(currentTask.getStringFormat());
         } else {
+            System.out.println("You are at project root\n");
             for (Task task : tasks) {
                 System.out.println(task.getStringFormat());
             }
@@ -105,6 +119,7 @@ public class ProjectTrackerApp {
             System.out.println("\tr -> remove task");
             System.out.println("\te -> edit task");
             System.out.println("\tc -> toggle completion");
+            System.out.println("\tp -> return to parent task");
         }
         System.out.println("\ts -> select task");
         System.out.println("\tq -> exit project");
@@ -143,11 +158,8 @@ public class ProjectTrackerApp {
     // REQUIRES: currentTask != null
     // MODIFIES: this
     // EFFECTS: adds the given task to the currently selected task
-    // ATTRIBUTION: based on Ed Discussion post 184
     private void addTaskToCurrentTask(Task subtask) {
-        LeafTask referenceLeafTask = new LeafTask("", "", new Date(1, 1, 1), 1);
-
-        if (currentTask.getClass().getName().equals(referenceLeafTask.getClass().getName())) {
+        if (currentTaskIsLeafTask()) {
             String existingName = currentTask.getName();
             String existingDescription = currentTask.getDescription();
             removeTask();
@@ -159,6 +171,13 @@ public class ProjectTrackerApp {
         } else {
             ((BranchTask) currentTask).addSubtask(subtask);
         }
+    }
+
+    // REQUIRES: currentTask != null
+    // EFFECTS: returns whether currentTask's actual type is LeafTask
+    // ATTRIBUTION: based on Ed Discussion post 184
+    private boolean currentTaskIsLeafTask() {
+        return currentTask.getClass().getName().equals(REFERENCE_LEAF_TASK.getClass().getName());
     }
 
     // REQUIRES: currentProject != null
@@ -197,10 +216,23 @@ public class ProjectTrackerApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: selects the task with the given name from the task's direct subtasks
+    //          returns true if task was found and removed, otherwise false
     private boolean selectTaskFromCurrentTask(String name) {
+        for (Task task : ((BranchTask) currentTask).getSubtasks()) {
+            if (task.getName().equals(name)) {
+                taskStack.add(currentTask);
+                currentTask = task;
+                return true;
+            }
+        }
         return false;
     }
 
+    // MODIFIES: this
+    // EFFECTS: selects the task with the given name from the project's direct subtasks
+    //          returns true if task was found and removed, otherwise false
     private boolean selectTaskFromRoot(String name) {
         for (Task task : currentProject.getTasks()) {
             if (task.getName().equals(name)) {
@@ -212,14 +244,50 @@ public class ProjectTrackerApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: edits the currently selected task's details
-    private void editTask() {
-
+    // EFFECTS: selects the parent task of the currently selected task, or
+    //          set currently selected task to null if parent is project root
+    //          removes the parent task from the task stack
+    private void selectParentTask() {
+        if (taskStack.isEmpty()) {
+            currentTask = null;
+        } else {
+            currentTask = taskStack.get(taskStack.size() - 1);
+            taskStack.remove(taskStack.size() - 1);
+        }
     }
 
     // MODIFIES: this
+    // EFFECTS: edits the currently selected task's details
+    private void editTask() {
+        System.out.print("Enter new name: ");
+        String name = input.nextLine();
+        System.out.print("Enter new description: ");
+        String description = input.nextLine();
+        if (currentTaskIsLeafTask()) {
+            System.out.print("Enter new day of due date: ");
+            int day = input.nextInt();
+            System.out.print("Enter new month of due date: ");
+            int month = input.nextInt();
+            System.out.print("Enter new year of due date: ");
+            int year = input.nextInt();
+            System.out.print("Enter new weight: ");
+            int weight = input.nextInt();
+            input.nextLine();
+            ((LeafTask) currentTask).setDueDate(new Date(day, month, year));
+            ((LeafTask) currentTask).setWeight(weight);
+        } 
+        currentTask.setName(name);
+        currentTask.setDescription(description);
+    }
+
+    // REQUIRES: currentTask != null
+    // MODIFIES: this
     // EFFECTS: marks the selected task as complete or incomplete
     private void toggleCompletion() {
-
+        if (!currentTask.isCompleted()) {
+            currentTask.setCompletion(true);
+        } else {
+            currentTask.setCompletion(false);
+        }
     }
 }
