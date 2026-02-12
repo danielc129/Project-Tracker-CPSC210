@@ -21,7 +21,12 @@ public class BranchTaskTest {
     private LeafTask leaf6;
     private LeafTask leaf7;
     private LeafTask leaf8;
+    private LeafTask leaf9;
+    private LeafTask leaf10;
+    private LeafTask leaf11;
     private BranchTask branch4;
+    private BranchTask branch5;
+    private BranchTask branch6;
 
     @BeforeEach
     public void setup() {
@@ -48,7 +53,20 @@ public class BranchTaskTest {
         leaf8 = new LeafTask("Leaf Task 8", "Test Description L8", new Date(7, 1, 2025), 10);
         ArrayList<Task> subtaskList4 = new ArrayList<>();
         subtaskList4.add(leaf8);
-        branch4 = new BranchTask("Branch Task 5", "Test Description B5", subtaskList4);
+        branch4 = new BranchTask("Branch Task 4", "Test Description B4", subtaskList4);
+
+        leaf9 = new LeafTask("Leaf Task 9", "Test Description L9", new Date(8, 3, 2025), 10);
+        leaf10 = new LeafTask("Leaf Task 10", "Test Description L10", new Date(9, 4, 2025), 20);
+        leaf11 = new LeafTask("Leaf Task 11", "Test Description L11", new Date(10, 5, 2025), 15);
+        ArrayList<Task> subtaskList5 = new ArrayList<>();
+        subtaskList5.add(leaf9);
+        subtaskList5.add(leaf10);
+        branch5 = new BranchTask("Branch Task 5", "Test Description B5", subtaskList5);
+        ArrayList<Task> subtaskList6 = new ArrayList<>();
+        subtaskList6.add(branch5);
+        subtaskList6.add(leaf11);
+        branch6 = new BranchTask("Branch Task 6", "Test Description B6", subtaskList6);
+
     }
 
     @Test
@@ -196,13 +214,13 @@ public class BranchTaskTest {
 
     @Test
     public void testGetCompletionPercentageMixedSubtasks() {
-        assertEquals(0, branch2.getCompletionPercentage());
-        leaf5.setCompletion(true);
-        assertEquals((int) (100 * (3.0 / 58)), branch2.getCompletionPercentage());
-        leaf6.setCompletion(true);
-        assertEquals((int) (100 * (33.0 / 58)), branch2.getCompletionPercentage());
-        leaf4.setCompletion(true);
-        assertEquals(100, branch2.getCompletionPercentage());
+        assertEquals(0, branch6.getCompletionPercentage());
+        leaf9.setCompletion(true);
+        assertEquals((int) (100 * (10.0 / 45)), branch6.getCompletionPercentage());
+        leaf11.setCompletion(true);
+        assertEquals((int) (100 * (25.0 / 45)), branch6.getCompletionPercentage());
+        leaf10.setCompletion(true);
+        assertEquals(100, branch6.getCompletionPercentage());
     }
 
     @Test

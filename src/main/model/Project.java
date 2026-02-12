@@ -5,6 +5,8 @@ import java.util.List;
 
 // Represents a project 
 public class Project {
+    private final LeafTask REFERENCE_LEAF_TASK = new LeafTask("", "", new Date(1,1,1), 1);
+
     private List<Task> tasks;
     private String name;
     private String description;
@@ -49,12 +51,15 @@ public class Project {
     }
 
     // EFFECTS: returns the sum of the weights of the tasks which are completed
-    // TODO: test thoroughness issue, completed sub-subtask
     private int getCompletedTasksWeight() {
         int totalWeight = 0;
         for (Task task : tasks) {
-            if (task.isCompleted()) {
-                totalWeight = totalWeight + task.getWeight();
+            if (!(task.getClass().getName().equals(REFERENCE_LEAF_TASK.getClass().getName()))) {
+                totalWeight = totalWeight + ((BranchTask) task).getCompletedSubtasksWeight();
+            } else {
+                if (task.isCompleted()) {
+                    totalWeight = totalWeight + task.getWeight();
+                }
             }
         }
         return totalWeight;

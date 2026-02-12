@@ -11,16 +11,23 @@ public class ProjectTest {
     private Project project1;
     private LeafTask leaf1;
     private LeafTask leaf2;
+    private LeafTask leaf3;
     private BranchTask branch1;
+    private BranchTask branch2;
 
     @BeforeEach
     public void setup() {
         project1 = new Project("Test Project 1", "Test Description 1");
         leaf1 = new LeafTask("Leaf Task 1", "Test Description L1", new Date(1, 1, 2026), 10);
         leaf2 = new LeafTask("Leaf Task 2", "Test Description L2", new Date(2, 1, 2026), 5);
+        leaf3 = new LeafTask("Leaf Task 3", "Test Description L3", new Date(3, 1, 2026), 10);
         ArrayList<Task> subtasks1 = new ArrayList<>();
         subtasks1.add(leaf2);
+        subtasks1.add(leaf3);
         branch1 = new BranchTask("Branch Task 1", "Test Description B1", subtasks1);
+        ArrayList<Task> subtasks2 = new ArrayList<>();
+        subtasks2.add(branch1);
+        branch2 = new BranchTask("Branch Task 2", "Test Description B2", subtasks2);
     }
 
     @Test
@@ -70,8 +77,7 @@ public class ProjectTest {
     @Test
     public void testGetCompletionPercentageMixedTasks() {
         leaf2.setCompletion(true);
-        project1.addTask(leaf1);
-        project1.addTask(branch1);
+        project1.addTask(branch2);
         assertEquals((int) (100 * (5.0 / 15)), project1.getCompletionPercentage());
     }
 

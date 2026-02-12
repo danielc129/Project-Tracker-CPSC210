@@ -112,12 +112,17 @@ public class BranchTask extends Task {
         return sortedList;
     }
 
-    // EFFECTS: returns the sum of the weights of the subtasks which have been completed
-    private int getCompletedSubtasksWeight() {
+    // EFFECTS: returns the sum of the weights of all subtasks (including indirect subtasks) 
+    //          which have been completed
+    public int getCompletedSubtasksWeight() {
         int totalWeight = 0;
         for (Task subtask: subtasks) {
-            if (subtask.isCompleted()) {
-                totalWeight = totalWeight + subtask.getWeight();
+            if (subtask.getClass().getName().equals(this.getClass().getName())) {
+                totalWeight = totalWeight + ((BranchTask) subtask).getCompletedSubtasksWeight();
+            } else {
+                if (subtask.isCompleted()) {
+                    totalWeight = totalWeight + subtask.getWeight();
+                }
             }
         }
         return totalWeight;
