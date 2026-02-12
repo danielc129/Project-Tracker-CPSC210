@@ -37,7 +37,7 @@ public class ProjectTrackerApp {
         init();
 
         while (keepGoing) {
-            displayList();
+            displayInfo();
             displayMenu();
             command = input.nextLine();
             command = command.toLowerCase();
@@ -92,15 +92,15 @@ public class ProjectTrackerApp {
     }
 
     // EFFECTS: displays list of tasks to user
-    private void displayList() {
-        System.out.println("Project: " + currentProject.getName() + " (" 
+    private void displayInfo() {
+        System.out.println("\nProject: " + currentProject.getName() + " (" 
             + currentProject.getCompletionPercentage() + "% completed)");
 
         List<Task> tasks = currentProject.getSortedTasks();
         if (tasks.isEmpty()) {
             System.out.println("\nThere are no tasks added to this project");
         } else if (currentTask != null) {
-            System.out.println("Selected task: " + currentTask.getName());
+            System.out.println("Selected task: " + getSelectedTaskPrintout());
             System.out.println();
             System.out.println(currentTask.getStringFormat());
         } else {
@@ -123,6 +123,17 @@ public class ProjectTrackerApp {
         }
         System.out.println("\ts -> select task");
         System.out.println("\tq -> exit project");
+    }
+
+    // REQUIRES: currentTask != null
+    // EFFECTS: returns a string showing the selected task and its hierarchy in the project
+    private String getSelectedTaskPrintout() {
+        String result = "";
+        for (Task task : taskStack) {
+            result = result + task.getName() + " > ";
+        }
+        result = result + currentTask.getName();
+        return result;
     }
 
     // MODIFIES: this
@@ -160,13 +171,19 @@ public class ProjectTrackerApp {
     // EFFECTS: adds the given task to the currently selected task
     private void addTaskToCurrentTask(Task subtask) {
         if (currentTaskIsLeafTask()) {
+            boolean taskStackOriginallyEmpty = taskStack.isEmpty();
             String existingName = currentTask.getName();
             String existingDescription = currentTask.getDescription();
-            removeTask();
+            removeTaskSkipSideEffects();
             ArrayList<Task> subtaskList = new ArrayList<>();
             subtaskList.add(subtask);
             BranchTask newBranchTask = new BranchTask(existingName, existingDescription, subtaskList);
-            addTask(newBranchTask);
+            if (taskStackOriginallyEmpty) {
+                addTaskToRoot(newBranchTask);
+            } else {
+                BranchTask parentTask = (BranchTask) taskStack.get(taskStack.size() - 1);
+                parentTask.addSubtask(newBranchTask);
+            }
             currentTask = newBranchTask;
         } else {
             ((BranchTask) currentTask).addSubtask(subtask);
@@ -196,8 +213,64 @@ public class ProjectTrackerApp {
             currentProject.removeTask(currentTask);
             currentTask = null;
         } else {
-            // TODO: remove from parent, switch currentTask to parent
+            BranchTask parentTask = (BranchTask) taskStack.get(taskStack.size() - 1);
+            if (parentTask.getSubtasks().size() > 1) {
+                parentTask.removeSubtask(currentTask);
+                currentTask = parentTask;
+                taskStack.remove(taskStack.size() - 1);
+            } else {
+                convertParentToLeaf();
+            }
         }
+    }
+
+    // REQUIRES: currentTask != null
+    // MODIFIES: this
+    // EFFECTS: removes the currently selected task, but does not convert a resulting parent branch task
+    //          with no subtasks back into a leaf task, does not change the currently selected task 
+    //          to the parent task, and does not remove the parent task from the task stack
+    //          intended for use with addTask() only
+    private void removeTaskSkipSideEffects() {
+        if (taskStack.isEmpty() || ((BranchTask) taskStack.get(taskStack.size() - 1)).getSubtasks().size() > 1) {
+            removeTask();
+        } else {
+            BranchTask parentTask = (BranchTask) taskStack.get(taskStack.size() - 1);
+            parentTask.removeSubtask(currentTask);
+            currentTask = parentTask;
+        }
+    }
+
+
+    // REQUIRES: taskStack.size() > 0 and last element of taskStack has actual type BranchTask
+    // MODIFIES: this
+    // EFFECTS: converts the parent task of the currently selected class from BranchTask back to 
+    //          LeafTask, prompting user for missing details of due date and weight and removing
+    //          existing subtasks
+    private void convertParentToLeaf() {
+        System.out.println("As the parent task will no longer have any subtasks, "
+            + "please provide missing details");
+        System.out.print("Enter day of due date: ");
+        int day = input.nextInt();
+        System.out.print("Enter month of due date: ");
+        int month = input.nextInt();
+        System.out.print("Enter year of due date: ");
+        int year = input.nextInt();
+        System.out.print("Enter weight: ");
+        int weight = input.nextInt();
+        Date date = new Date(day, month, year);
+
+        BranchTask parentTask = (BranchTask) taskStack.get(taskStack.size() - 1);
+        LeafTask newLeafTask = new LeafTask(parentTask.getName(), parentTask.getDescription(), date, weight);
+        if (taskStack.size() == 1) {
+            currentProject.removeTask(parentTask);
+            currentProject.addTask(newLeafTask);
+        } else {
+            BranchTask parentParentTask = (BranchTask) taskStack.get(taskStack.size() - 2);
+            parentParentTask.removeSubtask(parentTask);
+            parentParentTask.addSubtask(newLeafTask);
+        }
+        currentTask = newLeafTask;
+        taskStack.remove(taskStack.size() - 1);
     }
 
     // MODIFIES: this
