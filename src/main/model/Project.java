@@ -5,17 +5,17 @@ import java.util.List;
 
 // Represents a project 
 public class Project {
-    private final LeafTask REFERENCE_LEAF_TASK = new LeafTask("", "", new Date(1,1,1), 1);
-
     private List<Task> tasks;
     private String name;
     private String description;
+    private Utilities utilities;
 
     // EFFECTS: creates a new project with the given name and description 
     public Project(String name, String description) {
         this.tasks = new ArrayList<Task>();
         this.name = name;
         this.description = description;
+        this.utilities = new Utilities();
     }
 
     // MODIFIES: this
@@ -54,7 +54,7 @@ public class Project {
     private int getCompletedTasksWeight() {
         int totalWeight = 0;
         for (Task task : tasks) {
-            if (!(task.getClass().getName().equals(REFERENCE_LEAF_TASK.getClass().getName()))) {
+            if (!(utilities.isLeafTask(task))) {
                 totalWeight = totalWeight + ((BranchTask) task).getCompletedSubtasksWeight();
             } else {
                 if (task.isCompleted()) {
@@ -82,25 +82,6 @@ public class Project {
 
     // EFFECTS: returns this project's tasks, sorted in order of closest to furthest due date
     public List<Task> getSortedTasks() {
-        List<Task> sortedList = new ArrayList<>();
-        for (Task task : tasks) {
-            if (sortedList.isEmpty()) {
-                sortedList.add(task);
-            } else {
-                boolean added = false;
-                for (int i = sortedList.size() - 1; i >= 0; i--) {
-                    Task comparingTask = sortedList.get(i);
-                    if (task.getDueDate().compareTo(comparingTask.getDueDate()) >= 0) {
-                        sortedList.add(i + 1, task);
-                        added = true;
-                        break;
-                    } 
-                }
-                if (!added) {
-                    sortedList.add(0, task);
-                }      
-            }
-        }
-        return sortedList;
+        return utilities.sortTasks(tasks);
     }
 }

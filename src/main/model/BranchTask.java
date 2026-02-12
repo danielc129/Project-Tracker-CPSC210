@@ -1,18 +1,19 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 // Represents a task with subtasks of its own
 // ATTRIBUTION: Inter-class structure based on D4 (Composite Pattern) Lecture Labs
 public class BranchTask extends Task {
     private List<Task> subtasks;
+    private Utilities utilities;
 
     // REQUIRES: subtasks is not empty
     // EFFECTS: creates a branch task (task with subtasks) with the given name, description, and subtasks
     public BranchTask(String name, String description, List<Task> subtasks) {
         super(name, description);
         this.subtasks = subtasks;
+        this.utilities = new Utilities();
     }
 
     // MODIFIES: this
@@ -90,26 +91,7 @@ public class BranchTask extends Task {
 
     // EFFECTS: return list of subtasks sorted in order of closest to furthest due date
     public List<Task> getSortedSubtasks() {
-        List<Task> sortedList = new ArrayList<>();
-        for (Task subtask : subtasks) {
-            if (sortedList.isEmpty()) {
-                sortedList.add(subtask);
-            } else {
-                boolean added = false;
-                for (int i = sortedList.size() - 1; i >= 0; i--) {
-                    Task comparingTask = sortedList.get(i);
-                    if (subtask.getDueDate().compareTo(comparingTask.getDueDate()) >= 0) {
-                        sortedList.add(i + 1, subtask);
-                        added = true;
-                        break;
-                    } 
-                }
-                if (!added) {
-                    sortedList.add(0, subtask);
-                }      
-            }
-        }
-        return sortedList;
+        return utilities.sortTasks(subtasks);
     }
 
     // EFFECTS: returns the sum of the weights of all subtasks (including indirect subtasks) 

@@ -9,18 +9,17 @@ import model.Date;
 import model.LeafTask;
 import model.Project;
 import model.Task;
+import model.Utilities;
 
 // TODO: handle tasks with same names
 
 // Project tracker application
 // ATTRIBUTION: Based on Teller project 
 public class ProjectTrackerApp {
-    private final LeafTask REFERENCE_LEAF_TASK = new LeafTask("", "", 
-        new Date(1, 1, 1), 1);
-
     private Project currentProject;
     private Task currentTask;
     private Scanner input;
+    private Utilities utilities;
     private List<Task> taskStack;
 
     // EFFECTS: runs the project tracker application
@@ -89,6 +88,7 @@ public class ProjectTrackerApp {
         this.currentProject = new Project(name, description);
         this.currentTask = null;
         this.taskStack = new ArrayList<>();
+        this.utilities = new Utilities();
     }
 
     // EFFECTS: displays list of tasks to user
@@ -170,7 +170,7 @@ public class ProjectTrackerApp {
     // MODIFIES: this
     // EFFECTS: adds the given task to the currently selected task
     private void addTaskToCurrentTask(Task subtask) {
-        if (currentTaskIsLeafTask()) {
+        if (utilities.isLeafTask(currentTask)) {
             boolean taskStackOriginallyEmpty = taskStack.isEmpty();
             String existingName = currentTask.getName();
             String existingDescription = currentTask.getDescription();
@@ -188,13 +188,6 @@ public class ProjectTrackerApp {
         } else {
             ((BranchTask) currentTask).addSubtask(subtask);
         }
-    }
-
-    // REQUIRES: currentTask != null
-    // EFFECTS: returns whether currentTask's actual type is LeafTask
-    // ATTRIBUTION: based on Ed Discussion post 184
-    private boolean currentTaskIsLeafTask() {
-        return currentTask.getClass().getName().equals(REFERENCE_LEAF_TASK.getClass().getName());
     }
 
     // REQUIRES: currentProject != null
@@ -336,7 +329,7 @@ public class ProjectTrackerApp {
         String name = input.nextLine();
         System.out.print("Enter new description: ");
         String description = input.nextLine();
-        if (currentTaskIsLeafTask()) {
+        if (utilities.isLeafTask(currentTask)) {
             System.out.print("Enter new day of due date: ");
             int day = input.nextInt();
             System.out.print("Enter new month of due date: ");
