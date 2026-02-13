@@ -11,7 +11,6 @@ import model.Project;
 import model.Task;
 import model.Utilities;
 
-// TODO: handle tasks with same names
 
 // Project tracker application
 // ATTRIBUTION: Based on Teller project 
@@ -198,30 +197,43 @@ public class ProjectTrackerApp {
     // EFFECTS: adds the given task to the currently selected task
     private void addTaskToCurrentTask(Task subtask) {
         if (utilities.isLeafTask(currentTask)) {
-            boolean taskStackOriginallyEmpty = taskStack.isEmpty();
-            String existingName = currentTask.getName();
-            String existingDescription = currentTask.getDescription();
-            removeTaskSkipSideEffects();
-            ArrayList<Task> subtaskList = new ArrayList<>();
-            subtaskList.add(subtask);
-            BranchTask newBranchTask = new BranchTask(existingName, existingDescription, subtaskList);
-            if (taskStackOriginallyEmpty) {
-                addTaskToRoot(newBranchTask);
-            } else {
-                BranchTask parentTask = (BranchTask) taskStack.get(taskStack.size() - 1);
-                parentTask.addSubtask(newBranchTask);
-            }
-            currentTask = newBranchTask;
+            addTaskToCurrentLeafTask(subtask);
         } else {
             ((BranchTask) currentTask).addSubtask(subtask);
         }
     }
 
+    // REQUIRES: currentTask != null and currentTask has actual type LeafTask
+    // MODIFIES: this
+    // EFFECTS: adds the given task to the currently selected task by removing the existing
+    //          leaf task and creating a new branch task with the given task as a subtask
+    private void addTaskToCurrentLeafTask(Task subtask) {
+        // boolean taskStackOriginallyEmpty = taskStack.isEmpty();
+        String existingName = currentTask.getName();
+        String existingDescription = currentTask.getDescription();
+        removeTaskSkipSideEffects();
+        ArrayList<Task> subtaskList = new ArrayList<>();
+        subtaskList.add(subtask);
+        BranchTask newBranchTask = new BranchTask(existingName, existingDescription, subtaskList);
+        if (taskStack.isEmpty()) {
+            addTaskToRoot(newBranchTask);
+        } else {
+            BranchTask parentTask = (BranchTask) taskStack.get(taskStack.size() - 1);
+            parentTask.addSubtask(newBranchTask);
+        }
+        currentTask = newBranchTask;
+    }
+
     // REQUIRES: currentProject != null
     // MODIFIES: this
     // EFECTS: adds the given task to the project root
+    //         if there is already a task with the same name, do nothing
     private void addTaskToRoot(Task task) {
-        currentProject.addTask(task);
+        if (!utilities.containsTaskWithName(currentProject.getTasks(), task.getName())) {
+            currentProject.addTask(task);
+        } else {
+            System.out.println("There is already a task with that name at the current level");
+        }
     }
     
     // REQUIRES: currentTask != null
@@ -251,8 +263,10 @@ public class ProjectTrackerApp {
     //          to the parent task, and does not remove the parent task from the task stack
     //          intended for use with addTask() only
     private void removeTaskSkipSideEffects() {
-        if (taskStack.isEmpty() || ((BranchTask) taskStack.get(taskStack.size() - 1)).getSubtasks().size() > 1) {
-            removeTask();
+        if (taskStack.isEmpty()) {
+            currentProject.removeTask(currentTask);
+        } else if (((BranchTask) taskStack.get(taskStack.size() - 1)).getSubtasks().size() > 1) {
+            ((BranchTask) taskStack.get(taskStack.size() - 1)).removeSubtask(currentTask);
         } else {
             BranchTask parentTask = (BranchTask) taskStack.get(taskStack.size() - 1);
             parentTask.removeSubtask(currentTask);
