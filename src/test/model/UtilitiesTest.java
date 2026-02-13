@@ -20,9 +20,9 @@ public class UtilitiesTest {
     @BeforeEach
     public void setup() {
         utilities = new Utilities();
-        leafA = new LeafTask("", "", new Date(3, 1, 2025), 5);
-        leafB = new LeafTask("", "", new Date(2, 1, 2025), 5);
-        leafC = new LeafTask("", "", new Date(1, 1, 2025), 5);
+        leafA = new LeafTask("LeafA", "", new Date(3, 1, 2025), 5);
+        leafB = new LeafTask("LeafB", "", new Date(2, 1, 2025), 5);
+        leafC = new LeafTask("LeafC", "", new Date(1, 1, 2025), 5);
         actualLeaf = new LeafTask("", "", new Date(4, 1, 2025), 10);
         ArrayList<Task> subtasksForBranch = new ArrayList<>();
         subtasksForBranch.add(actualLeaf);
@@ -84,5 +84,15 @@ public class UtilitiesTest {
     @Test
     public void testShortenStringAboveMaxLength() {
         assertEquals("test str...", utilities.shortenString("test string", 10));
+    }
+
+    @Test
+    public void testContainsTaskWithName() {
+        ArrayList<Task> inputList = new ArrayList<>();
+        inputList.add(leafA);
+        inputList.add(leafB);
+        inputList.add(leafC);
+        assertTrue(utilities.containsTaskWithName(inputList, "B"));
+        assertFalse(utilities.containsTaskWithName(inputList, "b"));
     }
 }

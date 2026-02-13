@@ -50,4 +50,8 @@ public class Utilities {
         }
         return inputString;
     }
+
+    public boolean containsTaskWithName(List<Task> tasks, String name) {
+        return false;
+    }
 }
