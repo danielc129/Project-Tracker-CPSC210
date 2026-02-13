@@ -56,10 +56,10 @@ public class LeafTask extends Task {
     @Override
     public String getStringFormat() {
         if (isCompleted()) {
-            return "[✓] " + this.name + ": " + this.description + " (Due: " + this.dueDate.getDateAsString() 
+            return "[✓] " + this.name + ": " + utilities.shortenString(this.description, DESCRIPTION_MAX_LENGTH) + " (Due: " + this.dueDate.getDateAsString() 
                 + " | Weight: " + this.weight + ")";
         } else {
-            return "[ ] " + this.name + ": " + this.description + " (Due: " + this.dueDate.getDateAsString() 
+            return "[ ] " + this.name + ": " + utilities.shortenString(this.description, DESCRIPTION_MAX_LENGTH) + " (Due: " + this.dueDate.getDateAsString() 
                 + " | Weight: " + this.weight + ")";
         }
     }

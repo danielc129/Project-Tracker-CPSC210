@@ -3,13 +3,17 @@ package model;
 // Represents a task 
 // ATTRIBUTION: Inter-class structure based on D4 (Composite Pattern) Lecture Labs
 public abstract class Task {
+    protected static final int DESCRIPTION_MAX_LENGTH = 20;
+
     protected String name;
     protected String description;
+    protected Utilities utilities;
 
     // EFFECTS: creates a task with the given name and description
     public Task(String name, String description) {
         this.name = name;
         this.description = description;
+        this.utilities = new Utilities();
     }
 
     // MODIFIES: this

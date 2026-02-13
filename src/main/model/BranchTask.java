@@ -6,14 +6,12 @@ import java.util.List;
 // ATTRIBUTION: Inter-class structure based on D4 (Composite Pattern) Lecture Labs
 public class BranchTask extends Task {
     private List<Task> subtasks;
-    private Utilities utilities;
 
     // REQUIRES: subtasks is not empty
     // EFFECTS: creates a branch task (task with subtasks) with the given name, description, and subtasks
     public BranchTask(String name, String description, List<Task> subtasks) {
         super(name, description);
         this.subtasks = subtasks;
-        this.utilities = new Utilities();
     }
 
     // MODIFIES: this
@@ -123,7 +121,7 @@ public class BranchTask extends Task {
         } else {
             result = "[ ] ";
         }
-        result = result + this.name + ": " + this.description + " (Due: " 
+        result = result + this.name + ": " + utilities.shortenString(this.description, DESCRIPTION_MAX_LENGTH) + " (Due: " 
                 + this.getDueDate().getDateAsString() + " | Progress: " + this.getCompletionPercentage() + "%)";
 
         List<Task> sortedSubtasks = getSortedSubtasks();
