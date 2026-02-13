@@ -173,7 +173,6 @@ public class ProjectTrackerApp {
         int month;
         int year;
         boolean retry = false;
-        
         do {
             if (retry) {
                 System.out.println("Invalid date. Please try again");
@@ -186,7 +185,6 @@ public class ProjectTrackerApp {
             year = input.nextInt();
             retry = true;
         } while (!isDateValid(day, month, year));
-
         return new Date(day, month, year);
     }
 
@@ -236,9 +234,9 @@ public class ProjectTrackerApp {
         Date dueDate = promptForDueDate();
         System.out.print("\nEnter completion weighting: ");
         int weight = input.nextInt();
+        input.nextLine();
         Task newTask = new LeafTask(name, description, dueDate, weight);
         addTask(newTask);
-        input.nextLine();
     }
 
     // REQUIRES: currentProject != null
