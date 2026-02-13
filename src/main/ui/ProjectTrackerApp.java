@@ -121,7 +121,7 @@ public class ProjectTrackerApp {
     // EFFECTS: displays current project, list of tasks, and currently selected task (if applicable) to user
     private void displayInfo() {
         System.out.println("\nProject: " + currentProject.getName() + " (" 
-            + currentProject.getCompletionPercentage() + "% completed)");
+                + currentProject.getCompletionPercentage() + "% completed)");
 
         List<Task> tasks = currentProject.getSortedTasks();
         if (tasks.isEmpty()) {
@@ -187,7 +187,6 @@ public class ProjectTrackerApp {
     }
 
     // EFFECTS: checks if the given day, month, and year values represent a valid date
-    // TODO: handle leap years
     private boolean isDateValid(int day, int month, int year) {
         if (month < 1 || month > 12) {
             return false;
@@ -337,7 +336,7 @@ public class ProjectTrackerApp {
     //          of task stack
     private void convertParentToLeaf() {
         System.out.println("As the parent task will no longer have any subtasks, "
-            + "please provide missing details");
+                + "please provide missing details");
         Date date = promptForDueDate();
         int weight = input.nextInt();
 

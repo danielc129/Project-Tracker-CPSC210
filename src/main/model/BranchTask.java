@@ -123,8 +123,9 @@ public class BranchTask extends Task {
         } else {
             result = "[ ] ";
         }
-        result = result + this.name + ": " + utilities.shortenString(this.description, DESCRIPTION_MAX_LENGTH) + " (Due: " 
-                + this.getDueDate().getDateAsString() + " | Progress: " + this.getCompletionPercentage() + "%)";
+        result = result + this.name + ": " + utilities.shortenString(this.description, DESCRIPTION_MAX_LENGTH) 
+            + " (Due: " + this.getDueDate().getDateAsString() + " | Progress: " 
+            + this.getCompletionPercentage() + "%)";
 
         List<Task> sortedSubtasks = getSortedSubtasks();
         for (Task subtask : sortedSubtasks) {
