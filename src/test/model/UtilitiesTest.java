@@ -69,4 +69,20 @@ public class UtilitiesTest {
         assertTrue(utilities.isLeafTask(actualLeaf));
         assertFalse(utilities.isLeafTask(actualBranch));
     }
+
+    @Test
+    public void testShortenStringLessThanMaxLength() {
+        assertEquals("", utilities.shortenString("", 30));
+        assertEquals("test string", utilities.shortenString("test string", 12));
+    }
+
+    @Test
+    public void testShortenStringBoundary() {
+        assertEquals("test string", utilities.shortenString("test string", 11));
+    }
+
+    @Test
+    public void testShortenStringAboveMaxLength() {
+        assertEquals("test st...", utilities.shortenString("test string", 10));
+    }
 }
