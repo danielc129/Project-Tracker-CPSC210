@@ -12,6 +12,7 @@ public class LeafTask extends Task {
         super(name, description);
         this.dueDate = dueDate;
         this.weight = weight;
+        this.isCompleted = false;
     }
 
     // MODIFIES: this
@@ -55,13 +56,15 @@ public class LeafTask extends Task {
     //          in the format "[[Completion Status]] [Name]: [Description] (Due: [Due Date] | Weight: [Weight])"
     @Override
     public String getStringFormat() {
+        String result = "";
         if (isCompleted()) {
-            return "[✓] " + this.name + ": " + utilities.shortenString(this.description, DESCRIPTION_MAX_LENGTH) + " (Due: " + this.dueDate.getDateAsString() 
-                + " | Weight: " + this.weight + ")";
+            result = result + "[✓] ";
         } else {
-            return "[ ] " + this.name + ": " + utilities.shortenString(this.description, DESCRIPTION_MAX_LENGTH) + " (Due: " + this.dueDate.getDateAsString() 
-                + " | Weight: " + this.weight + ")";
+            result = result + "[ ] ";
         }
+        result = result + this.name + ": " + utilities.shortenString(this.description, DESCRIPTION_MAX_LENGTH) + " (Due: " + this.dueDate.getDateAsString() 
+            + " | Weight: " + this.weight + ")";
+        return result;
     }
     
 }

@@ -48,6 +48,7 @@ public class ProjectTrackerApp {
         }
     }
 
+    // REQUIRES: currentProject != null
     // MODIFIES: this
     // EFFECTS: processes user command 
     private void processCommand(String command) {
@@ -58,7 +59,7 @@ public class ProjectTrackerApp {
         }
     }
 
-    // REQUIRES: currentTask != null
+    // REQUIRES: currentTask != null, currentProject != null
     // MODIFIES: this
     // EFFECTS: processes user command when there is a selected task
     private void processCommandSelected(String command) {
@@ -86,7 +87,7 @@ public class ProjectTrackerApp {
         }
     }
 
-    // REQUIRES: currentTask is null
+    // REQUIRES: currentTask is null, currentProject != null
     // MODIFIES: this
     // EFFECTS: processes user command when there is no task selected
     private void processCommandUnselected(String command) {
@@ -117,7 +118,7 @@ public class ProjectTrackerApp {
         this.utilities = new Utilities();
     }
 
-    // EFFECTS: displays list of tasks to user
+    // EFFECTS: displays current project, list of tasks, and currently selected task (if applicable) to user
     private void displayInfo() {
         System.out.println("\nProject: " + currentProject.getName() + " (" 
             + currentProject.getCompletionPercentage() + "% completed)");
@@ -162,8 +163,9 @@ public class ProjectTrackerApp {
         return result;
     }
 
+    // REQUIRES: currentProject != null
     // MODIFIES: this
-    // EFFECTS: adds a task to the currently selected task or project
+    // EFFECTS: adds a task to the currently selected task or project (if no task selected)
     private void addTask() {
         System.out.print("Enter name of task: ");
         String name = input.nextLine();
@@ -182,8 +184,9 @@ public class ProjectTrackerApp {
         input.nextLine();
     }
 
+    // REQUIRES: currentProject != null
     // MODIFIES: this
-    // EFFECTS: adds the given task to the currently selected task or project
+    // EFFECTS: adds the given task to the currently selected task or project (if no task selected)
     private void addTask(Task task) {
         if (currentTask == null) {
             addTaskToRoot(task);
@@ -195,6 +198,7 @@ public class ProjectTrackerApp {
     // REQUIRES: currentTask != null
     // MODIFIES: this
     // EFFECTS: adds the given task to the currently selected task
+    //          if there is already a task with the same name at the current level, do nothing
     private void addTaskToCurrentTask(Task subtask) {
         if (utilities.isLeafTask(currentTask)) {
             addTaskToCurrentLeafTask(subtask);
@@ -208,18 +212,19 @@ public class ProjectTrackerApp {
         }
     }
 
-    // REQUIRES: currentTask != null and currentTask has actual type LeafTask
+    // REQUIRES: currentTask != null, currentProject != null, and currentTask has actual type LeafTask
     // MODIFIES: this
-    // EFFECTS: adds the given task to the currently selected task by removing the existing
+    // EFFECTS: adds the given task to the currently selected leaf task by removing the existing
     //          leaf task and creating a new branch task with the given task as a subtask
     private void addTaskToCurrentLeafTask(Task subtask) {
-        // boolean taskStackOriginallyEmpty = taskStack.isEmpty();
         String existingName = currentTask.getName();
         String existingDescription = currentTask.getDescription();
-        removeTaskSkipSideEffects();
         ArrayList<Task> subtaskList = new ArrayList<>();
         subtaskList.add(subtask);
         BranchTask newBranchTask = new BranchTask(existingName, existingDescription, subtaskList);
+
+        removeTaskSkipSideEffects();
+
         if (taskStack.isEmpty()) {
             addTaskToRoot(newBranchTask);
         } else {
@@ -231,8 +236,8 @@ public class ProjectTrackerApp {
 
     // REQUIRES: currentProject != null
     // MODIFIES: this
-    // EFECTS: adds the given task to the project root
-    //         if there is already a task with the same name, do nothing
+    // EFFECTS: adds the given task to the project root
+    //         if there is already a task with the same name in the project root level, do nothing
     private void addTaskToRoot(Task task) {
         if (!utilities.containsTaskWithName(currentProject.getTasks(), task.getName())) {
             currentProject.addTask(task);
@@ -241,7 +246,7 @@ public class ProjectTrackerApp {
         }
     }
     
-    // REQUIRES: currentTask != null
+    // REQUIRES: currentTask != null, currentProject != null
     // MODIFIES: this
     // EFFECTS: removes the currently selected task and moves currently selected task
     //          to the parent task or project root 
@@ -261,7 +266,7 @@ public class ProjectTrackerApp {
         }
     }
 
-    // REQUIRES: currentTask != null
+    // REQUIRES: currentTask != null, currentProject != null
     // MODIFIES: this
     // EFFECTS: removes the currently selected task, but does not convert a resulting parent branch task
     //          with no subtasks back into a leaf task, does not change the currently selected task 
@@ -280,11 +285,13 @@ public class ProjectTrackerApp {
     }
 
 
-    // REQUIRES: taskStack.size() > 0 and last element of taskStack has actual type BranchTask
+    // REQUIRES: currentProject != null, taskStack.size() > 0, and last element of taskStack has actual type BranchTask
     // MODIFIES: this
     // EFFECTS: converts the parent task of the currently selected class from BranchTask back to 
-    //          LeafTask, prompting user for missing details of due date and weight and removing
-    //          existing subtasks
+    //          LeafTask, prompting user for missing details of due date and weight, and removes
+    //          any existing subtasks
+    //          selects the parent task (now a leaf task) as the current task and removes last element
+    //          of task stack
     private void convertParentToLeaf() {
         System.out.println("As the parent task will no longer have any subtasks, "
             + "please provide missing details");
@@ -312,22 +319,30 @@ public class ProjectTrackerApp {
         taskStack.remove(taskStack.size() - 1);
     }
 
+    // REQUIRES: currentProject != null
     // MODIFIES: this
     // EFFECTS: selects a task as the currently selected task
     private void selectTask() {
         System.out.print("Enter the name of the task you wish to select: ");
         String name = input.nextLine();
         boolean successful = false;
-        if (currentTask != null) {
-            successful = selectTaskFromCurrentTask(name);
-        } else {
+
+        if (currentTask == null) {
             successful = selectTaskFromRoot(name);
+        } else {
+            if (utilities.isLeafTask(currentTask)) {
+                System.out.println("The currently selected task has no subtasks");
+                return;
+            } else {
+                successful = selectTaskFromCurrentTask(name);
+            }
         }
         if (!successful) {
             System.out.println("There was no task with the given name");
         }
     }
 
+    // REQUIRES: currentTask != null, actual type of currentTask is BranchTask
     // MODIFIES: this
     // EFFECTS: selects the task with the given name from the task's direct subtasks
     //          returns true if task was found and removed, otherwise false
@@ -342,6 +357,7 @@ public class ProjectTrackerApp {
         return false;
     }
 
+    // REQUIRES: currentProject != null
     // MODIFIES: this
     // EFFECTS: selects the task with the given name from the project's direct subtasks
     //          returns true if task was found and removed, otherwise false
@@ -355,9 +371,10 @@ public class ProjectTrackerApp {
         return false;
     }
 
+    // REQUIRES: currentTask != null
     // MODIFIES: this
     // EFFECTS: selects the parent task of the currently selected task, or
-    //          set currently selected task to null if parent is project root
+    //          sets currently selected task to null if parent is project root
     //          removes the parent task from the task stack
     private void selectParentTask() {
         if (taskStack.isEmpty()) {
@@ -368,6 +385,7 @@ public class ProjectTrackerApp {
         }
     }
 
+    // REQUIRES: currentTask != null
     // MODIFIES: this
     // EFFECTS: edits the currently selected task's details
     private void editTask() {

@@ -10,7 +10,7 @@ public class Project {
     private String description;
     private Utilities utilities;
 
-    // EFFECTS: creates a new project with the given name and description 
+    // EFFECTS: creates a new project with the given name and description, and no tasks 
     public Project(String name, String description) {
         this.tasks = new ArrayList<Task>();
         this.name = name;
@@ -31,11 +31,14 @@ public class Project {
         this.tasks.remove(task);
     }
 
-    // EFFECTS: gets the percentage completion of the project (as an int from 0 to 100), 
-    //          taking into account task weights
+    // EFFECTS: gets the percentage completion of the project (as an integer from 0 to 100), 
+    //          taking into account task weights and completion status
     public int getCompletionPercentage() {
         double completedSubtaskWeight = getCompletedTasksWeight();
         double totalSubtaskWeight = getWeight();
+        if (totalSubtaskWeight == 0) {
+            return 0;
+        }
         double percentage = completedSubtaskWeight / totalSubtaskWeight;
         int roundedPercentage = (int) (percentage * 100);
         return roundedPercentage;
@@ -50,7 +53,7 @@ public class Project {
         return totalWeight;
     }
 
-    // EFFECTS: returns the sum of the weights of the tasks which are completed
+    // EFFECTS: returns the sum of the weights of the tasks and indirect subtasks which are completed
     private int getCompletedTasksWeight() {
         int totalWeight = 0;
         for (Task task : tasks) {

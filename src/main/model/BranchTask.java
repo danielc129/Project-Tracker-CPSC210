@@ -28,8 +28,8 @@ public class BranchTask extends Task {
     }
 
     // MODIFIES: this
-    // EFFECTS: calls setCompletion() on all subtasks so that isCompleted()
-    //          returns the given copmletionStatus
+    // EFFECTS: sets the completion status of all subtasks
+    //          to the given boolean
     @Override
     public void setCompletion(boolean completionStatus) {
         for (Task subtask : subtasks) {
@@ -37,6 +37,7 @@ public class BranchTask extends Task {
         }
     }
 
+    // REQUIRES: getSubtasks() is not empty
     // EFFECTS: returns the due date of the task, which is the due date of the subtask with the latest due date
     @Override
     public Date getDueDate() {
@@ -71,6 +72,7 @@ public class BranchTask extends Task {
         return result;
     }
 
+    // REQUIRES: getSubtasks() is not empty
     // EFFECTS: returns the completion percentage of this task (as an integer from 0 to 100),
     //          determined by the weights of the subtasks and whether they are completed or not
     //          percentage is rounded down to the nearest integer

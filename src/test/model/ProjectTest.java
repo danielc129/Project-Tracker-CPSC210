@@ -61,6 +61,11 @@ public class ProjectTest {
     }
 
     @Test
+    public void testGetCompletionPercentageNoTasks() {
+        assertEquals(0, project1.getCompletionPercentage());
+    }
+
+    @Test
     public void testGetCompletionPercentageOneTaskIncomplete() {
         leaf1.setCompletion(false);
         project1.addTask(leaf1);
