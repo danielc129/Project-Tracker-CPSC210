@@ -41,4 +41,10 @@ public class Utilities {
     public boolean isLeafTask(Task task) {
         return task.getClass().getName().equals(REFERENCE_LEAF_TASK.getClass().getName());
     }
+
+    // EFFECTS: returns the input string shortened to the max length with ... at the end
+    //          if necessary
+    public String shortenString(String inputString, int maxLength) {
+        return null;
+    }
 }
