@@ -92,7 +92,7 @@ public class UtilitiesTest {
         inputList.add(leafA);
         inputList.add(leafB);
         inputList.add(leafC);
-        assertTrue(utilities.containsTaskWithName(inputList, "B"));
-        assertFalse(utilities.containsTaskWithName(inputList, "b"));
+        assertTrue(utilities.containsTaskWithName(inputList, "LeafB"));
+        assertFalse(utilities.containsTaskWithName(inputList, "Leafb"));
     }
 }

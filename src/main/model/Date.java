@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 // Represents a date with a day, month, and year
 public class Date {
     private int day;
@@ -25,34 +27,21 @@ public class Date {
     }
 
     // EFFECTS: return the month in string form (for example, month = 1 would return "January")
-    @SuppressWarnings("methodlength")
     public String getMonthAsString() {
-        switch (month) {
-            case 1:
-                return "January";
-            case 2:
-                return "February";
-            case 3:
-                return "March";
-            case 4:
-                return "April";
-            case 5:
-                return "May";
-            case 6:
-                return "June";
-            case 7:
-                return "July";
-            case 8:
-                return "August";
-            case 9: 
-                return "September";
-            case 10:
-                return "October";
-            case 11:
-                return "November";
-            default:
-                return "December";
-        }
+        ArrayList<String> monthsAsString = new ArrayList<>();
+        monthsAsString.add("January");
+        monthsAsString.add("February");
+        monthsAsString.add("March");
+        monthsAsString.add("April");
+        monthsAsString.add("May");
+        monthsAsString.add("June");
+        monthsAsString.add("July");
+        monthsAsString.add("August");
+        monthsAsString.add("September");
+        monthsAsString.add("October");
+        monthsAsString.add("November");
+        monthsAsString.add("December");
+        return monthsAsString.get(month - 1);
     }
 
     // EFFECTS: returns a string in the format "getMonthAsString() day, year"
