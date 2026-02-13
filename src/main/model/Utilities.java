@@ -45,6 +45,10 @@ public class Utilities {
     // EFFECTS: returns the input string shortened to the max length with ... at the end
     //          if necessary
     public String shortenString(String inputString, int maxLength) {
-        return null;
+        if (inputString.length() > maxLength) {
+            inputString = inputString.substring(0, maxLength - 2);
+            inputString = inputString + "...";
+        }
+        return inputString;
     }
 }

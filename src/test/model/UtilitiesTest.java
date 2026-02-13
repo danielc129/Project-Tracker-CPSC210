@@ -83,6 +83,6 @@ public class UtilitiesTest {
 
     @Test
     public void testShortenStringAboveMaxLength() {
-        assertEquals("test st...", utilities.shortenString("test string", 10));
+        assertEquals("test str...", utilities.shortenString("test string", 10));
     }
 }
