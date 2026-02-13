@@ -126,7 +126,14 @@ public class BranchTask extends Task {
         result = result + this.name + ": " + utilities.shortenString(this.description, DESCRIPTION_MAX_LENGTH) 
             + " (Due: " + this.getDueDate().getDateAsString() + " | Progress: " 
             + this.getCompletionPercentage() + "%)";
+        result = result + getSubtaskStringRepresentation();
+        return result;
+    }
 
+    // EFFECTS: for each subtask ordered by due date, concatenates the result of calling getStringFormat(),
+    //          indenting each line by 4 spaces and preserving indentation of string format of subtasks
+    private String getSubtaskStringRepresentation() {
+        String result = "";
         List<Task> sortedSubtasks = getSortedSubtasks();
         for (Task subtask : sortedSubtasks) {
             String subtaskResult = subtask.getStringFormat();
