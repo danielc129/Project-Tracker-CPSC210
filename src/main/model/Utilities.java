@@ -6,7 +6,7 @@ import java.util.List;
 // Provides common utility methods not suitable for addition to the Task class
 public class Utilities {
 
-    // EFECTS: creates a new utilities object with no fields
+    // EFFECTS: creates a new utilities object with no fields
     public Utilities() {
         
     }
@@ -51,7 +51,7 @@ public class Utilities {
         return inputString;
     }
 
-    // EFECTS: returns true if there is a task in the given list with the given name
+    // EFFECTS: returns true if there is a task in the given list with the given name
     public boolean containsTaskWithName(List<Task> tasks, String name) {
         for (Task task : tasks) {
             if (task.getName().equals(name)) {

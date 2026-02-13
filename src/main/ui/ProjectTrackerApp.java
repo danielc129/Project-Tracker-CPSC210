@@ -27,7 +27,7 @@ public class ProjectTrackerApp {
     }
 
     // MODIFIES: this
-    // EFECTS: processes user input
+    // EFFECTS: processes user input
     private void runProjectTracker() {
         boolean keepGoing = true;
         String command = null;
@@ -62,6 +62,7 @@ public class ProjectTrackerApp {
     // REQUIRES: currentTask != null, currentProject != null
     // MODIFIES: this
     // EFFECTS: processes user command when there is a selected task
+    @SuppressWarnings("methodlength")
     private void processCommandSelected(String command) {
         switch (command) {
             case "a":
@@ -205,14 +206,9 @@ public class ProjectTrackerApp {
                     return false;
                 }
             case 2:
-                if (isLeapYear(year)) {
-                    if (day < 1 || day > 29) {
-                        return false;
-                    }
-                } else {
-                    if (day < 1 || day > 28) {
-                        return false;
-                    }
+                if ((isLeapYear(year) && (day < 1 || day > 29)) 
+                        || (!isLeapYear(year) && (day < 1 || day > 28))) {
+                    return false;
                 }
         }
         return true;
