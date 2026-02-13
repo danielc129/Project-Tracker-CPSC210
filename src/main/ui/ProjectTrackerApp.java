@@ -52,7 +52,17 @@ public class ProjectTrackerApp {
     // MODIFIES: this
     // EFFECTS: processes user command 
     private void processCommand(String command) {
-        // TODO: check if command is valid at current state
+        if (!(currentTask == null)) {
+            processCommandSelected(command);
+        } else {
+            processCommandUnselected(command);
+        }
+    }
+
+    // REQUIRES: currentTask != null
+    // MODIFIES: this
+    // EFFECTS: processes user command when there is a selected task
+    private void processCommandSelected(String command) {
         switch (command) {
             case "a":
                 addTask();
@@ -71,6 +81,23 @@ public class ProjectTrackerApp {
                 break;
             case "c":
                 toggleCompletion();
+            default:
+                System.out.println("Invalid command");
+                break;
+        }
+    }
+
+    // REQUIRES: currentTask is null
+    // MODIFIES: this
+    // EFFECTS: processes user command when there is no task selected
+    private void processCommandUnselected(String command) {
+        switch (command) {
+            case "a":
+                addTask();
+                break;
+            case "s":
+                selectTask();
+                break;
             default:
                 System.out.println("Invalid command");
                 break;
