@@ -11,22 +11,23 @@ import org.junit.jupiter.api.Test;
 
 public class BranchTaskTest {
     private BranchTask branch1;
+    private BranchTask branch3;
+    private BranchTask branch2;
+    private BranchTask branch4;
+    private BranchTask branch5;
+    private BranchTask branch6;
     private LeafTask leaf1;
     private LeafTask leaf2;
     private LeafTask leaf3;
-    private BranchTask branch2;
-    private BranchTask branch3;
-    private LeafTask leaf4;
     private LeafTask leaf5;
     private LeafTask leaf6;
+    private LeafTask leaf4;
     private LeafTask leaf7;
     private LeafTask leaf8;
     private LeafTask leaf9;
     private LeafTask leaf10;
     private LeafTask leaf11;
-    private BranchTask branch4;
-    private BranchTask branch5;
-    private BranchTask branch6;
+    
 
     @BeforeEach
     public void setup() {
@@ -38,18 +39,22 @@ public class BranchTaskTest {
         subtaskList1.add(leaf2);
         subtaskList1.add(leaf3);
         branch1 = new BranchTask("Branch Task 1", "Test Description B1", subtaskList1);
-        leaf6 = new LeafTask("Leaf Task 6", "Test Description L6", new Date(4, 11, 2025), 30);
+
+        leaf4 = new LeafTask("Leaf Task 6", "Test Description L6", new Date(4, 11, 2025), 30);
         ArrayList<Task> subtaskList2 = new ArrayList<>();
-        subtaskList2.add(leaf6);
-        branch3 = new BranchTask("Branch Task 3", "Test Description B3", subtaskList2);
-        leaf4 = new LeafTask("Leaf Task 4", "Test Description L4", new Date(5, 3, 2025), 25);
-        leaf5 = new LeafTask("Leaf Task 5", "Test Description L5", new Date(6, 2, 2025), 3);
+        subtaskList2.add(leaf4);
+        branch2 = new BranchTask("Branch Task 3", "Test Description B3", subtaskList2);
+
+        leaf5 = new LeafTask("Leaf Task 4", "Test Description L4", new Date(5, 3, 2025), 25);
+        leaf6 = new LeafTask("Leaf Task 5", "Test Description L5", new Date(6, 2, 2025), 3);
         ArrayList<Task> subtaskList3 = new ArrayList<>();
-        subtaskList3.add(branch3);
-        subtaskList3.add(leaf4);
+        subtaskList3.add(branch2);
         subtaskList3.add(leaf5);
-        branch2 = new BranchTask("Branch Task 2", "Test Description B2", subtaskList3);
+        subtaskList3.add(leaf6);
+        branch3 = new BranchTask("Branch Task 2", "Test Description B2", subtaskList3);
+
         leaf7 = new LeafTask("Leaf Task 7", "Test Description L7", new Date(7, 6, 2025), 50);
+        
         leaf8 = new LeafTask("Leaf Task 8", "Test Description L8", new Date(7, 1, 2025), 10);
         ArrayList<Task> subtaskList4 = new ArrayList<>();
         subtaskList4.add(leaf8);
@@ -57,30 +62,30 @@ public class BranchTaskTest {
 
         leaf9 = new LeafTask("Leaf Task 9", "Test Description L9", new Date(8, 3, 2025), 10);
         leaf10 = new LeafTask("Leaf Task 10", "Test Description L10", new Date(9, 4, 2025), 20);
-        leaf11 = new LeafTask("Leaf Task 11", "Test Description L11", new Date(10, 5, 2025), 15);
         ArrayList<Task> subtaskList5 = new ArrayList<>();
         subtaskList5.add(leaf9);
         subtaskList5.add(leaf10);
         branch5 = new BranchTask("Branch Task 5", "Test Description B5", subtaskList5);
+
+        leaf11 = new LeafTask("Leaf Task 11", "Test Description L11", new Date(10, 5, 2025), 15);
         ArrayList<Task> subtaskList6 = new ArrayList<>();
         subtaskList6.add(branch5);
         subtaskList6.add(leaf11);
         branch6 = new BranchTask("Branch Task 6", "Test Description B6", subtaskList6);
-
     }
 
     @Test
     public void testConstructor() {
-        assertEquals("Branch Task 2", branch2.getName());
-        assertEquals("Test Description B2", branch2.getDescription());
+        assertEquals("Branch Task 2", branch3.getName());
+        assertEquals("Test Description B2", branch3.getDescription());
         ArrayList<Task> expectedSubtasks = new ArrayList<>();
-        expectedSubtasks.add(branch3);
-        expectedSubtasks.add(leaf4);
+        expectedSubtasks.add(branch2);
         expectedSubtasks.add(leaf5);
-        assertEquals(expectedSubtasks, branch2.getSubtasks());
+        expectedSubtasks.add(leaf6);
+        assertEquals(expectedSubtasks, branch3.getSubtasks());
         ArrayList<Task> expectedSubtasks2 = new ArrayList<>();
-        expectedSubtasks2.add(leaf6);
-        assertEquals(expectedSubtasks2, branch3.getSubtasks());
+        expectedSubtasks2.add(leaf4);
+        assertEquals(expectedSubtasks2, branch2.getSubtasks());
     }
 
     @Test
@@ -94,12 +99,12 @@ public class BranchTaskTest {
         assertEquals(expectedSubtasks, branch1.getSubtasks());
 
         ArrayList<Task> expectedSubtasks2 = new ArrayList<>();
-        expectedSubtasks2.add(branch3);
-        expectedSubtasks2.add(leaf4);
+        expectedSubtasks2.add(branch2);
         expectedSubtasks2.add(leaf5);
+        expectedSubtasks2.add(leaf6);
         expectedSubtasks2.add(leaf7);
-        branch2.addSubtask(leaf7);
-        assertEquals(expectedSubtasks2, branch2.getSubtasks());
+        branch3.addSubtask(leaf7);
+        assertEquals(expectedSubtasks2, branch3.getSubtasks());
     }
 
     @Test
@@ -108,17 +113,17 @@ public class BranchTaskTest {
         expectedSubtasks.add(leaf1);
         expectedSubtasks.add(leaf2);
         expectedSubtasks.add(leaf3);
-        expectedSubtasks.add(branch2);
-        branch1.addSubtask(branch2);
+        expectedSubtasks.add(branch3);
+        branch1.addSubtask(branch3);
         assertEquals(expectedSubtasks, branch1.getSubtasks());
 
         ArrayList<Task> expectedSubtasks2 = new ArrayList<>();
-        expectedSubtasks2.add(branch3);
-        expectedSubtasks2.add(leaf4);
+        expectedSubtasks2.add(branch2);
         expectedSubtasks2.add(leaf5);
+        expectedSubtasks2.add(leaf6);
         expectedSubtasks2.add(branch1);
-        branch2.addSubtask(branch1);
-        assertEquals(expectedSubtasks2, branch2.getSubtasks());
+        branch3.addSubtask(branch1);
+        assertEquals(expectedSubtasks2, branch3.getSubtasks());
     }
 
     @Test
@@ -130,24 +135,24 @@ public class BranchTaskTest {
         expectedSubtasks.add(leaf7);
         branch1.addSubtask(leaf7);
         assertEquals(expectedSubtasks, branch1.getSubtasks());
-        expectedSubtasks.add(branch2);
-        branch1.addSubtask(branch2);
+        expectedSubtasks.add(branch3);
+        branch1.addSubtask(branch3);
         assertEquals(expectedSubtasks, branch1.getSubtasks());
     }
 
     @Test
     public void testRemoveSubtask() {
         branch1.addSubtask(leaf7);
-        branch1.addSubtask(branch2);
+        branch1.addSubtask(branch3);
         ArrayList<Task> expectedSubtasks = new ArrayList<>();
         expectedSubtasks.add(leaf1);
         expectedSubtasks.add(leaf2);
         expectedSubtasks.add(leaf3);
-        expectedSubtasks.add(branch2);
+        expectedSubtasks.add(branch3);
         branch1.removeSubtask(leaf7);
         assertEquals(expectedSubtasks, branch1.getSubtasks());
-        expectedSubtasks.remove(branch2);
-        branch1.removeSubtask(branch2);
+        expectedSubtasks.remove(branch3);
+        branch1.removeSubtask(branch3);
         assertEquals(expectedSubtasks, branch1.getSubtasks());
     }
 
@@ -169,7 +174,7 @@ public class BranchTaskTest {
 
     @Test
     public void testGetDueDateMixedSubtasks() {
-        Date result = branch2.getDueDate();
+        Date result = branch3.getDueDate();
         assertEquals(4, result.getDay());
         assertEquals(11, result.getMonth());
         assertEquals(2025, result.getYear());
@@ -182,7 +187,7 @@ public class BranchTaskTest {
 
     @Test
     public void testGetWeightMixedSubtasks() {
-        assertEquals(58, branch2.getWeight());
+        assertEquals(58, branch3.getWeight());
     }
 
     @Test
@@ -231,13 +236,13 @@ public class BranchTaskTest {
 
     @Test
     public void testGetStringFormatMixedSubtasks() {
-        leaf4.setCompletion(true);
+        leaf5.setCompletion(true);
         String expected = "[ ] Branch Task 2: Test Description B2 (Due: November 4, 2025 | Progress: 43%)" +
                           "\n    [ ] Leaf Task 5: Test Description L5 (Due: February 6, 2025 | Weight: 3)" +
                           "\n    [✓] Leaf Task 4: Test Description L4 (Due: March 5, 2025 | Weight: 25)" +
                           "\n    [ ] Branch Task 3: Test Description B3 (Due: November 4, 2025 | Progress: 0%)" +
                           "\n        [ ] Leaf Task 6: Test Description L6 (Due: November 4, 2025 | Weight: 30)";
-        assertEquals(expected, branch2.getStringFormat());
+        assertEquals(expected, branch3.getStringFormat());
     }
 
     @Test
@@ -301,14 +306,14 @@ public class BranchTaskTest {
 
     @Test
     public void testSetCompletionTrue() {
-        branch2.setCompletion(true);
-        assertTrue(branch2.isCompleted());
+        branch3.setCompletion(true);
+        assertTrue(branch3.isCompleted());
     }
 
     @Test
     public void testSetCompletionFalse() {
-        branch2.setCompletion(true);
-        branch2.setCompletion(false);
-        assertFalse(branch2.isCompleted());
+        branch3.setCompletion(true);
+        branch3.setCompletion(false);
+        assertFalse(branch3.isCompleted());
     }
 }
