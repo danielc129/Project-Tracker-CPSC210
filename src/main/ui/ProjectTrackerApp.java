@@ -163,6 +163,54 @@ public class ProjectTrackerApp {
         return result;
     }
 
+    // EFFECTS: prompts the user to create a new Date, ensuring values are valid
+    private Date promptForDueDate() {
+        int day;
+        int month;
+        int year;
+        boolean retry = false;
+        
+        do {
+            if (retry) {
+                System.out.println("Invalid date. Please try again");
+            }
+            System.out.print("\nEnter day of due date: ");
+            day = input.nextInt();
+            System.out.print("\nEnter month of due date (1-12): ");
+            month = input.nextInt();
+            System.out.print("\nEnter year of due date: ");
+            year = input.nextInt();
+            retry = true;
+        } while (!isDateValid(day, month, year));
+
+        return new Date(day, month, year);
+    }
+
+    // EFFECTS: checks if the given day, month, and year values represent a valid date
+    // TODO: handle leap years
+    private boolean isDateValid(int day, int month, int year) {
+        if (month < 1 || month > 12) {
+            return false;
+        }
+
+        switch (month) {
+            case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+                if (day < 1 || day > 31) {
+                    return false;
+                }
+                break;
+            case 4: case 6: case 9: case 11:
+                if (day < 1 || day > 30) {
+                    return false;
+                }
+            case 2:
+                if (day < 1 || day > 29) {
+                    return false;
+                }
+        }
+        return true;
+    }
+
     // REQUIRES: currentProject != null
     // MODIFIES: this
     // EFFECTS: adds a task to the currently selected task or project (if no task selected)
@@ -171,15 +219,10 @@ public class ProjectTrackerApp {
         String name = input.nextLine();
         System.out.print("\nEnter task description: ");
         String description = input.nextLine();
-        System.out.print("\nEnter day of due date: ");
-        int day = input.nextInt();
-        System.out.print("\nEnter month of due date (1-12): ");
-        int month = input.nextInt();
-        System.out.print("\nEnter year of due date: ");
-        int year = input.nextInt();
+        Date dueDate = promptForDueDate();
         System.out.print("\nEnter completion weighting: ");
         int weight = input.nextInt();
-        Task newTask = new LeafTask(name, description, new Date(day, month, year), weight);
+        Task newTask = new LeafTask(name, description, dueDate, weight);
         addTask(newTask);
         input.nextLine();
     }
@@ -295,15 +338,8 @@ public class ProjectTrackerApp {
     private void convertParentToLeaf() {
         System.out.println("As the parent task will no longer have any subtasks, "
             + "please provide missing details");
-        System.out.print("Enter day of due date: ");
-        int day = input.nextInt();
-        System.out.print("Enter month of due date: ");
-        int month = input.nextInt();
-        System.out.print("Enter year of due date: ");
-        int year = input.nextInt();
-        System.out.print("Enter weight: ");
+        Date date = promptForDueDate();
         int weight = input.nextInt();
-        Date date = new Date(day, month, year);
 
         BranchTask parentTask = (BranchTask) taskStack.get(taskStack.size() - 1);
         LeafTask newLeafTask = new LeafTask(parentTask.getName(), parentTask.getDescription(), date, weight);
@@ -394,16 +430,11 @@ public class ProjectTrackerApp {
         System.out.print("Enter new description: ");
         String description = input.nextLine();
         if (utilities.isLeafTask(currentTask)) {
-            System.out.print("Enter new day of due date: ");
-            int day = input.nextInt();
-            System.out.print("Enter new month of due date: ");
-            int month = input.nextInt();
-            System.out.print("Enter new year of due date: ");
-            int year = input.nextInt();
+            Date newDate = promptForDueDate();
             System.out.print("Enter new weight: ");
             int weight = input.nextInt();
             input.nextLine();
-            ((LeafTask) currentTask).setDueDate(new Date(day, month, year));
+            ((LeafTask) currentTask).setDueDate(newDate);
             ((LeafTask) currentTask).setWeight(weight);
         } 
         currentTask.setName(name);
