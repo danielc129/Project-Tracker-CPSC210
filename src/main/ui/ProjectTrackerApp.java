@@ -203,11 +203,22 @@ public class ProjectTrackerApp {
                     return false;
                 }
             case 2:
-                if (day < 1 || day > 29) {
-                    return false;
+                if (isLeapYear(year)) {
+                    if (day < 1 || day > 29) {
+                        return false;
+                    }
+                } else {
+                    if (day < 1 || day > 28) {
+                        return false;
+                    }
                 }
         }
         return true;
+    }
+
+    // EFFECTS: returns true if the given year is a leap year
+    private boolean isLeapYear(int year) {
+        return (year % 4 == 0) && !((year % 100 == 0) && (year % 400 != 0));
     }
 
     // REQUIRES: currentProject != null
