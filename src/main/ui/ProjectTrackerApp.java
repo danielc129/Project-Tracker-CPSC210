@@ -199,7 +199,12 @@ public class ProjectTrackerApp {
         if (utilities.isLeafTask(currentTask)) {
             addTaskToCurrentLeafTask(subtask);
         } else {
-            ((BranchTask) currentTask).addSubtask(subtask);
+            BranchTask currentBranchTask = ((BranchTask) currentTask);
+            if (!utilities.containsTaskWithName(currentBranchTask.getSubtasks(), subtask.getName())) {
+                currentBranchTask.addSubtask(subtask);
+            } else {
+                System.out.println("There is already a task with the given name at the current level");
+            }
         }
     }
 

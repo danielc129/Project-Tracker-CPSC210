@@ -51,7 +51,13 @@ public class Utilities {
         return inputString;
     }
 
+    // EFECTS: returns true if there is a task in the given list with the given name
     public boolean containsTaskWithName(List<Task> tasks, String name) {
+        for (Task task : tasks) {
+            if (task.getName().equals(name)) {
+                return true;
+            }
+        }
         return false;
     }
 }
