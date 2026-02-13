@@ -76,6 +76,9 @@ public class ProjectTrackerApp {
             case "e":
                 editTask();
                 break;
+            case "d":
+                viewDescription();
+                break;
             case "p":
                 selectParentTask();
                 break;
@@ -146,6 +149,7 @@ public class ProjectTrackerApp {
             System.out.println("\tr -> remove task");
             System.out.println("\te -> edit task");
             System.out.println("\tc -> toggle completion");
+            System.out.println("\td -> view description");
             System.out.println("\tp -> return to parent task");
         }
         System.out.println("\ts -> select task");
@@ -460,5 +464,11 @@ public class ProjectTrackerApp {
         } else {
             currentTask.setCompletion(false);
         }
+    }
+
+    // REQUIRES: currentTask != null
+    // EFFECTS: prints the full description of the currently selected task
+    private void viewDescription() {
+        System.out.println(currentTask.getDescription());
     }
 }
