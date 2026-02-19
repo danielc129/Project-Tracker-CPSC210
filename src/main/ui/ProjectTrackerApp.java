@@ -11,7 +11,6 @@ import model.Project;
 import model.Task;
 import model.Utilities;
 
-
 // Project tracker application
 // ATTRIBUTION: Based on Teller project 
 public class ProjectTrackerApp {
@@ -186,6 +185,7 @@ public class ProjectTrackerApp {
             year = input.nextInt();
             retry = true;
         } while (!isDateValid(day, month, year));
+        input.nextLine();
         return new Date(day, month, year);
     }
 
@@ -433,20 +433,30 @@ public class ProjectTrackerApp {
     // MODIFIES: this
     // EFFECTS: edits the currently selected task's details
     private void editTask() {
-        System.out.print("Enter new name: ");
+        System.out.print("Enter new name (blank to leave unchanged): ");
         String name = input.nextLine();
-        System.out.print("Enter new description: ");
+        System.out.print("Enter new description (blank to leave unchanged): ");
         String description = input.nextLine();
         if (utilities.isLeafTask(currentTask)) {
-            Date newDate = promptForDueDate();
-            System.out.print("Enter new weight: ");
-            int weight = input.nextInt();
-            input.nextLine();
-            ((LeafTask) currentTask).setDueDate(newDate);
-            ((LeafTask) currentTask).setWeight(weight);
-        } 
-        currentTask.setName(name);
-        currentTask.setDescription(description);
+            System.out.print("Do you wish to change the due date? (yes, no): ");
+            String changeDateInput = input.nextLine();
+            if (changeDateInput.equals("yes")) {
+                Date newDate = promptForDueDate();
+                ((LeafTask) currentTask).setDueDate(newDate);
+            }
+            System.out.print("Enter new weight (blank to leave unchanged): ");
+            String weightInput = input.nextLine();
+            if (!weightInput.isBlank()) { 
+                int weight = Integer.parseInt(weightInput);
+                ((LeafTask) currentTask).setWeight(weight);
+            }
+        }
+        if (!name.isBlank()) { 
+            currentTask.setName(name);
+        }
+        if (!description.isBlank()) {
+            currentTask.setDescription(description);
+        }
     }
 
     // REQUIRES: currentTask != null
