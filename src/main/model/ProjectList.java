@@ -16,7 +16,14 @@ public class ProjectList {
     }
     
     // EFFECTS: returns the projects added to the list
-    public List<Project> getProjects(Project project) {
+    public List<Project> getProjects() {
         return null;
+    }
+
+    // REQUIRES: the given project is in the list
+    // MODIFIES: this
+    // EFFECTS: removes the given project from the project list
+    public void removeProject(Project project) {
+
     }
 }
