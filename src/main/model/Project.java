@@ -44,6 +44,17 @@ public class Project {
         return roundedPercentage;
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds a new entry to the progress history of the current completion percentage is different from the previous entry
+    public void updateProgressHistory() {
+
+    }
+
+    // EFFECTS: returns a list of progress snapshots in the progress history
+    public List<ProgressSnapshot> getProgressHistory() {
+        return null;
+    }
+
     // EFFECTS: returns the sum of the weight of the tasks 
     private int getWeight() {
         int totalWeight = 0;
