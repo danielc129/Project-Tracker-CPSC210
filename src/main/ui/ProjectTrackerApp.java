@@ -83,7 +83,7 @@ public class ProjectTrackerApp {
             System.out.println("There are no projects added");
         } else {
             for (Project project : projects) {
-                System.out.println(project.getName());
+                System.out.println("\t" + project.getName() + " (" + project.getCompletionPercentage() + "% completed)");
             }
         }
 
@@ -98,10 +98,32 @@ public class ProjectTrackerApp {
     // MODIFIES: this
     // EFFECTS: processes user command 
     private void processCommand(String command) {
-        if (!(currentTask == null)) {
+        if (currentProject == null) {
+            processCommandOutsideProject(command);
+        } else if (!(currentTask == null)) {
             processCommandSelected(command);
         } else {
             processCommandUnselected(command);
+        }
+    }
+
+    // REQUIRES: currentProject == null
+    // MODIFIES: this
+    // EFFECTS: processes user command when there is no project selected
+    private void processCommandOutsideProject(String command) {
+        switch (command) {
+            case "a":
+                addProject();
+                break;
+            case "r":
+                removeProject();
+                break;
+            case "s":
+                selectProject();
+                break;
+            default:
+                System.out.println("Invalid command");
+                break;
         }
     }
 
@@ -165,6 +187,53 @@ public class ProjectTrackerApp {
         this.currentTask = null;
         this.taskStack = new ArrayList<>();
         this.utilities = new Utilities();
+        this.projectList.addProject(currentProject);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: removes a project, prompting user for name
+    private void removeProject() {
+        List<Project> projects = projectList.getProjects();
+        boolean retry = false;
+        String projectName;
+        do {
+            if (retry) {
+                System.out.println("Invalid project name");
+            }
+            System.out.println("Enter name of project to remove: ");
+            projectName = input.nextLine();
+            retry = true;
+        } while (!utilities.containsProjectWithName(projects, projectName));
+        
+        for (Project project : projects) {
+            if (project.getName().equals(projectName)) {
+                projectList.removeProject(project);
+                break;
+            }
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: selects a project, prompting user for name
+    private void selectProject() {
+        List<Project> projects = projectList.getProjects();
+        boolean retry = false;
+        String projectName;
+        do {
+            if (retry) {
+                System.out.println("Invalid project name");
+            }
+            System.out.println("Enter name of project to select: ");
+            projectName = input.nextLine();
+            retry = true;
+        } while (!utilities.containsProjectWithName(projects, projectName));
+
+        for (Project project : projects) {
+            if (project.getName().equals(projectName)) {
+                currentProject = project;
+                break;
+            }
+        }
     }
 
     // EFFECTS: displays current project, list of tasks, and currently selected task (if applicable) to user
