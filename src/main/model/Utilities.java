@@ -60,4 +60,14 @@ public class Utilities {
         }
         return false;
     }
+
+    // EFFECTS: returns true if there is a project in the given list with the given name
+    public boolean containsProjectWithName(List<Project> projects, String name) {
+        for (Project project : projects) {
+            if (project.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

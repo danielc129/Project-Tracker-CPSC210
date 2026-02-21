@@ -14,6 +14,9 @@ public class UtilitiesTest {
     private LeafTask leafA;
     private LeafTask leafB;
     private LeafTask leafC;
+    private Project projectA;
+    private Project projectB;
+    private Project projectC;
     private Task actualLeaf;
     private Task actualBranch;
 
@@ -23,6 +26,9 @@ public class UtilitiesTest {
         leafA = new LeafTask("LeafA", "", new Date(3, 1, 2025), 5);
         leafB = new LeafTask("LeafB", "", new Date(2, 1, 2025), 5);
         leafC = new LeafTask("LeafC", "", new Date(1, 1, 2025), 5);
+        projectA = new Project("ProjectA", "");
+        projectB = new Project("ProjectB", "");
+        projectC = new Project("ProjectC", "");
         actualLeaf = new LeafTask("", "", new Date(4, 1, 2025), 10);
         ArrayList<Task> subtasksForBranch = new ArrayList<>();
         subtasksForBranch.add(actualLeaf);
@@ -94,5 +100,15 @@ public class UtilitiesTest {
         inputList.add(leafC);
         assertTrue(utilities.containsTaskWithName(inputList, "LeafB"));
         assertFalse(utilities.containsTaskWithName(inputList, "Leafb"));
+    }
+
+    @Test
+    public void testContainsProjectWithName() {
+        ArrayList<Project> inputList = new ArrayList<>();
+        inputList.add(projectA);
+        inputList.add(projectB);
+        inputList.add(projectC);
+        assertTrue(utilities.containsProjectWithName(inputList, "ProjectB"));
+        assertFalse(utilities.containsProjectWithName(inputList, "Projectb"));
     }
 }
