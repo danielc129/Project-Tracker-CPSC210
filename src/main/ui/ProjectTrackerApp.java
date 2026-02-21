@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import model.BranchTask;
 import model.Date;
 import model.LeafTask;
@@ -13,8 +14,10 @@ import model.ProjectList;
 import model.Task;
 import model.Utilities;
 
+
 // Project tracker application
 // ATTRIBUTION: Based on Teller project 
+@ExcludeFromJacocoGeneratedReport
 public class ProjectTrackerApp {
     private ProjectList projectList;
     private Project currentProject;
