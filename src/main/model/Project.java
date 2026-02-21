@@ -1,11 +1,13 @@
 package model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 // Represents a project 
 public class Project {
     private List<Task> tasks;
+    private List<ProgressSnapshot> progressHistory;
     private String name;
     private String description;
     private Utilities utilities;
@@ -16,6 +18,7 @@ public class Project {
         this.name = name;
         this.description = description;
         this.utilities = new Utilities();
+        this.progressHistory = new ArrayList<ProgressSnapshot>();
     }
 
     // MODIFIES: this
@@ -48,12 +51,20 @@ public class Project {
     // EFFECTS: adds a new entry to the progress history if the current completion percentage is different from the previous entry
     //          makes a new progress snapshot at the current time and with the current completion percentage
     public void updateProgressHistory() {
+        if (!progressHistory.isEmpty()) {
+            ProgressSnapshot latestEntry = progressHistory.get(progressHistory.size() - 1);
+            if (latestEntry.getCompletionPercentage() == this.getCompletionPercentage()) {
+                return;
+            }
+        }
 
+        ProgressSnapshot newSnapshot = new ProgressSnapshot(this.getCompletionPercentage(), LocalDateTime.now());
+        progressHistory.add(newSnapshot);
     }
 
     // EFFECTS: returns a list of progress snapshots in the progress history
     public List<ProgressSnapshot> getProgressHistory() {
-        return null;
+        return this.progressHistory;
     }
 
     // EFFECTS: returns the sum of the weight of the tasks 
