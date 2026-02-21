@@ -1,8 +1,12 @@
 package model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -129,5 +133,32 @@ public class ProjectTest {
         expectedResult.add(leafB);
         expectedResult.add(leafA);
         assertEquals(expectedResult, project1.getSortedTasks());
+    }
+
+    @Test
+    public void testUpdateProgressHistory() {
+        assertTrue(project1.getProgressHistory().isEmpty());
+        project1.updateProgressHistory();
+        LocalDateTime time1 = LocalDateTime.now();
+        List<ProgressSnapshot> result1 = project1.getProgressHistory();
+        assertEquals(1, result1.size());
+        assertEquals(0, result1.get(0).getCompletionPercentage());
+        assertTrue(Math.abs(result1.get(0).getTime().until(time1, ChronoUnit.SECONDS)) < 1);
+        project1.updateProgressHistory();
+        List<ProgressSnapshot> result2 = project1.getProgressHistory();
+        assertEquals(1, result2.size());
+        assertEquals(0, result2.get(0).getCompletionPercentage());
+        assertTrue(Math.abs(result2.get(0).getTime().until(time1, ChronoUnit.SECONDS)) < 1);
+        project1.addTask(leaf1);
+        leaf1.setCompletion(true);
+        assertEquals(100, project1.getCompletionPercentage());
+        project1.updateProgressHistory();
+        LocalDateTime time2 = LocalDateTime.now();
+        List<ProgressSnapshot> result3 = project1.getProgressHistory();
+        assertEquals(2, result2.size());
+        assertEquals(0, result2.get(0).getCompletionPercentage());
+        assertTrue(Math.abs(result2.get(0).getTime().until(time1, ChronoUnit.SECONDS)) < 1);
+        assertEquals(100, result2.get(1).getCompletionPercentage());
+        assertTrue(Math.abs(result2.get(1).getTime().until(time2, ChronoUnit.SECONDS)) < 1);
     }
 }

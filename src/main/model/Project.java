@@ -45,7 +45,8 @@ public class Project {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds a new entry to the progress history of the current completion percentage is different from the previous entry
+    // EFFECTS: adds a new entry to the progress history if the current completion percentage is different from the previous entry
+    //          makes a new progress snapshot at the current time and with the current completion percentage
     public void updateProgressHistory() {
 
     }
