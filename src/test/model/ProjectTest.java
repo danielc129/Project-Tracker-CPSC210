@@ -155,10 +155,10 @@ public class ProjectTest {
         project1.updateProgressHistory();
         LocalDateTime time2 = LocalDateTime.now();
         List<ProgressSnapshot> result3 = project1.getProgressHistory();
-        assertEquals(2, result2.size());
-        assertEquals(0, result2.get(0).getCompletionPercentage());
-        assertTrue(Math.abs(result2.get(0).getTime().until(time1, ChronoUnit.SECONDS)) < 1);
-        assertEquals(100, result2.get(1).getCompletionPercentage());
-        assertTrue(Math.abs(result2.get(1).getTime().until(time2, ChronoUnit.SECONDS)) < 1);
+        assertEquals(2, result3.size());
+        assertEquals(0, result3.get(0).getCompletionPercentage());
+        assertTrue(Math.abs(result3.get(0).getTime().until(time1, ChronoUnit.SECONDS)) < 1);
+        assertEquals(100, result3.get(1).getCompletionPercentage());
+        assertTrue(Math.abs(result3.get(1).getTime().until(time2, ChronoUnit.SECONDS)) < 1);
     }
 }

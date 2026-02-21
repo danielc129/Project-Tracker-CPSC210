@@ -7,6 +7,7 @@ import java.util.Scanner;
 import model.BranchTask;
 import model.Date;
 import model.LeafTask;
+import model.ProgressSnapshot;
 import model.Project;
 import model.ProjectList;
 import model.Task;
@@ -153,6 +154,8 @@ public class ProjectTrackerApp {
                 break;
             case "c":
                 toggleCompletion();
+            case "h":
+                viewProgressHistory();
             default:
                 System.out.println("Invalid command");
                 break;
@@ -170,9 +173,26 @@ public class ProjectTrackerApp {
             case "s":
                 selectTask();
                 break;
+            case "h":
+                viewProgressHistory();
+                break;
             default:
                 System.out.println("Invalid command");
                 break;
+        }
+    }
+
+    // REQUIRES: currentProject != null
+    // EFFECTS: prints the progress history as a list of snapshots
+    private void viewProgressHistory() {
+        for (ProgressSnapshot snapshot : currentProject.getProgressHistory()) {
+            String line = "";
+            line = line + snapshot.getTime().toString();
+            for (int i = line.length(); i < 40; i++) {
+                line = line + " ";
+            }
+            line = line + snapshot.getCompletionPercentage() + "%";
+            System.out.println(line);
         }
     }
 
@@ -268,6 +288,7 @@ public class ProjectTrackerApp {
             System.out.println("\tp -> return to parent task");
         }
         System.out.println("\ts -> select task");
+        System.out.println("\th -> view progress history");
         System.out.println("\tq -> exit project");
     }
 
@@ -337,6 +358,7 @@ public class ProjectTrackerApp {
     // REQUIRES: currentProject != null
     // MODIFIES: this
     // EFFECTS: adds a task to the currently selected task or project (if no task selected)
+    //          this method updates progress history
     private void addTask() {
         System.out.print("Enter name of task: ");
         String name = input.nextLine();
@@ -348,6 +370,7 @@ public class ProjectTrackerApp {
         input.nextLine();
         Task newTask = new LeafTask(name, description, dueDate, weight);
         addTask(newTask);
+        currentProject.updateProgressHistory();
     }
 
     // REQUIRES: currentProject != null
@@ -416,6 +439,7 @@ public class ProjectTrackerApp {
     // MODIFIES: this
     // EFFECTS: removes the currently selected task and moves currently selected task
     //          to the parent task or project root 
+    //          this method updates progress history
     private void removeTask() {
         if (taskStack.isEmpty()) {
             currentProject.removeTask(currentTask);
@@ -430,6 +454,7 @@ public class ProjectTrackerApp {
                 convertParentToLeaf();
             }
         }
+        currentProject.updateProgressHistory();
     }
 
     // REQUIRES: currentTask != null, currentProject != null
@@ -437,7 +462,8 @@ public class ProjectTrackerApp {
     // EFFECTS: removes the currently selected task, but does not convert a resulting parent branch task
     //          with no subtasks back into a leaf task, does not change the currently selected task 
     //          to the parent task, and does not remove the parent task from the task stack
-    //          intended for use with addTask() only
+    //          intended for use with addTask() only, which will replace the task being removed
+    //          with a new branch task of the same name
     private void removeTaskSkipSideEffects() {
         if (taskStack.isEmpty()) {
             currentProject.removeTask(currentTask);
@@ -544,9 +570,10 @@ public class ProjectTrackerApp {
         }
     }
 
-    // REQUIRES: currentTask != null
+    // REQUIRES: currentTask != null, currentProject != null
     // MODIFIES: this
     // EFFECTS: edits the currently selected task's details
+    //          this method updates progress history
     private void editTask() {
         System.out.print("Enter new name (blank to leave unchanged): ");
         String name = input.nextLine();
@@ -572,17 +599,20 @@ public class ProjectTrackerApp {
         if (!description.isBlank()) {
             currentTask.setDescription(description);
         }
+        currentProject.updateProgressHistory();
     }
 
-    // REQUIRES: currentTask != null
+    // REQUIRES: currentTask != null, currentProject != null
     // MODIFIES: this
     // EFFECTS: marks the selected task as complete or incomplete
+    //          this method updates progress history
     private void toggleCompletion() {
         if (!currentTask.isCompleted()) {
             currentTask.setCompletion(true);
         } else {
             currentTask.setCompletion(false);
         }
+        currentProject.updateProgressHistory();
     }
 
     // REQUIRES: currentTask != null
