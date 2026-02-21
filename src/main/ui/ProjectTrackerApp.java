@@ -8,12 +8,14 @@ import model.BranchTask;
 import model.Date;
 import model.LeafTask;
 import model.Project;
+import model.ProjectList;
 import model.Task;
 import model.Utilities;
 
 // Project tracker application
 // ATTRIBUTION: Based on Teller project 
 public class ProjectTrackerApp {
+    private ProjectList projectList;
     private Project currentProject;
     private Task currentTask;
     private Scanner input;
@@ -26,7 +28,16 @@ public class ProjectTrackerApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: processes user input
+    // EFFECTS: initializes the application
+    private void init() {
+        this.input = new Scanner(System.in);
+        this.projectList = new ProjectList();
+        this.currentProject = null;
+        this.currentTask = null;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: runs the project tracker application
     private void runProjectTracker() {
         boolean keepGoing = true;
         String command = null;
@@ -34,17 +45,53 @@ public class ProjectTrackerApp {
         init();
 
         while (keepGoing) {
-            displayInfo();
-            displayMenu();
+            if (currentProject != null) {
+                promptWithinProject();
+            } else {
+                promptOutsideProject();
+            }
+
             command = input.nextLine();
             command = command.toLowerCase();
 
             if (command.equals("q")) {
-                keepGoing = false;
+                if (currentProject != null) {
+                    currentProject = null;
+                    currentTask = null;
+                } else {
+                    keepGoing = false;
+                }
             } else {
                 processCommand(command);
             }
         }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: displays information and menu options for when a project is selected
+    private void promptWithinProject() {
+        displayInfo();
+        displayMenu();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: displays information and menu options for when a project is not selected
+    private void promptOutsideProject() {
+        System.out.println("Welcome to Project Tracker \n");
+        List<Project> projects = projectList.getProjects();
+        if (projects.isEmpty()) {
+            System.out.println("There are no projects added");
+        } else {
+            for (Project project : projects) {
+                System.out.println(project.getName());
+            }
+        }
+
+        System.out.println("\nSelect an option: ");
+        System.out.println("\ta -> add project");
+        System.out.println("\ts -> select project");
+        System.out.println("\tr -> remove project");
+        System.out.println("\tq -> exit program");
     }
 
     // REQUIRES: currentProject != null
@@ -109,8 +156,7 @@ public class ProjectTrackerApp {
 
     // MODIFIES: this
     // EFFECTS: initializes the project
-    private void init() {
-        this.input = new Scanner(System.in);
+    private void addProject() {
         System.out.println("Please enter project name: ");
         String name = input.nextLine();
         System.out.println("Please enter project description: ");
