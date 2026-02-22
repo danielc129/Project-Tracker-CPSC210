@@ -1,0 +1,10 @@
+{
+    "projects": [
+        {
+            "name": "Project 1",
+            "description": "Project 1 Description",
+            "tasks": [],
+            "progress_history": []
+        }
+    ]
+}
