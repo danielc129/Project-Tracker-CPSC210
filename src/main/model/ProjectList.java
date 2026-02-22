@@ -3,7 +3,13 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectList {
+import org.json.JSONObject;
+
+import persistence.Writable;
+
+// Represents a list of projects
+// ATTRIBUTION: Based on JsonSerializationDemo 
+public class ProjectList implements Writable {
     private List<Project> projects;
 
     // EFFECTS: creates an empty project list
@@ -27,6 +33,12 @@ public class ProjectList {
     // EFFECTS: removes the given project from the project list
     public void removeProject(Project project) {
         projects.remove(project);
+    }
+
+    // EFFECTS: returns this as a JSON object
+    @Override
+    public JSONObject toJson() {
+        return null;
     }
     
 }
