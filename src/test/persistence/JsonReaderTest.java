@@ -85,7 +85,7 @@ public class JsonReaderTest {
             assertEquals(2026, task2.getDueDate().getYear());
             assertEquals(10, task2.getWeight());
             assertTrue(task2.isCompleted());
-            LeafTask task3 = (LeafTask) task1.getSubtasks().get(1);
+            LeafTask task3 = (LeafTask) project.getTasks().get(1);
             assertEquals("Task 3", task3.getName());
             assertEquals("Task 3 Description", task3.getDescription());
             assertEquals(20, task3.getDueDate().getDay());
@@ -129,7 +129,7 @@ public class JsonReaderTest {
             assertEquals(1, task1.getDueDate().getMonth());
             assertEquals(2026, task1.getDueDate().getYear());
             assertEquals(30, task1.getWeight());
-            assertTrue(task3.isCompleted());
+            assertTrue(task1.isCompleted());
             ProgressSnapshot progressHistory3 = project2.getProgressHistory().get(0);
             assertEquals(progressHistory3.getTime(), LocalDateTime.of(2026, 2, 21, 15, 14, 20));
             assertEquals(progressHistory3.getCompletionPercentage(), 70);
