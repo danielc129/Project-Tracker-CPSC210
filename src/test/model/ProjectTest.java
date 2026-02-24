@@ -41,6 +41,8 @@ public class ProjectTest {
     public void testConstructor() {
         assertEquals("Test Project 1", project1.getName());
         assertEquals("Test Description 1", project1.getDescription());
+        assertTrue(project1.getTasks().isEmpty());
+        assertTrue(project1.getProgressHistory().isEmpty());
     }
 
     @Test
@@ -163,5 +165,21 @@ public class ProjectTest {
         assertTrue(Math.abs(result3.get(0).getTime().until(time1, ChronoUnit.SECONDS)) < 1);
         assertEquals(100, result3.get(1).getCompletionPercentage());
         assertTrue(Math.abs(result3.get(1).getTime().until(time2, ChronoUnit.SECONDS)) < 1);
+    }
+
+    @Test
+    public void testSetProgressHistory() {
+        ProgressSnapshot snapshot1 = new ProgressSnapshot(30, LocalDateTime.of(2026, 2, 23, 20, 29, 0));
+        ProgressSnapshot snapshot2 = new ProgressSnapshot(70, LocalDateTime.of(2026, 2, 22, 20, 29, 0));
+        ArrayList<ProgressSnapshot> progressHistory = new ArrayList<>();
+        progressHistory.add(snapshot1);
+        progressHistory.add(snapshot2);
+        project1.setProgressHistory(progressHistory);
+        List<ProgressSnapshot> progressHistoryReturn = project1.getProgressHistory();
+        assertEquals(2, progressHistoryReturn.size());
+        assertEquals(30, progressHistoryReturn.get(0).getCompletionPercentage());
+        assertEquals(snapshot1.getTime(), progressHistoryReturn.get(0).getTime());
+        assertEquals(70, progressHistoryReturn.get(1).getCompletionPercentage());
+        assertEquals(snapshot2.getTime(), progressHistoryReturn.get(1).getTime());
     }
 }

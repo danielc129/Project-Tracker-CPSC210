@@ -67,6 +67,12 @@ public class Project {
         return this.progressHistory;
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets the progress history to the given list of progress snapshots
+    public void setProgressHistory(List<ProgressSnapshot> progressHistory) {
+        this.progressHistory = progressHistory;
+    }
+
     // EFFECTS: returns the sum of the weight of the tasks 
     private int getWeight() {
         int totalWeight = 0;
