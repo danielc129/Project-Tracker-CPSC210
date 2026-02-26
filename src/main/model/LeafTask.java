@@ -60,7 +60,7 @@ public class LeafTask extends Task {
     public String getStringFormat() {
         String result = "";
         if (isCompleted()) {
-            result = result + "[✓] ";
+            result = result + "[X] ";
         } else {
             result = result + "[ ] ";
         }

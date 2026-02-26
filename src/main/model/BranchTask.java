@@ -122,7 +122,7 @@ public class BranchTask extends Task {
     public String getStringFormat() {
         String result = "";
         if (isCompleted()) {
-            result = "[✓] "; 
+            result = "[X] "; 
         } else {
             result = "[ ] ";
         }
