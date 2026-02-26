@@ -6,8 +6,10 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import model.ProjectList;
 
+@ExcludeFromJacocoGeneratedReport
 public class JsonWriterTest extends JsonTest {
 
     @Test

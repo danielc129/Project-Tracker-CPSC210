@@ -242,7 +242,7 @@ public class BranchTaskTest {
         leaf5.setCompletion(true);
         String expected = "[ ] Branch Task 2: Test Description B2 (Due: November 4, 2025 | Progress: 43%)" +
                           "\n    [ ] Leaf Task 5: Test Description L5 (Due: February 6, 2025 | Weight: 3)" +
-                          "\n    [✓] Leaf Task 4: Test Description L4 (Due: March 5, 2025 | Weight: 25)" +
+                          "\n    [X] Leaf Task 4: Test Description L4 (Due: March 5, 2025 | Weight: 25)" +
                           "\n    [ ] Branch Task 3: Test Description B3 (Due: November 4, 2025 | Progress: 0%)" +
                           "\n        [ ] Leaf Task 6: Test Description L6 (Due: November 4, 2025 | Weight: 30)";
         assertEquals(expected, branch3.getStringFormat());
@@ -253,10 +253,10 @@ public class BranchTaskTest {
         leaf1.setCompletion(true);
         leaf2.setCompletion(true);
         leaf3.setCompletion(true);
-        String expected = "[✓] Branch Task 1: Test Description B1 (Due: January 5, 2026 | Progress: 100%)" +
-                          "\n    [✓] Leaf Task 1: Test Description L1 (Due: January 1, 2026 | Weight: 10)" +
-                          "\n    [✓] Leaf Task 3: Test Description L3 (Due: January 3, 2026 | Weight: 20)" +
-                          "\n    [✓] Leaf Task 2: Test Description L2 (Due: January 5, 2026 | Weight: 5)";
+        String expected = "[X] Branch Task 1: Test Description B1 (Due: January 5, 2026 | Progress: 100%)" +
+                          "\n    [X] Leaf Task 1: Test Description L1 (Due: January 1, 2026 | Weight: 10)" +
+                          "\n    [X] Leaf Task 3: Test Description L3 (Due: January 3, 2026 | Weight: 20)" +
+                          "\n    [X] Leaf Task 2: Test Description L2 (Due: January 5, 2026 | Weight: 5)";
         assertEquals(expected, branch1.getStringFormat());
     }
 

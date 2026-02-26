@@ -66,7 +66,7 @@ public class LeafTaskTest {
         task1.setDueDate(new Date(3, 5, 2025));
         task1.setWeight(10);
         task1.setCompletion(true);
-        assertEquals("[✓] Name 2: Description 2 (Due: May 3, 2025 | Weight: 10)", task1.getStringFormat());
+        assertEquals("[X] Name 2: Description 2 (Due: May 3, 2025 | Weight: 10)", task1.getStringFormat());
     }
      
 }
