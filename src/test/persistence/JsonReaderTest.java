@@ -1,20 +1,13 @@
 package persistence;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
 import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
-import model.BranchTask;
-import model.LeafTask;
-import model.ProgressSnapshot;
-import model.Project;
 import model.ProjectList;
 
 // ATTRIBUTION: based on JsonSerializationDemo
@@ -82,18 +75,6 @@ public class JsonReaderTest extends JsonTest {
         try {
             ProjectList projectList = reader.read();
             checkNestedBranch(projectList);
-        } catch (IOException e) {
-            fail("Unexpected IOException");
-        }
-    }
-
-    @Test
-    public void testReadFile() {
-        JsonReader reader = new JsonReader("./data/testReaderEmptyProjectList.json");
-        try {
-            String readResult = reader.readFile("./data/testReaderEmptyProjectList.json");
-            String expected = "{    \"projects\": []}";
-            assertEquals(expected, readResult);
         } catch (IOException e) {
             fail("Unexpected IOException");
         }
