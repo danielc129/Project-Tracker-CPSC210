@@ -38,7 +38,7 @@ public class JsonReader {
     }
 
     // EFFECTS: reads file as string and returns it
-    private String readFile(String filePath) throws IOException {
+    public String readFile(String filePath) throws IOException {
         StringBuilder contentBuilder = new StringBuilder();
 
         try (Stream<String> stream = Files.lines(Paths.get(filePath), StandardCharsets.UTF_8)) {

@@ -171,5 +171,17 @@ public class JsonReaderTest {
             fail("Unexpected IOException");
         }
     }
+
+    @Test
+    public void testReadFile() {
+        JsonReader reader = new JsonReader("./data/testReaderEmptyProjectList.json");
+        try {
+            String readResult = reader.readFile("./data/testReaderEmptyProjectList.json");
+            String expected = "{    \"projects\": []}";
+            assertEquals(expected, readResult);
+        } catch (IOException e) {
+            fail("Unexpected IOException");
+        }
+    }
     
 }
