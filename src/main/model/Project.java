@@ -4,8 +4,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 // Represents a project 
-public class Project {
+public class Project implements Writable {
     private List<Task> tasks;
     private List<ProgressSnapshot> progressHistory;
     private String name;
@@ -115,5 +119,11 @@ public class Project {
     // EFFECTS: returns this project's tasks, sorted in order of closest to furthest due date
     public List<Task> getSortedTasks() {
         return utilities.sortTasks(tasks);
+    }
+
+    @Override
+    public JSONObject toJson() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toJson'");
     }
 }

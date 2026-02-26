@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONObject;
+
 // Represents a task with no subtasks of its own
 // ATTRIBUTION: Inter-class structure based on D4 (Composite Pattern) Lecture Labs
 public class LeafTask extends Task {
@@ -65,6 +67,12 @@ public class LeafTask extends Task {
         result = result + this.name + ": " + utilities.shortenString(this.description, DESCRIPTION_MAX_LENGTH) 
             + " (Due: " + this.dueDate.getDateAsString() + " | Weight: " + this.weight + ")";
         return result;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toJson'");
     }
     
 }

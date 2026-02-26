@@ -2,6 +2,8 @@ package model;
 
 import java.util.List;
 
+import org.json.JSONObject;
+
 // Represents a task with subtasks of its own
 // ATTRIBUTION: Inter-class structure based on D4 (Composite Pattern) Lecture Labs
 public class BranchTask extends Task {
@@ -148,6 +150,12 @@ public class BranchTask extends Task {
             result = result + "\n    " + subtaskResultIndentFixed;
         }
         return result;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toJson'");
     }
 
 }

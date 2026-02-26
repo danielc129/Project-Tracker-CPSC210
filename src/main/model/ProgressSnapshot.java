@@ -2,8 +2,12 @@ package model;
 
 import java.time.LocalDateTime;
 
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 // Represents a snapshot of the completion percentage of a project at a specific time
-public class ProgressSnapshot {
+public class ProgressSnapshot implements Writable {
     private int completionPercentage;
     private LocalDateTime time;
 
@@ -21,6 +25,12 @@ public class ProgressSnapshot {
     // EFFECTS: returns the time of the snapshot
     public LocalDateTime getTime() {
         return this.time;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toJson'");
     }
 
 }

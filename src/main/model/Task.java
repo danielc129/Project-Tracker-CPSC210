@@ -1,8 +1,10 @@
 package model;
 
+import persistence.Writable;
+
 // Represents a task 
 // ATTRIBUTION: Inter-class structure based on D4 (Composite Pattern) Lecture Labs
-public abstract class Task {
+public abstract class Task implements Writable {
     protected static final int DESCRIPTION_MAX_LENGTH = 20;
 
     protected String name;
