@@ -1,0 +1,44 @@
+{
+    "projects": [
+        {
+            "name": "Project 1",
+            "description": "Project 1 Description",
+            "tasks": [
+                {
+                    "name": "Task 1",
+                    "type": "branch",
+                    "description": "Task 1 Description",
+                    "subtasks": [
+                        {
+                            "name": "Task 2",
+                            "type": "branch",
+                            "description": "Task 2 Description",
+                            "subtasks": [
+                                {
+                                    "name": "Task 3",
+                                    "type": "leaf",
+                                    "description": "Task 3 Description",
+                                    "due_date_day": 20,
+                                    "due_date_month": 2,
+                                    "due_date_year": 2026,
+                                    "weight": 20,
+                                    "completion_status": false
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "progress_history": [
+                {
+                    "time": "2026-02-21T16:14:20",
+                    "completion_percentage": 40
+                },
+                {
+                    "time": "2026-02-20T12:14:20",
+                    "completion_percentage": 50
+                }
+            ]
+        }
+    ]
+}

@@ -137,5 +137,39 @@ public class JsonReaderTest {
             fail("Unexpected IOException");
         }
     }
+
+    @Test
+    public void testReaderNestedBranch() {
+        JsonReader reader = new JsonReader("./data/testReaderNestedBranch.json");
+        try {
+            ProjectList projectList = reader.read();
+            assertEquals(1, projectList.getProjects().size());
+            Project project = projectList.getProjects().get(0);
+            assertEquals("Project 1", project.getName());
+            assertEquals("Project 1 Description", project.getDescription());
+            ProgressSnapshot progressHistory1 = project.getProgressHistory().get(0);
+            assertEquals(progressHistory1.getTime(), LocalDateTime.of(2026, 2, 21, 16, 14, 20));
+            assertEquals(progressHistory1.getCompletionPercentage(), 40);
+            ProgressSnapshot progressHistory2 = project.getProgressHistory().get(1);
+            assertEquals(progressHistory2.getTime(), LocalDateTime.of(2026, 2, 20, 12, 14, 20));
+            assertEquals(progressHistory2.getCompletionPercentage(), 50);
+            BranchTask task1 = (BranchTask) project.getTasks().get(0);
+            assertEquals("Task 1", task1.getName());
+            assertEquals("Task 1 Description", task1.getDescription());
+            BranchTask task2 = (BranchTask) task1.getSubtasks().get(0);
+            assertEquals("Task 2", task2.getName());
+            assertEquals("Task 2 Description", task2.getDescription());
+            LeafTask task3 = (LeafTask) task2.getSubtasks().get(0);
+            assertEquals("Task 3", task3.getName());
+            assertEquals("Task 3 Description", task3.getDescription());
+            assertEquals(20, task3.getDueDate().getDay());
+            assertEquals(2, task3.getDueDate().getMonth());
+            assertEquals(2026, task3.getDueDate().getYear());
+            assertEquals(20, task3.getWeight());
+            assertFalse(task3.isCompleted());
+        } catch (IOException e) {
+            fail("Unexpected IOException");
+        }
+    }
     
 }

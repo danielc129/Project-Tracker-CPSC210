@@ -106,7 +106,7 @@ public class JsonReader {
                 LeafTask subtask = parseLeafTask(subtaskObject);
                 subtasks.add(subtask);
             } else {
-                BranchTask subtask = parseBranchTask(jsonObject);
+                BranchTask subtask = parseBranchTask(subtaskObject);
                 subtasks.add(subtask);
             }
         }
