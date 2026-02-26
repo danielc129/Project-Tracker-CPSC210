@@ -44,6 +44,7 @@ public class ProjectTrackerApp {
         this.projectList = new ProjectList();
         this.currentProject = null;
         this.currentTask = null;
+        this.utilities = new Utilities();
         this.jsonWriter = new JsonWriter(JSON_STORE);
         this.jsonReader = new JsonReader(JSON_STORE);
     }
@@ -225,7 +226,6 @@ public class ProjectTrackerApp {
         this.currentProject = new Project(name, description);
         this.currentTask = null;
         this.taskStack = new ArrayList<>();
-        this.utilities = new Utilities();
         this.projectList.addProject(currentProject);
     }
 
@@ -273,6 +273,8 @@ public class ProjectTrackerApp {
                 break;
             }
         }
+
+        this.taskStack = new ArrayList<>();
     }
 
     // EFFECTS: displays current project, list of tasks, and currently selected task (if applicable) to user
@@ -653,7 +655,14 @@ public class ProjectTrackerApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: loads workroom from file
     private void loadProjectList() {
-        throw new UnsupportedOperationException("Unimplemented method 'loadProjectList'");
+        try {
+            projectList = jsonReader.read();
+            System.out.println("Loaded projects from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to load from file");
+        }
     }
 }
