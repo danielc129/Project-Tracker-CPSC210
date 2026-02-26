@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import persistence.Writable;
@@ -38,7 +39,13 @@ public class ProjectList implements Writable {
     // EFFECTS: returns this as a JSON object
     @Override
     public JSONObject toJson() {
-        return null;
+        JSONObject json = new JSONObject();
+        JSONArray projectsArray = new JSONArray();
+        for (Project project : projects) {
+            projectsArray.put(project.toJson());
+        }
+        json.put("projects", projectsArray);
+        return json;
     }
     
 }

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import persistence.Writable;
@@ -123,7 +124,19 @@ public class Project implements Writable {
 
     @Override
     public JSONObject toJson() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toJson'");
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("description", description);
+        JSONArray tasksArray = new JSONArray();
+        for (Task task : tasks) {
+            tasksArray.put(task.toJson());
+        }
+        json.put("tasks", tasksArray);
+        JSONArray progressHistoryArray = new JSONArray();
+        for (ProgressSnapshot snapshot : progressHistory) {
+            progressHistoryArray.put(snapshot.toJson());
+        }
+        json.put("progress_history", progressHistoryArray);
+        return json;
     }
 }

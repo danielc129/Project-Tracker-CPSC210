@@ -71,8 +71,16 @@ public class LeafTask extends Task {
 
     @Override
     public JSONObject toJson() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toJson'");
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("type", "leaf");
+        json.put("description", description);
+        json.put("due_date_day", dueDate.getDay());
+        json.put("due_date_month", dueDate.getMonth());
+        json.put("due_date_year", dueDate.getYear());
+        json.put("weight", weight);
+        json.put("completion_status", isCompleted);
+        return json;
     }
     
 }

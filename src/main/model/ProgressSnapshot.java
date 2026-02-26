@@ -29,8 +29,10 @@ public class ProgressSnapshot implements Writable {
 
     @Override
     public JSONObject toJson() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toJson'");
+        JSONObject json = new JSONObject();
+        json.put("time", time.toString());
+        json.put("completion_percentage", completionPercentage);
+        return json;
     }
 
 }

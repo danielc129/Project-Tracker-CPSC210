@@ -2,6 +2,7 @@ package model;
 
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 // Represents a task with subtasks of its own
@@ -154,8 +155,16 @@ public class BranchTask extends Task {
 
     @Override
     public JSONObject toJson() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toJson'");
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("type", "branch");
+        json.put("description", description);
+        JSONArray subtasksArray = new JSONArray();
+        for (Task subtask : subtasks) {
+            subtasksArray.put(subtask.toJson());
+        }
+        json.put("subtasks", subtasksArray);
+        return json;
     }
 
 }

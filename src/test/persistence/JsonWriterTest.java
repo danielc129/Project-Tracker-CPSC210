@@ -1,6 +1,5 @@
 package persistence;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
@@ -9,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import model.ProjectList;
 
-public class JsonWriterTest {
+public class JsonWriterTest extends JsonTest {
 
     @Test
     public void testWriterInvalidFile() {
@@ -33,8 +32,8 @@ public class JsonWriterTest {
             writer.close();
 
             JsonReader reader2 = new JsonReader("./data/testWriterEmptyProject.json");
-            assertEquals(reader1.readFile("./data/testReaderEmptyProject.json"), reader2.readFile("./data/testWriterEmptyProject.json"));
-
+            ProjectList readProjectList = reader2.read();
+            checkEmptyProject(readProjectList);
         } catch (IOException e) {
             fail("Unexpected IOException");
         }
@@ -52,7 +51,8 @@ public class JsonWriterTest {
             writer.close();
 
             JsonReader reader2 = new JsonReader("./data/testWriterEmptyProjectList.json");
-            assertEquals(reader1.readFile("./data/testReaderEmptyProjectList.json"), reader2.readFile("./data/testWriterEmptyProjectList.json"));
+            ProjectList readProjectList = reader2.read();
+            checkEmptyProjectList(readProjectList);
 
         } catch (IOException e) {
             fail("Unexpected IOException");
@@ -70,7 +70,8 @@ public class JsonWriterTest {
             writer.close();
 
             JsonReader reader2 = new JsonReader("./data/testWriterGeneralProject.json");
-            assertEquals(reader1.readFile("./data/testReaderGeneralProject.json"), reader2.readFile("./data/testWriterGeneralProject.json"));
+            ProjectList readProjectList = reader2.read();
+            checkGeneralProject(readProjectList);
 
         } catch (IOException e) {
             fail("Unexpected IOException");
@@ -88,7 +89,8 @@ public class JsonWriterTest {
             writer.close();
 
             JsonReader reader2 = new JsonReader("./data/testWriterMultipleProject.json");
-            assertEquals(reader1.readFile("./data/testReaderMultipleProject.json"), reader2.readFile("./data/testWriterMultipleProject.json"));
+            ProjectList readProjectList = reader2.read();
+            checkMultipleProject(readProjectList);
 
         } catch (IOException e) {
             fail("Unexpected IOException");
@@ -106,7 +108,8 @@ public class JsonWriterTest {
             writer.close();
 
             JsonReader reader2 = new JsonReader("./data/testWriterNestedBranch.json");
-            assertEquals(reader1.readFile("./data/testReaderNestedBranch.json"), reader2.readFile("./data/testWriterNestedBranch.json"));
+            ProjectList readProjectList = reader2.read();
+            checkNestedBranch(readProjectList);
 
         } catch (IOException e) {
             fail("Unexpected IOException");
