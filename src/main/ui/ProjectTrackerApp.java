@@ -1,5 +1,6 @@
 package ui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,18 +14,23 @@ import model.Project;
 import model.ProjectList;
 import model.Task;
 import model.Utilities;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 
 // Project tracker application
 // ATTRIBUTION: Based on Teller project 
 @ExcludeFromJacocoGeneratedReport
 public class ProjectTrackerApp {
+    private static final String JSON_STORE = "./data/projectlist.json";
     private ProjectList projectList;
     private Project currentProject;
     private Task currentTask;
     private Scanner input;
     private Utilities utilities;
     private List<Task> taskStack;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // EFFECTS: runs the project tracker application
     public ProjectTrackerApp() {
@@ -38,6 +44,8 @@ public class ProjectTrackerApp {
         this.projectList = new ProjectList();
         this.currentProject = null;
         this.currentTask = null;
+        this.jsonWriter = new JsonWriter(JSON_STORE);
+        this.jsonReader = new JsonReader(JSON_STORE);
     }
 
     // MODIFIES: this
@@ -95,6 +103,8 @@ public class ProjectTrackerApp {
         System.out.println("\ta -> add project");
         System.out.println("\ts -> select project");
         System.out.println("\tr -> remove project");
+        System.out.println("\tf -> save projects to file");
+        System.out.println("\tl -> load projects from file");
         System.out.println("\tq -> exit program");
     }
 
@@ -124,6 +134,12 @@ public class ProjectTrackerApp {
                 break;
             case "s":
                 selectProject();
+                break;
+            case "f":
+                saveProjectList();
+                break;
+            case "l":
+                loadProjectList();
                 break;
             default:
                 System.out.println("Invalid command");
@@ -622,5 +638,22 @@ public class ProjectTrackerApp {
     // EFFECTS: prints the full description of the currently selected task
     private void viewDescription() {
         System.out.println(currentTask.getDescription());
+    }
+
+    
+    // EFFECTS: saves the project list to file
+    private void saveProjectList() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(projectList);
+            jsonWriter.close();
+            System.out.println("Saved projects to " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to save to file");
+        }
+    }
+
+    private void loadProjectList() {
+        throw new UnsupportedOperationException("Unimplemented method 'loadProjectList'");
     }
 }
