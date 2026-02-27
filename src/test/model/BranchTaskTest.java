@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -318,5 +319,15 @@ public class BranchTaskTest {
         branch3.setCompletion(true);
         branch3.setCompletion(false);
         assertFalse(branch3.isCompleted());
+    }
+
+    @Test
+    public void testGetFlattenedSubtasks() {
+        List<LeafTask> result = branch3.getFlattenedSubtasks();
+        List<LeafTask> expectedResult = new ArrayList<>();
+        expectedResult.add(leaf4);
+        expectedResult.add(leaf5);
+        expectedResult.add(leaf6);
+        assertEquals(expectedResult, result);
     }
 }
