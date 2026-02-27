@@ -133,6 +133,12 @@ public class BranchTask extends Task {
         return result;
     }
 
+    // EFFECTS: returns all of the leaf tasks reachable from this branch task as a
+    //          single list of leaf tasks
+    public List<LeafTask> getFlattenedSubtasks() {
+        return null;
+    }
+
     // EFFECTS: for each subtask ordered by due date, concatenates the result of calling getStringFormat(),
     //          indenting each line by 4 spaces and preserving indentation of string format of subtasks
     private String getSubtasksStringRepresentation() {
