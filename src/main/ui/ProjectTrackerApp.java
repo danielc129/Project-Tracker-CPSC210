@@ -96,7 +96,8 @@ public class ProjectTrackerApp {
             System.out.println("There are no projects added");
         } else {
             for (Project project : projects) {
-                System.out.println("\t" + project.getName() + " (" + project.getCompletionPercentage() + "% completed)");
+                System.out.println("\t" + project.getName() + " (" 
+                    + project.getCompletionPercentage() + "% completed)");
             }
         }
 
@@ -600,6 +601,19 @@ public class ProjectTrackerApp {
         String name = input.nextLine();
         System.out.print("Enter new description (blank to leave unchanged): ");
         String description = input.nextLine();
+        editTaskDueDate();
+        if (!name.isBlank()) { 
+            currentTask.setName(name);
+        }
+        if (!description.isBlank()) {
+            currentTask.setDescription(description);
+        }
+        currentProject.updateProgressHistory();
+    }
+
+    // REQUIRES: currentTask != null, currentProject != null
+    // EFFECTS: edits the currently selected task's due date
+    private void editTaskDueDate() {
         if (utilities.isLeafTask(currentTask)) {
             System.out.print("Do you wish to change the due date? (yes, no): ");
             String changeDateInput = input.nextLine();
@@ -614,13 +628,6 @@ public class ProjectTrackerApp {
                 ((LeafTask) currentTask).setWeight(weight);
             }
         }
-        if (!name.isBlank()) { 
-            currentTask.setName(name);
-        }
-        if (!description.isBlank()) {
-            currentTask.setDescription(description);
-        }
-        currentProject.updateProgressHistory();
     }
 
     // REQUIRES: currentTask != null, currentProject != null
