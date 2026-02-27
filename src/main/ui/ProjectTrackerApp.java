@@ -84,7 +84,7 @@ public class ProjectTrackerApp {
     // EFFECTS: displays information and menu options for when a project is selected
     private void promptWithinProject() {
         displayInfo();
-        displayMenu();
+        displayMenuWithinProject();
     }
 
     // MODIFIES: this
@@ -97,7 +97,7 @@ public class ProjectTrackerApp {
         } else {
             for (Project project : projects) {
                 System.out.println("\t" + project.getName() + " (" 
-                    + project.getCompletionPercentage() + "% completed)");
+                        + project.getCompletionPercentage() + "% completed)");
             }
         }
 
@@ -175,8 +175,13 @@ public class ProjectTrackerApp {
                 break;
             case "c":
                 toggleCompletion();
+                break;
             case "h":
                 viewProgressHistory();
+                break;
+            case "f":
+                saveProjectList();
+                break;
             default:
                 System.out.println("Invalid command");
                 break;
@@ -196,6 +201,9 @@ public class ProjectTrackerApp {
                 break;
             case "h":
                 viewProgressHistory();
+                break;
+            case "f":
+                saveProjectList();
                 break;
             default:
                 System.out.println("Invalid command");
@@ -298,8 +306,8 @@ public class ProjectTrackerApp {
         }
     }
 
-    // EFFECTS: displays menu of options to user
-    private void displayMenu() {
+    // EFFECTS: displays menu of options when a project is selected
+    private void displayMenuWithinProject() {
         System.out.println("\nSelect an option: ");
         System.out.println("\ta -> add task");
         if (!(currentTask == null)) {
@@ -311,6 +319,7 @@ public class ProjectTrackerApp {
         }
         System.out.println("\ts -> select task");
         System.out.println("\th -> view progress history");
+        System.out.println("\tf -> save changes to file");
         System.out.println("\tq -> exit project");
     }
 
