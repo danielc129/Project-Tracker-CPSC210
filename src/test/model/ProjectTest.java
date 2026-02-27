@@ -182,4 +182,16 @@ public class ProjectTest {
         assertEquals(70, progressHistoryReturn.get(1).getCompletionPercentage());
         assertEquals(snapshot2.getTime(), progressHistoryReturn.get(1).getTime());
     }
+
+    @Test
+    public void testGetFlattenedTasks() {
+        project1.addTask(leaf1);
+        project1.addTask(branch2);
+        List<LeafTask> result = project1.getFlattenedTasks();
+        List<LeafTask> expectedResult = new ArrayList<>();
+        expectedResult.add(leaf1);
+        expectedResult.add(leaf2);
+        expectedResult.add(leaf3);
+        assertEquals(expectedResult, result);
+    }
 }
