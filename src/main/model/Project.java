@@ -123,6 +123,11 @@ public class Project implements Writable {
         return utilities.sortTasks(tasks);
     }
 
+    // EFFECTS: returns the list of all leaf tasks under this project
+    public List<LeafTask> getFlattenedTasks() {
+        return null; 
+    }
+
     // EFFECTS: returns this as a JSON object
     @Override
     public JSONObject toJson() {
