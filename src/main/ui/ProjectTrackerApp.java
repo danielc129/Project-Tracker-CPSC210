@@ -265,6 +265,10 @@ public class ProjectTrackerApp {
         List<Project> projects = projectList.getProjects();
         boolean retry = false;
         String projectName;
+        if (projects.size() == 0) {
+            System.out.println("There are no projects added");
+            return;
+        }
         do {
             if (retry) {
                 System.out.println("Invalid project name");
@@ -288,6 +292,11 @@ public class ProjectTrackerApp {
         List<Project> projects = projectList.getProjects();
         boolean retry = false;
         String projectName;
+        if (projects.size() == 0) {
+            System.out.println("There are no projects added");
+            return;
+        }
+
         do {
             if (retry) {
                 System.out.println("Invalid project name");
@@ -357,9 +366,9 @@ public class ProjectTrackerApp {
 
     // EFFECTS: prompts the user to create a new Date, ensuring values are valid
     private Date promptForDueDate() {
-        int day;
-        int month;
-        int year;
+        int day = -1;
+        int month = -1;
+        int year = -1;
         boolean retry = false;
         do {
             if (retry) {
@@ -374,8 +383,6 @@ public class ProjectTrackerApp {
                 year = input.nextInt();
             } catch (InputMismatchException e) {
                 day = -1;
-                month = -1;
-                year = -1;
                 input.nextLine();
             }
             retry = true;
