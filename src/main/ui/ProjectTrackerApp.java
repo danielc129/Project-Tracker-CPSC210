@@ -123,7 +123,8 @@ public class ProjectTrackerApp {
         int numTasksPrinted = 0;
         for (Task currentTask : sortedTasks) {
             if (numTasksPrinted < 3 && !currentTask.isCompleted()) {
-                System.out.println("\t" + currentTask.getName() + " (due " + currentTask.getDueDate().getDateAsString() + ")");
+                System.out.println("\t" + currentTask.getName() 
+                        + " (due " + currentTask.getDueDate().getDateAsString() + ")");
                 numTasksPrinted = numTasksPrinted + 1;
             }
         }
