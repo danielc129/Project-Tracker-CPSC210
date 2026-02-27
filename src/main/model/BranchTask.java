@@ -153,6 +153,7 @@ public class BranchTask extends Task {
         return result;
     }
 
+    // EFFECTS: returns this as a JSON object
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

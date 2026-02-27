@@ -13,6 +13,7 @@ import model.ProgressSnapshot;
 import model.Project;
 import model.ProjectList;
 
+// ATTRIBUTION: based on JsonSerializationDemo
 @ExcludeFromJacocoGeneratedReport
 public class JsonTest {
 

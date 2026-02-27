@@ -123,6 +123,7 @@ public class Project implements Writable {
         return utilities.sortTasks(tasks);
     }
 
+    // EFFECTS: returns this as a JSON object
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
