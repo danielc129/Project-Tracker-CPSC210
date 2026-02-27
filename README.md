@@ -31,6 +31,6 @@ This project is of interest to me because as a student, I have to manage multipl
 - As a user, I want to be able to see a summary of the next tasks among all projects that I should work on
 - As a user, I want to be able to see the overall project progress (expressed as a percentage) for each project
 - As a user, I want to be able to see a report of the progress over time that I have made for a certain project
-- As a user, I want to be able to save my projects and their tasks
-- As a user, I want to be able to load projects and their tasks from a file
+- As a user, I want to be able to save my projects and their tasks (if I so choose)
+- As a user, I want to be able to load projects and their tasks from a file (if I so choose)
 
