@@ -2,6 +2,7 @@ package ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -364,12 +365,19 @@ public class ProjectTrackerApp {
             if (retry) {
                 System.out.println("Invalid date. Please try again");
             }
-            System.out.print("\nEnter day of due date: ");
-            day = input.nextInt();
-            System.out.print("\nEnter month of due date (1-12): ");
-            month = input.nextInt();
-            System.out.print("\nEnter year of due date: ");
-            year = input.nextInt();
+            try {
+                System.out.print("\nEnter day of due date: ");
+                day = input.nextInt();
+                System.out.print("\nEnter month of due date (1-12): ");
+                month = input.nextInt();
+                System.out.print("\nEnter year of due date: ");
+                year = input.nextInt();
+            } catch (InputMismatchException e) {
+                day = -1;
+                month = -1;
+                year = -1;
+                input.nextLine();
+            }
             retry = true;
         } while (!isDateValid(day, month, year));
         input.nextLine();
