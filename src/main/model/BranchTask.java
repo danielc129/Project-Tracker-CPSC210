@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -136,7 +137,15 @@ public class BranchTask extends Task {
     // EFFECTS: returns all of the leaf tasks reachable from this branch task as a
     //          single list of leaf tasks
     public List<LeafTask> getFlattenedSubtasks() {
-        return null;
+        ArrayList<LeafTask> result = new ArrayList<>();
+        for (Task subtask : subtasks) {
+            if (utilities.isLeafTask(subtask)) {
+                result.add((LeafTask) subtask);
+            } else {
+                result.addAll(((BranchTask) subtask).getFlattenedSubtasks());
+            }
+        }
+        return result;
     }
 
     // EFFECTS: for each subtask ordered by due date, concatenates the result of calling getStringFormat(),
