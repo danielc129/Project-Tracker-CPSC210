@@ -125,7 +125,15 @@ public class Project implements Writable {
 
     // EFFECTS: returns the list of all leaf tasks under this project
     public List<LeafTask> getFlattenedTasks() {
-        return null; 
+        List<LeafTask> result = new ArrayList<>();
+        for (Task task : tasks) {
+            if (utilities.isLeafTask(task)) {
+                result.add((LeafTask) task);
+            } else {
+                result.addAll(((BranchTask) task).getFlattenedSubtasks());
+            }
+        }
+        return result;
     }
 
     // EFFECTS: returns this as a JSON object
