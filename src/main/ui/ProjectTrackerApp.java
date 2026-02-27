@@ -99,6 +99,8 @@ public class ProjectTrackerApp {
                 System.out.println("\t" + project.getName() + " (" 
                         + project.getCompletionPercentage() + "% completed)");
             }
+            System.out.println("\nUp next:\n");
+            showUpNextTasks();
         }
 
         System.out.println("\nSelect an option: ");
@@ -108,6 +110,23 @@ public class ProjectTrackerApp {
         System.out.println("\tf -> save projects to file");
         System.out.println("\tl -> load projects from file");
         System.out.println("\tq -> exit program");
+    }
+
+    // EFFECTS: lists up to three of the leaf tasks in any project that have the closest due dates
+    private void showUpNextTasks() {
+        List<Project> projects = projectList.getProjects();
+        List<Task> allLeafTasks = new ArrayList<>();
+        for (Project project : projects) {
+            allLeafTasks.addAll(project.getFlattenedTasks());
+        }
+        List<Task> sortedTasks = utilities.sortTasks(allLeafTasks);
+        int numTasksPrinted = 0;
+        for (Task currentTask : sortedTasks) {
+            if (numTasksPrinted < 3 && !currentTask.isCompleted()) {
+                System.out.println("\t" + currentTask.getName() + " (due " + currentTask.getDueDate().getDateAsString() + ")");
+                numTasksPrinted = numTasksPrinted + 1;
+            }
+        }
     }
 
     // REQUIRES: currentProject != null
