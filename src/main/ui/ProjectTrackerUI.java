@@ -1,6 +1,8 @@
 package ui;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,6 +13,8 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import model.ProjectList;
+import ui.panels.AddProjectDialog;
+import ui.panels.ProjectListView;
 
 // ATTRIBUTION: SmartHome
 // ATTRIBUTION: Oracle Java Swing Components Tutorial
@@ -20,6 +24,7 @@ public class ProjectTrackerUI extends JFrame {
     public static final int HEIGHT = 400;
 
     private ProjectList projectList;
+    private ProjectListView projectListView;
 
     public static void main(String[] args) {
         new ProjectTrackerUI();
@@ -36,8 +41,8 @@ public class ProjectTrackerUI extends JFrame {
 
         createMenu();
 
-        JLabel testText = new JLabel("Test");
-        add(testText);
+        projectListView = new ProjectListView(this);
+        setContentPane(projectListView);
 
         pack();
         setLocationRelativeTo(null);
@@ -64,4 +69,17 @@ public class ProjectTrackerUI extends JFrame {
 
         setJMenuBar(menuBar);
     }
+
+    // MODIFIES: this
+    // EFFECTS: opens a dialog allowing user to add a project
+    public void showAddProjectDialog() {
+        new AddProjectDialog(this);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds a project
+    public void addProject(String name, String description) {
+        System.out.println(name + description);
+    }
+
 }
