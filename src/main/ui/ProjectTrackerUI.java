@@ -12,9 +12,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
+import model.Project;
 import model.ProjectList;
 import ui.panels.AddProjectDialog;
 import ui.panels.ProjectListView;
+import ui.panels.ProjectView;
 
 // ATTRIBUTION: SmartHome
 // ATTRIBUTION: Oracle Java Swing Components Tutorial
@@ -25,6 +27,7 @@ public class ProjectTrackerUI extends JFrame {
 
     private ProjectList projectList;
     private ProjectListView projectListView;
+    private Project selectedProject;
 
     public static void main(String[] args) {
         new ProjectTrackerUI();
@@ -77,9 +80,25 @@ public class ProjectTrackerUI extends JFrame {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds a project
+    // EFFECTS: adds a project and updates projectListView 
     public void addProject(String name, String description) {
-        System.out.println(name + description);
+        Project newProject = new Project(name, description);
+        projectList.addProject(newProject);
+        projectListView = new ProjectListView(this);
+        setContentPane(projectListView);
+        projectListView.revalidate();
+        projectListView.repaint();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: selects the given project and switches panel to ProjectView
+    public void selectProject(Project project) {
+        selectedProject = project;
+        ProjectView projectView = new ProjectView(this, project);
+        setContentPane(projectView);
+        projectView.revalidate();
+        projectView.repaint();
+        
     }
 
 }

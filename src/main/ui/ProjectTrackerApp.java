@@ -707,7 +707,7 @@ public class ProjectTrackerApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: loads workroom from file
+    // EFFECTS: loads project list from file
     private void loadProjectList() {
         try {
             projectList = jsonReader.read();
