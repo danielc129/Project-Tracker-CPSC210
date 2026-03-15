@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -77,5 +79,9 @@ public class LeafTaskTest {
         task1.setCompletion(true);
         assertEquals("[X] Name 2: Description 2 (Due: May 3, 2025 | Weight: 10)", task1.getStringFormat());
     }
-     
+    
+    @Test
+    public void testGetDescendants() {
+        assertEquals(List.of(task1), task1.getDescendants());
+    }
 }

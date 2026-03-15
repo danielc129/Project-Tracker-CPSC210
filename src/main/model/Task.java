@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 import persistence.Writable;
 
 // Represents a task 
@@ -58,6 +60,9 @@ public abstract class Task implements Writable {
 
     // EFFECTS: returns whether the task has been completed
     public abstract boolean isCompleted();
+
+    // EFFECTS: returns a list of all of this task's descendants, including itself
+    public abstract List<Task> getDescendants();
 
     // EFFECTS: returns the depth of the task
     public int getDepth() {

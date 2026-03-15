@@ -347,4 +347,10 @@ public class BranchTaskTest {
         assertEquals(1, leaf2.getDepth());
         assertEquals(1, leaf3.getDepth());
     }
+
+    @Test
+    public void testGetDescendants() {
+        List<Task> expectedResult = List.of(branch6, branch5, leaf9, leaf10, leaf11);
+        assertEquals(expectedResult, branch6.getDescendants());
+    }
 }

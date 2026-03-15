@@ -197,4 +197,17 @@ public class BranchTask extends Task {
         }
     }
 
+    // EFFECTS: returns a list of all of this task's descendants, including itself
+    //          this task is the first element of the list, direct subtasks are 
+    //          ordered by due date
+    public List<Task> getDescendants() {
+        ArrayList<Task> result = new ArrayList<>();
+        result.add(this);
+        List<Task> sortedSubtasks = getSortedSubtasks();
+        for (Task subtask : sortedSubtasks) {
+            result.addAll(subtask.getDescendants());
+        }
+        return result;
+    }
+
 }

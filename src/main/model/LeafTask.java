@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONObject;
 
 // Represents a task with no subtasks of its own
@@ -91,6 +94,14 @@ public class LeafTask extends Task {
     @Override
     public void setDepth(int depth) {
         this.depth = depth;
+    }
+
+    // EFFECTS: returns this task as the only element in a list
+    @Override
+    public List<Task> getDescendants() {
+        ArrayList<Task> result = new ArrayList<>();
+        result.add(this);
+        return result;
     }
     
 }
