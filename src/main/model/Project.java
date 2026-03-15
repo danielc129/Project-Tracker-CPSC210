@@ -154,4 +154,14 @@ public class Project implements Writable {
         json.put("progress_history", progressHistoryArray);
         return json;
     }
+
+    // EFFECTS: returns all descendant tasks as a single dimensional list, preserving the 
+    //          order that the tasks would be shown in a hierarchy view 
+    public List<Task> getDescendantTasks() {
+        ArrayList<Task> result = new ArrayList<>();
+        for (Task task : this.getSortedTasks()) {
+            result.addAll(task.getDescendants());
+        }
+        return result;
+    }
 }

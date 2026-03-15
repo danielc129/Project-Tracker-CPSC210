@@ -194,4 +194,12 @@ public class ProjectTest {
         expectedResult.add(leaf3);
         assertEquals(expectedResult, result);
     }
+
+    @Test
+    public void testGetDescendantTasks() {
+        project1.addTask(branch2);
+        project1.addTask(leaf1);
+        List<Task> expectedResult = List.of(leaf1, branch2, branch1, leaf2, leaf3);
+        assertEquals(expectedResult, project1.getDescendantTasks());
+    }
 }
