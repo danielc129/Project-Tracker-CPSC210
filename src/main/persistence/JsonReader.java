@@ -98,6 +98,7 @@ public class JsonReader {
     private BranchTask parseBranchTask(JSONObject jsonObject) {
         String name = jsonObject.getString("name");
         String description = jsonObject.getString("description");
+        int depth = jsonObject.getInt("depth");
         ArrayList<Task> subtasks = new ArrayList<>();
         for (Object json : jsonObject.getJSONArray("subtasks")) {
             JSONObject subtaskObject = (JSONObject) json;
@@ -110,7 +111,7 @@ public class JsonReader {
                 subtasks.add(subtask);
             }
         }
-        BranchTask task = new BranchTask(name, description, subtasks);
+        BranchTask task = new BranchTask(name, description, subtasks, depth);
         return task;
     }
 
@@ -122,9 +123,10 @@ public class JsonReader {
         int dueDateMonth = jsonObject.getInt("due_date_month");
         int dueDateYear = jsonObject.getInt("due_date_year");
         int weight = jsonObject.getInt("weight");
+        int depth = jsonObject.getInt("depth");
         boolean completionstatus = jsonObject.getBoolean("completion_status");
         Date dueDate = new Date(dueDateDay, dueDateMonth, dueDateYear);
-        LeafTask task = new LeafTask(name, description, dueDate, weight);
+        LeafTask task = new LeafTask(name, description, dueDate, weight, depth);
         task.setCompletion(completionstatus);
         return task;
     }

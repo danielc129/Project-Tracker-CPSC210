@@ -9,9 +9,9 @@ public class LeafTask extends Task {
     private int weight;
     private boolean isCompleted;
 
-    // EFFECTS: creates a leaf task (task with no subtasks) with the given name, description, due date, and weight
-    public LeafTask(String name, String description, Date dueDate, int weight) {
-        super(name, description);
+    // EFFECTS: creates a leaf task (task with no subtasks) with the given name, description, due date, weight, and depth
+    public LeafTask(String name, String description, Date dueDate, int weight, int depth) {
+        super(name, description, depth);
         this.dueDate = dueDate;
         this.weight = weight;
         this.isCompleted = false;
@@ -80,8 +80,17 @@ public class LeafTask extends Task {
         json.put("due_date_month", dueDate.getMonth());
         json.put("due_date_year", dueDate.getYear());
         json.put("weight", weight);
+        json.put("depth", depth);
         json.put("completion_status", isCompleted);
         return json;
+    }
+
+    // REQUIRES: depth >= 0
+    // MODIFIES: this
+    // EFFECTS: sets the depth to the given depth
+    @Override
+    public void setDepth(int depth) {
+        this.depth = depth;
     }
     
 }

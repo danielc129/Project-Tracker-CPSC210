@@ -434,7 +434,7 @@ public class ProjectTrackerApp {
         System.out.print("\nEnter completion weighting: ");
         int weight = input.nextInt();
         input.nextLine();
-        Task newTask = new LeafTask(name, description, dueDate, weight);
+        Task newTask = new LeafTask(name, description, dueDate, weight, 0);
         addTask(newTask);
         currentProject.updateProgressHistory();
     }
@@ -456,6 +456,7 @@ public class ProjectTrackerApp {
     //          if there is already a task with the same name at the current level, do nothing
     private void addTaskToCurrentTask(Task subtask) {
         if (utilities.isLeafTask(currentTask)) {
+            subtask.setDepth(currentTask.getDepth() + 1);
             addTaskToCurrentLeafTask(subtask);
         } else {
             BranchTask currentBranchTask = ((BranchTask) currentTask);
@@ -476,7 +477,7 @@ public class ProjectTrackerApp {
         String existingDescription = currentTask.getDescription();
         ArrayList<Task> subtaskList = new ArrayList<>();
         subtaskList.add(subtask);
-        BranchTask newBranchTask = new BranchTask(existingName, existingDescription, subtaskList);
+        BranchTask newBranchTask = new BranchTask(existingName, existingDescription, subtaskList, currentTask.getDepth());
 
         removeTaskSkipSideEffects();
 
@@ -495,6 +496,7 @@ public class ProjectTrackerApp {
     //         if there is already a task with the same name in the project root level, do nothing
     private void addTaskToRoot(Task task) {
         if (!utilities.containsTaskWithName(currentProject.getTasks(), task.getName())) {
+            task.setDepth(0);
             currentProject.addTask(task);
         } else {
             System.out.println("There is already a task with that name at the current level");
@@ -557,7 +559,7 @@ public class ProjectTrackerApp {
         int weight = input.nextInt();
 
         BranchTask parentTask = (BranchTask) taskStack.get(taskStack.size() - 1);
-        LeafTask newLeafTask = new LeafTask(parentTask.getName(), parentTask.getDescription(), date, weight);
+        LeafTask newLeafTask = new LeafTask(parentTask.getName(), parentTask.getDescription(), date, weight, parentTask.getDepth());
         if (taskStack.size() == 1) {
             currentProject.removeTask(parentTask);
             currentProject.addTask(newLeafTask);

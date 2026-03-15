@@ -8,10 +8,12 @@
                     "name": "Task 1",
                     "type": "branch",
                     "description": "Task 1 Description",
+                    "depth": 0,
                     "subtasks": [
                         {
                             "name": "Task 2",
                             "type": "leaf",
+                            "depth": 1,
                             "description": "Task 2 Description",
                             "due_date_day": 21,
                             "due_date_month": 2,
@@ -24,6 +26,7 @@
                 {
                     "name": "Task 3",
                     "type": "leaf",
+                    "depth": 0,
                     "description": "Task 3 Description",
                     "due_date_day": 20,
                     "due_date_month": 2,

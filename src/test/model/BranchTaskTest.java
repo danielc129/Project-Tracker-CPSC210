@@ -35,53 +35,54 @@ public class BranchTaskTest {
 
     @BeforeEach
     public void setup() {
-        leaf1 = new LeafTask("Leaf Task 1", "Test Description L1", new Date(1, 1, 2026), 10);
-        leaf2 = new LeafTask("Leaf Task 2", "Test Description L2", new Date(5, 1, 2026), 5);
-        leaf3 = new LeafTask("Leaf Task 3", "Test Description L3", new Date(3, 1, 2026), 20);
+        leaf1 = new LeafTask("Leaf Task 1", "Test Description L1", new Date(1, 1, 2026), 10, 1);
+        leaf2 = new LeafTask("Leaf Task 2", "Test Description L2", new Date(5, 1, 2026), 5, 2);
+        leaf3 = new LeafTask("Leaf Task 3", "Test Description L3", new Date(3, 1, 2026), 20, 3);
         ArrayList<Task> subtaskList1 = new ArrayList<>();
         subtaskList1.add(leaf1);
         subtaskList1.add(leaf2);
         subtaskList1.add(leaf3);
-        branch1 = new BranchTask("Branch Task 1", "Test Description B1", subtaskList1);
+        branch1 = new BranchTask("Branch Task 1", "Test Description B1", subtaskList1, 0);
 
-        leaf4 = new LeafTask("Leaf Task 6", "Test Description L6", new Date(4, 11, 2025), 30);
+        leaf4 = new LeafTask("Leaf Task 6", "Test Description L6", new Date(4, 11, 2025), 30, 2);
         ArrayList<Task> subtaskList2 = new ArrayList<>();
         subtaskList2.add(leaf4);
-        branch2 = new BranchTask("Branch Task 3", "Test Description B3", subtaskList2);
+        branch2 = new BranchTask("Branch Task 3", "Test Description B3", subtaskList2, 0);
 
-        leaf5 = new LeafTask("Leaf Task 4", "Test Description L4", new Date(5, 3, 2025), 25);
-        leaf6 = new LeafTask("Leaf Task 5", "Test Description L5", new Date(6, 2, 2025), 3);
+        leaf5 = new LeafTask("Leaf Task 4", "Test Description L4", new Date(5, 3, 2025), 25, 1);
+        leaf6 = new LeafTask("Leaf Task 5", "Test Description L5", new Date(6, 2, 2025), 3, 1);
         ArrayList<Task> subtaskList3 = new ArrayList<>();
         subtaskList3.add(branch2);
         subtaskList3.add(leaf5);
         subtaskList3.add(leaf6);
-        branch3 = new BranchTask("Branch Task 2", "Test Description B2", subtaskList3);
+        branch3 = new BranchTask("Branch Task 2", "Test Description B2", subtaskList3, 0);
 
-        leaf7 = new LeafTask("Leaf Task 7", "Test Description L7", new Date(7, 6, 2025), 50);
+        leaf7 = new LeafTask("Leaf Task 7", "Test Description L7", new Date(7, 6, 2025), 50, 0);
         
-        leaf8 = new LeafTask("Leaf Task 8", "Test Description L8", new Date(7, 1, 2025), 10);
+        leaf8 = new LeafTask("Leaf Task 8", "Test Description L8", new Date(7, 1, 2025), 10, 1);
         ArrayList<Task> subtaskList4 = new ArrayList<>();
         subtaskList4.add(leaf8);
-        branch4 = new BranchTask("Branch Task 4", "Test Description B4", subtaskList4);
+        branch4 = new BranchTask("Branch Task 4", "Test Description B4", subtaskList4, 0);
 
-        leaf9 = new LeafTask("Leaf Task 9", "Test Description L9", new Date(8, 3, 2025), 10);
-        leaf10 = new LeafTask("Leaf Task 10", "Test Description L10", new Date(9, 4, 2025), 20);
+        leaf9 = new LeafTask("Leaf Task 9", "Test Description L9", new Date(8, 3, 2025), 10, 1);
+        leaf10 = new LeafTask("Leaf Task 10", "Test Description L10", new Date(9, 4, 2025), 20, 1);
         ArrayList<Task> subtaskList5 = new ArrayList<>();
         subtaskList5.add(leaf9);
         subtaskList5.add(leaf10);
-        branch5 = new BranchTask("Branch Task 5", "Test Description B5", subtaskList5);
+        branch5 = new BranchTask("Branch Task 5", "Test Description B5", subtaskList5, 0);
 
-        leaf11 = new LeafTask("Leaf Task 11", "Test Description L11", new Date(10, 5, 2025), 15);
+        leaf11 = new LeafTask("Leaf Task 11", "Test Description L11", new Date(10, 5, 2025), 15, 1);
         ArrayList<Task> subtaskList6 = new ArrayList<>();
         subtaskList6.add(branch5);
         subtaskList6.add(leaf11);
-        branch6 = new BranchTask("Branch Task 6", "Test Description B6", subtaskList6);
+        branch6 = new BranchTask("Branch Task 6", "Test Description B6", subtaskList6, 0);
     }
 
     @Test
     public void testConstructor() {
         assertEquals("Branch Task 2", branch3.getName());
         assertEquals("Test Description B2", branch3.getDescription());
+        assertEquals(0, branch3.getDepth());
         ArrayList<Task> expectedSubtasks = new ArrayList<>();
         expectedSubtasks.add(branch2);
         expectedSubtasks.add(leaf5);
@@ -99,7 +100,9 @@ public class BranchTaskTest {
         expectedSubtasks.add(leaf2);
         expectedSubtasks.add(leaf3);
         expectedSubtasks.add(leaf7);
+        assertEquals(0, leaf7.getDepth());
         branch1.addSubtask(leaf7);
+        assertEquals(1, leaf7.getDepth());
         assertEquals(expectedSubtasks, branch1.getSubtasks());
 
         ArrayList<Task> expectedSubtasks2 = new ArrayList<>();
@@ -125,8 +128,8 @@ public class BranchTaskTest {
         expectedSubtasks2.add(branch2);
         expectedSubtasks2.add(leaf5);
         expectedSubtasks2.add(leaf6);
-        expectedSubtasks2.add(branch1);
-        branch3.addSubtask(branch1);
+        expectedSubtasks2.add(branch5);
+        branch3.addSubtask(branch5);
         assertEquals(expectedSubtasks2, branch3.getSubtasks());
     }
 
@@ -263,27 +266,27 @@ public class BranchTaskTest {
 
     @Test
     public void testGetSortedSubtasksAlreadyInOrder() {
-        LeafTask leafA = new LeafTask("", "", new Date(3, 1, 2025), 5);
-        LeafTask leafB = new LeafTask("", "", new Date(2, 1, 2025), 5);
-        LeafTask leafC = new LeafTask("", "", new Date(1, 1, 2025), 5);
+        LeafTask leafA = new LeafTask("", "", new Date(3, 1, 2025), 5, 0);
+        LeafTask leafB = new LeafTask("", "", new Date(2, 1, 2025), 5, 0);
+        LeafTask leafC = new LeafTask("", "", new Date(1, 1, 2025), 5, 0);
         ArrayList<Task> inputTasks = new ArrayList<>();
         inputTasks.add(leafC);
         inputTasks.add(leafB);
         inputTasks.add(leafA);
-        BranchTask branchTask = new BranchTask("", "", inputTasks);
+        BranchTask branchTask = new BranchTask("", "", inputTasks, 0);
         assertEquals(inputTasks, branchTask.getSortedSubtasks());
     }
 
     @Test
     public void testGetSortedSubtasksReverseOrder() {
-        LeafTask leafA = new LeafTask("", "", new Date(3, 1, 2025), 5);
-        LeafTask leafB = new LeafTask("", "", new Date(2, 1, 2025), 5);
-        LeafTask leafC = new LeafTask("", "", new Date(1, 1, 2025), 5);
+        LeafTask leafA = new LeafTask("", "", new Date(3, 1, 2025), 5, 0);
+        LeafTask leafB = new LeafTask("", "", new Date(2, 1, 2025), 5, 0);
+        LeafTask leafC = new LeafTask("", "", new Date(1, 1, 2025), 5, 0);
         ArrayList<Task> inputTasks = new ArrayList<>();
         inputTasks.add(leafA);
         inputTasks.add(leafB);
         inputTasks.add(leafC);
-        BranchTask branchTask = new BranchTask("", "", inputTasks);
+        BranchTask branchTask = new BranchTask("", "", inputTasks, 0);
         ArrayList<Task> expectedResult = new ArrayList<>();
         expectedResult.add(leafC);
         expectedResult.add(leafB);
@@ -293,14 +296,14 @@ public class BranchTaskTest {
 
     @Test
     public void testGetSortedSubtasksMixedOrder() {
-        LeafTask leafA = new LeafTask("", "", new Date(3, 1, 2025), 5);
-        LeafTask leafB = new LeafTask("", "", new Date(2, 1, 2025), 5);
-        LeafTask leafC = new LeafTask("", "", new Date(1, 1, 2025), 5);
+        LeafTask leafA = new LeafTask("", "", new Date(3, 1, 2025), 5, 0);
+        LeafTask leafB = new LeafTask("", "", new Date(2, 1, 2025), 5, 0);
+        LeafTask leafC = new LeafTask("", "", new Date(1, 1, 2025), 5, 0);
         ArrayList<Task> inputTasks = new ArrayList<>();
         inputTasks.add(leafC);
         inputTasks.add(leafA);
         inputTasks.add(leafB);
-        BranchTask branchTask = new BranchTask("", "", inputTasks);
+        BranchTask branchTask = new BranchTask("", "", inputTasks, 0);
         ArrayList<Task> expectedResult = new ArrayList<>();
         expectedResult.add(leafC);
         expectedResult.add(leafB);
@@ -329,5 +332,19 @@ public class BranchTaskTest {
         expectedResult.add(leaf5);
         expectedResult.add(leaf6);
         assertEquals(expectedResult, result);
+    }
+
+    @Test
+    public void testSetDepth() {
+        branch1.setDepth(5);
+        assertEquals(5, branch1.getDepth());
+        assertEquals(6, leaf1.getDepth());
+        assertEquals(6, leaf2.getDepth());
+        assertEquals(6, leaf3.getDepth());
+        branch1.setDepth(0);
+        assertEquals(0, branch1.getDepth());
+        assertEquals(1, leaf1.getDepth());
+        assertEquals(1, leaf2.getDepth());
+        assertEquals(1, leaf3.getDepth());
     }
 }

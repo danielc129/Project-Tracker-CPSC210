@@ -12,8 +12,11 @@
         }
     ],
     "tasks": [{
+        "depth": 0,
         "subtasks": [{
+            "depth": 1,
             "subtasks": [{
+                "depth": 2,
                 "due_date_year": 2026,
                 "name": "Task 3",
                 "completion_status": false,

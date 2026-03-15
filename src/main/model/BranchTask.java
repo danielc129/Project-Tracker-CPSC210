@@ -12,9 +12,9 @@ public class BranchTask extends Task {
     private List<Task> subtasks;
 
     // REQUIRES: subtasks is not empty
-    // EFFECTS: creates a branch task (task with subtasks) with the given name, description, and subtasks
-    public BranchTask(String name, String description, List<Task> subtasks) {
-        super(name, description);
+    // EFFECTS: creates a branch task (task with subtasks) with the given name, description, subtasks, and depth
+    public BranchTask(String name, String description, List<Task> subtasks, int depth) {
+        super(name, description, depth);
         this.subtasks = subtasks;
     }
 
@@ -22,6 +22,7 @@ public class BranchTask extends Task {
     // EFFECTS: adds the given task as a subtask to this task
     public void addSubtask(Task task) {
         this.subtasks.add(task);
+        task.setDepth(this.depth + 1);
     }
 
     // REQUIRES: getSubtasks().length() > 1, given task is in the list of subtasks
@@ -175,12 +176,25 @@ public class BranchTask extends Task {
         json.put("name", name);
         json.put("type", "branch");
         json.put("description", description);
+        json.put("depth", depth);
         JSONArray subtasksArray = new JSONArray();
         for (Task subtask : subtasks) {
             subtasksArray.put(subtask.toJson());
         }
         json.put("subtasks", subtasksArray);
         return json;
+    }
+    
+    // REQUIRES: depth >= 0
+    // MODIFIES: this
+    // EFFECTS: sets the depth of this task to the given depth, ensuring that
+    //          subtask depths are updated to maintain correctness
+    @Override
+    public void setDepth(int depth) {
+        this.depth = depth;
+        for (Task subtask : subtasks) {
+            subtask.setDepth(depth + 1);
+        }
     }
 
 }

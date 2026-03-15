@@ -7,6 +7,7 @@
                 {
                     "name": "Task 3",
                     "type": "leaf",
+                    "depth": 0,
                     "description": "Task 3 Description",
                     "due_date_day": 20,
                     "due_date_month": 2,
@@ -33,6 +34,7 @@
                 {
                     "name": "Task 1",
                     "type": "leaf",
+                    "depth": 0,
                     "description": "Task 1 Description",
                     "due_date_day": 15,
                     "due_date_month": 1,

@@ -13,6 +13,7 @@
             }
         ],
         "tasks": [{
+            "depth": 0,
             "due_date_year": 2026,
             "name": "Task 3",
             "completion_status": false,
@@ -31,6 +32,7 @@
             "time": "2026-02-21T15:14:20"
         }],
         "tasks": [{
+            "depth": 0,
             "due_date_year": 2026,
             "name": "Task 1",
             "completion_status": true,

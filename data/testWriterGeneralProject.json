@@ -13,7 +13,9 @@
     ],
     "tasks": [
         {
+            "depth": 0,
             "subtasks": [{
+                "depth": 1,
                 "due_date_year": 2026,
                 "name": "Task 2",
                 "completion_status": true,
@@ -28,6 +30,7 @@
             "type": "branch"
         },
         {
+            "depth": 0,
             "due_date_year": 2026,
             "name": "Task 3",
             "completion_status": false,

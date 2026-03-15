@@ -10,11 +10,14 @@ public abstract class Task implements Writable {
     protected String name;
     protected String description;
     protected Utilities utilities;
+    protected int depth;
 
-    // EFFECTS: creates a task with the given name and description
-    public Task(String name, String description) {
+    // REQUIRES: depth >= 0
+    // EFFECTS: creates a task with the given name, description, and depth
+    public Task(String name, String description, int depth) {
         this.name = name;
         this.description = description;
+        this.depth = depth;
         this.utilities = new Utilities();
     }
 
@@ -55,5 +58,15 @@ public abstract class Task implements Writable {
 
     // EFFECTS: returns whether the task has been completed
     public abstract boolean isCompleted();
+
+    // EFFECTS: returns the depth of the task
+    public int getDepth() {
+        return depth;
+    }
+
+    // REQUIRES: depth >= 0
+    // MODIFIES: this
+    // EFFECTS: sets the depth of the task to the given depth
+    public abstract void setDepth(int depth);
 
 }

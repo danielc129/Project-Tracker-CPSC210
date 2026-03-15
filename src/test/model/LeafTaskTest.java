@@ -15,7 +15,7 @@ public class LeafTaskTest {
 
     @BeforeEach
     public void setup() {
-        task1 = new LeafTask("Test Name 1", "Test Description 1", new Date(15, 2, 2026), 20);
+        task1 = new LeafTask("Test Name 1", "Test Description 1", new Date(15, 2, 2026), 20, 0);
     }
 
     @Test
@@ -26,6 +26,7 @@ public class LeafTaskTest {
         assertEquals(2, task1.getDueDate().getMonth());
         assertEquals(2026, task1.getDueDate().getYear());
         assertEquals(20, task1.getWeight());
+        assertEquals(0, task1.getDepth());
         assertFalse(task1.isCompleted());
     }
 
@@ -56,6 +57,14 @@ public class LeafTaskTest {
         assertTrue(task1.isCompleted());
         task1.setCompletion(false);
         assertFalse(task1.isCompleted());
+    }
+
+    @Test
+    public void testSetDepth() {
+        task1.setDepth(3);
+        assertEquals(3, task1.getDepth());
+        task1.setDepth(0);
+        assertEquals(0, task1.getDepth());
     }
 
     @Test

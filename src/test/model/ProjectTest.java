@@ -25,16 +25,16 @@ public class ProjectTest {
     @BeforeEach
     public void setup() {
         project1 = new Project("Test Project 1", "Test Description 1");
-        leaf1 = new LeafTask("Leaf Task 1", "Test Description L1", new Date(1, 1, 2026), 10);
-        leaf2 = new LeafTask("Leaf Task 2", "Test Description L2", new Date(2, 1, 2026), 5);
-        leaf3 = new LeafTask("Leaf Task 3", "Test Description L3", new Date(3, 1, 2026), 10);
+        leaf1 = new LeafTask("Leaf Task 1", "Test Description L1", new Date(1, 1, 2026), 10, 0);
+        leaf2 = new LeafTask("Leaf Task 2", "Test Description L2", new Date(2, 1, 2026), 5, 2);
+        leaf3 = new LeafTask("Leaf Task 3", "Test Description L3", new Date(3, 1, 2026), 10, 2);
         ArrayList<Task> subtasks1 = new ArrayList<>();
         subtasks1.add(leaf2);
         subtasks1.add(leaf3);
-        branch1 = new BranchTask("Branch Task 1", "Test Description B1", subtasks1);
+        branch1 = new BranchTask("Branch Task 1", "Test Description B1", subtasks1, 1);
         ArrayList<Task> subtasks2 = new ArrayList<>();
         subtasks2.add(branch1);
-        branch2 = new BranchTask("Branch Task 2", "Test Description B2", subtasks2);
+        branch2 = new BranchTask("Branch Task 2", "Test Description B2", subtasks2, 0);
     }
 
     @Test
@@ -97,9 +97,9 @@ public class ProjectTest {
 
     @Test
     public void testGetSortedSubtasksAlreadyInOrder() {
-        LeafTask leafA = new LeafTask("", "", new Date(3, 1, 2025), 5);
-        LeafTask leafB = new LeafTask("", "", new Date(2, 1, 2025), 5);
-        LeafTask leafC = new LeafTask("", "", new Date(1, 1, 2025), 5);
+        LeafTask leafA = new LeafTask("", "", new Date(3, 1, 2025), 5, 0);
+        LeafTask leafB = new LeafTask("", "", new Date(2, 1, 2025), 5, 0);
+        LeafTask leafC = new LeafTask("", "", new Date(1, 1, 2025), 5, 0);
         ArrayList<Task> inputTasks = new ArrayList<>();
         inputTasks.add(leafC);
         inputTasks.add(leafB);
@@ -112,9 +112,9 @@ public class ProjectTest {
 
     @Test
     public void testGetSortedTasksAlreadyReverseOrder() {
-        LeafTask leafA = new LeafTask("", "", new Date(3, 1, 2025), 5);
-        LeafTask leafB = new LeafTask("", "", new Date(2, 1, 2025), 5);
-        LeafTask leafC = new LeafTask("", "", new Date(1, 1, 2025), 5);
+        LeafTask leafA = new LeafTask("", "", new Date(3, 1, 2025), 5, 0);
+        LeafTask leafB = new LeafTask("", "", new Date(2, 1, 2025), 5, 0);
+        LeafTask leafC = new LeafTask("", "", new Date(1, 1, 2025), 5, 0);
         project1.addTask(leafA);
         project1.addTask(leafB);
         project1.addTask(leafC);
@@ -127,9 +127,9 @@ public class ProjectTest {
 
     @Test
     public void testGetSortedTasksMixedOrder() {
-        LeafTask leafA = new LeafTask("", "", new Date(3, 1, 2025), 5);
-        LeafTask leafB = new LeafTask("", "", new Date(2, 1, 2025), 5);
-        LeafTask leafC = new LeafTask("", "", new Date(1, 1, 2025), 5);
+        LeafTask leafA = new LeafTask("", "", new Date(3, 1, 2025), 5, 0);
+        LeafTask leafB = new LeafTask("", "", new Date(2, 1, 2025), 5, 0);
+        LeafTask leafC = new LeafTask("", "", new Date(1, 1, 2025), 5, 0);
         project1.addTask(leafC);
         project1.addTask(leafA);
         project1.addTask(leafB);
