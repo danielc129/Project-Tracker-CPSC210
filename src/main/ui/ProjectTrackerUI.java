@@ -3,6 +3,7 @@ package ui;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,9 +13,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
+import model.Date;
+import model.LeafTask;
 import model.Project;
 import model.ProjectList;
 import ui.panels.AddProjectDialog;
+import ui.panels.AddTaskDialog;
 import ui.panels.ProjectListView;
 import ui.panels.ProjectView;
 
@@ -80,6 +84,12 @@ public class ProjectTrackerUI extends JFrame {
     }
 
     // MODIFIES: this
+    // EFFECTS: opens a dialog allowing user to add a root-level task to the given project
+    public void showAddProjectLevelTaskDialog(Project project) {
+        new AddTaskDialog(this, project, true);
+    }
+
+    // MODIFIES: this
     // EFFECTS: adds a project and updates projectListView 
     public void addProject(String name, String description) {
         Project newProject = new Project(name, description);
@@ -92,13 +102,27 @@ public class ProjectTrackerUI extends JFrame {
 
     // MODIFIES: this
     // EFFECTS: selects the given project and switches panel to ProjectView
-    public void selectProject(Project project) {
+    public void selectProject(Project project){
         selectedProject = project;
         ProjectView projectView = new ProjectView(this, project);
+
         setContentPane(projectView);
         projectView.revalidate();
         projectView.repaint();
         
+    }
+
+    // MODIFIES: this, project 
+    // EFFECTS: adds a leaf task with the given name, description, weight, and due date as a 
+    //          root-level task to the given project
+    //          updates ProjectView
+    public void addTaskToRoot(Project project, String name, String description, int weight, Date dueDate) {
+        LeafTask newTask = new LeafTask(name, description, dueDate, weight, 0);
+        project.addTask(newTask);
+        ProjectView newProjectView = new ProjectView(this, project);
+
+        newProjectView.revalidate();
+        newProjectView.repaint();
     }
 
 }
