@@ -72,6 +72,12 @@ public class LeafTask extends Task {
         return result;
     }
 
+    // EFFECTS: returns a string representation of this task
+    @Override
+    public String getStringFormatNoSubtasks() {
+        return getStringFormat();
+    }
+
     // EFFECTS: returns this as a JSON object
     @Override
     public JSONObject toJson() {

@@ -38,6 +38,9 @@ public abstract class Task implements Writable {
     // EFFECTS: returns a string representation of the task, suitable for command line viewing
     public abstract String getStringFormat();
 
+    // EFFECTS: returns a string representation of only this task, not including any subtasks
+    public abstract String getStringFormatNoSubtasks();
+
     // MODIFIES: this
     // EFFECTS: sets the completion status of the task to the given boolean
     public abstract void setCompletion(boolean completionStatus);

@@ -265,6 +265,11 @@ public class BranchTaskTest {
     }
 
     @Test
+    public void testGetStringFormatNoSubtasks() {
+        assertEquals("[ ] Branch Task 1: Test Description B1 (Due: January 5, 2026 | Progress: 0%)", branch1.getStringFormatNoSubtasks());
+    }
+
+    @Test
     public void testGetSortedSubtasksAlreadyInOrder() {
         LeafTask leafA = new LeafTask("", "", new Date(3, 1, 2025), 5, 0);
         LeafTask leafB = new LeafTask("", "", new Date(2, 1, 2025), 5, 0);

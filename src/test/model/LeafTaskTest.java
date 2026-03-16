@@ -79,6 +79,11 @@ public class LeafTaskTest {
         task1.setCompletion(true);
         assertEquals("[X] Name 2: Description 2 (Due: May 3, 2025 | Weight: 10)", task1.getStringFormat());
     }
+
+    @Test
+    public void testGetStringFormatNoSubtasks() {
+        assertEquals("[ ] Test Name 1: Test Description 1 (Due: February 15, 2026 | Weight: 20)", task1.getStringFormatNoSubtasks());
+    }
     
     @Test
     public void testGetDescendants() {
