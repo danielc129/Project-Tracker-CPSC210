@@ -268,6 +268,8 @@ public class BranchTaskTest {
     public void testGetStringFormatNoSubtasksNoDescription() {
         branch1.setDepth(2);
         assertEquals("        [ ] Branch Task 1 (Due: January 5, 2026 | Progress: 0%)", branch1.getStringFormatNoSubtasksNoDescription());
+        branch1.setCompletion(true);
+        assertEquals("        [X] Branch Task 1 (Due: January 5, 2026 | Progress: 100%)", branch1.getStringFormatNoSubtasksNoDescription());
     }
 
     @Test
