@@ -122,14 +122,6 @@ public class BranchTask extends Task {
     //          indented by 4 spaces
     @Override
     public String getStringFormat() {
-        String result = getStringFormatNoSubtasks();
-        result = result + getSubtasksStringRepresentation();
-        return result;
-    }
-
-    // EFFECTS: returns a string representation of this task, not including subtasks
-    @Override
-    public String getStringFormatNoSubtasks() {
         String result = "";
         if (isCompleted()) {
             result = "[X] "; 
@@ -138,6 +130,23 @@ public class BranchTask extends Task {
         }
         result = result + this.name + ": " + utilities.shortenString(this.description, DESCRIPTION_MAX_LENGTH) 
             + " (Due: " + this.getDueDate().getDateAsString() + " | Progress: " 
+            + this.getCompletionPercentage() + "%)";
+        result = result + getSubtasksStringRepresentation();
+        return result;
+    }
+
+    // EFFECTS: returns a string representation of this task, not including subtasks and not including description
+    //          indented
+    //          Adds indent based on the depth of this task
+    @Override
+    public String getStringFormatNoSubtasksNoDescription() {
+        String result = INDENT.repeat(depth);
+        if (isCompleted()) {
+            result += "[X] "; 
+        } else {
+            result += "[ ] ";
+        }
+        result = result + this.name + " " + "(Due: " + this.getDueDate().getDateAsString() + " | Progress: " 
             + this.getCompletionPercentage() + "%)";
         return result;
     }
@@ -166,7 +175,7 @@ public class BranchTask extends Task {
             String subtaskResultIndentFixed = "";
             for (int i = 0; i < subtaskResult.length(); i++) {
                 if (subtaskResult.charAt(i) == '\n') {
-                    subtaskResultIndentFixed = subtaskResultIndentFixed + "\n    ";
+                    subtaskResultIndentFixed = subtaskResultIndentFixed + "\n" + INDENT;
                 } else {
                     subtaskResultIndentFixed = subtaskResultIndentFixed + subtaskResult.charAt(i);
                 }

@@ -8,6 +8,7 @@ import persistence.Writable;
 // ATTRIBUTION: Inter-class structure based on D4 (Composite Pattern) Lecture Labs
 public abstract class Task implements Writable {
     protected static final int DESCRIPTION_MAX_LENGTH = 20;
+    protected static final String INDENT = "    ";
 
     protected String name;
     protected String description;
@@ -38,8 +39,9 @@ public abstract class Task implements Writable {
     // EFFECTS: returns a string representation of the task, suitable for command line viewing
     public abstract String getStringFormat();
 
-    // EFFECTS: returns a string representation of only this task, not including any subtasks
-    public abstract String getStringFormatNoSubtasks();
+    // EFFECTS: returns a string representation of only this task, not including any subtasks and not
+    //          including the description. Adds indent based on the depth of this task. 
+    public abstract String getStringFormatNoSubtasksNoDescription();
 
     // MODIFIES: this
     // EFFECTS: sets the completion status of the task to the given boolean

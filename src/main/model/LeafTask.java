@@ -72,10 +72,18 @@ public class LeafTask extends Task {
         return result;
     }
 
-    // EFFECTS: returns a string representation of this task
+    // EFFECTS: returns a string representation of this task, not including description
+    //          and indented based on the depth of this task
     @Override
-    public String getStringFormatNoSubtasks() {
-        return getStringFormat();
+    public String getStringFormatNoSubtasksNoDescription() {
+        String result = INDENT.repeat(depth);
+        if (isCompleted()) {
+            result += "[X] ";
+        } else {
+            result += "[ ] ";
+        }
+        result = result + this.name + " " + "(Due: " + this.dueDate.getDateAsString() + " | Weight: " + this.weight + ")";
+        return result;
     }
 
     // EFFECTS: returns this as a JSON object
