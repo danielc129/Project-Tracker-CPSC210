@@ -26,16 +26,16 @@ public class UtilitiesTest {
     @BeforeEach
     public void setup() {
         utilities = new Utilities();
-        leafA = new LeafTask("LeafA", "", new Date(3, 1, 2025), 5, 0);
-        leafB = new LeafTask("LeafB", "", new Date(2, 1, 2025), 5, 0);
-        leafC = new LeafTask("LeafC", "", new Date(1, 1, 2025), 5, 0);
+        leafA = new LeafTask("LeafA", "", new Date(3, 1, 2025), 5, 0, null);
+        leafB = new LeafTask("LeafB", "", new Date(2, 1, 2025), 5, 0, null);
+        leafC = new LeafTask("LeafC", "", new Date(1, 1, 2025), 5, 0, null);
         projectA = new Project("ProjectA", "");
         projectB = new Project("ProjectB", "");
         projectC = new Project("ProjectC", "");
-        actualLeaf = new LeafTask("", "", new Date(4, 1, 2025), 10, 1);
+        actualLeaf = new LeafTask("", "", new Date(4, 1, 2025), 10, 1, actualBranch);
         ArrayList<Task> subtasksForBranch = new ArrayList<>();
         subtasksForBranch.add(actualLeaf);
-        actualBranch = new BranchTask("", "", subtasksForBranch, 0);
+        actualBranch = new BranchTask("", "", subtasksForBranch, 0, null);
     }
 
     @Test

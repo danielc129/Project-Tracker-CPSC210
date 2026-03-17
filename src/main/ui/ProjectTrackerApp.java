@@ -434,7 +434,7 @@ public class ProjectTrackerApp {
         System.out.print("\nEnter completion weighting: ");
         int weight = input.nextInt();
         input.nextLine();
-        Task newTask = new LeafTask(name, description, dueDate, weight, 0);
+        Task newTask = new LeafTask(name, description, dueDate, weight, 0, null);
         addTask(newTask);
         currentProject.updateProgressHistory();
     }
@@ -477,7 +477,7 @@ public class ProjectTrackerApp {
         String existingDescription = currentTask.getDescription();
         ArrayList<Task> subtaskList = new ArrayList<>();
         subtaskList.add(subtask);
-        BranchTask newBranchTask = new BranchTask(existingName, existingDescription, subtaskList, currentTask.getDepth());
+        BranchTask newBranchTask = new BranchTask(existingName, existingDescription, subtaskList, currentTask.getDepth(), null);
 
         removeTaskSkipSideEffects();
 
@@ -497,6 +497,7 @@ public class ProjectTrackerApp {
     private void addTaskToRoot(Task task) {
         if (!utilities.containsTaskWithName(currentProject.getTasks(), task.getName())) {
             task.setDepth(0);
+            task.setParentTask(null);
             currentProject.addTask(task);
         } else {
             System.out.println("There is already a task with that name at the current level");
@@ -559,7 +560,7 @@ public class ProjectTrackerApp {
         int weight = input.nextInt();
 
         BranchTask parentTask = (BranchTask) taskStack.get(taskStack.size() - 1);
-        LeafTask newLeafTask = new LeafTask(parentTask.getName(), parentTask.getDescription(), date, weight, parentTask.getDepth());
+        LeafTask newLeafTask = new LeafTask(parentTask.getName(), parentTask.getDescription(), date, weight, parentTask.getDepth(), null);
         if (taskStack.size() == 1) {
             currentProject.removeTask(parentTask);
             currentProject.addTask(newLeafTask);

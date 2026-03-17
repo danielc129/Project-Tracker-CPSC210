@@ -14,13 +14,16 @@ public abstract class Task implements Writable {
     protected String description;
     protected Utilities utilities;
     protected int depth;
+    protected Task parentTask;
 
     // REQUIRES: depth >= 0
-    // EFFECTS: creates a task with the given name, description, and depth
-    public Task(String name, String description, int depth) {
+    // EFFECTS: creates a task with the given name, description, depth, and parent task
+    //          if task is at root level, parentTask is null
+    public Task(String name, String description, int depth, Task parentTask) {
         this.name = name;
         this.description = description;
         this.depth = depth;
+        this.parentTask = parentTask;
         this.utilities = new Utilities();
     }
 
@@ -78,5 +81,16 @@ public abstract class Task implements Writable {
     // MODIFIES: this
     // EFFECTS: sets the depth of the task to the given depth
     public abstract void setDepth(int depth);
+
+    // EFFECTS: returns the parent task (null if at root level)
+    public Task getParentTask() {
+        return parentTask;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets the parent task to the given task (null if at root level)
+    public void setParentTask(Task task) {
+        parentTask = task;
+    }
 
 }

@@ -1,5 +1,6 @@
 package model;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,7 +18,7 @@ public class LeafTaskTest {
 
     @BeforeEach
     public void setup() {
-        task1 = new LeafTask("Test Name 1", "Test Description 1", new Date(15, 2, 2026), 20, 0);
+        task1 = new LeafTask("Test Name 1", "Test Description 1", new Date(15, 2, 2026), 20, 0, null);
     }
 
     @Test
@@ -30,6 +31,7 @@ public class LeafTaskTest {
         assertEquals(20, task1.getWeight());
         assertEquals(0, task1.getDepth());
         assertFalse(task1.isCompleted());
+        assertNull(task1.getParentTask());
     }
 
     @Test

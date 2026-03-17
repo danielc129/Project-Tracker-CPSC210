@@ -12,9 +12,10 @@ public class BranchTask extends Task {
     private List<Task> subtasks;
 
     // REQUIRES: subtasks is not empty
-    // EFFECTS: creates a branch task (task with subtasks) with the given name, description, subtasks, and depth
-    public BranchTask(String name, String description, List<Task> subtasks, int depth) {
-        super(name, description, depth);
+    // EFFECTS: creates a branch task (task with subtasks) with the given name, description, subtasks, depth,
+    //          and parent task (parent task is null if at root level)
+    public BranchTask(String name, String description, List<Task> subtasks, int depth, Task parentTask) {
+        super(name, description, depth, parentTask);
         this.subtasks = subtasks;
     }
 
@@ -23,6 +24,7 @@ public class BranchTask extends Task {
     public void addSubtask(Task task) {
         this.subtasks.add(task);
         task.setDepth(this.depth + 1);
+        task.setParentTask(this);
     }
 
     // REQUIRES: getSubtasks().length() > 1, given task is in the list of subtasks

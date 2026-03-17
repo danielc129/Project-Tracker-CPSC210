@@ -12,9 +12,10 @@ public class LeafTask extends Task {
     private int weight;
     private boolean isCompleted;
 
-    // EFFECTS: creates a leaf task (task with no subtasks) with the given name, description, due date, weight, and depth
-    public LeafTask(String name, String description, Date dueDate, int weight, int depth) {
-        super(name, description, depth);
+    // EFFECTS: creates a leaf task (task with no subtasks) with the given name, description, due date, weight, depth,
+    //          and parent task (parent task is null if at root level)
+    public LeafTask(String name, String description, Date dueDate, int weight, int depth, Task parentTask) {
+        super(name, description, depth, parentTask);
         this.dueDate = dueDate;
         this.weight = weight;
         this.isCompleted = false;

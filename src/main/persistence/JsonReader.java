@@ -86,37 +86,38 @@ public class JsonReader {
     private void addRootTasks(Project project, JSONObject jsonObject) {
         String type = jsonObject.getString("type");
         if (type.equals("leaf")) {
-            LeafTask task = parseLeafTask(jsonObject);
+            LeafTask task = parseLeafTask(jsonObject, null);
             project.addTask(task);
         } else {
-            BranchTask task = parseBranchTask(jsonObject);
+            BranchTask task = parseBranchTask(jsonObject, null);
             project.addTask(task);
         }
     }
 
     // EFFECTS: parses the branch task from the JSON object and returns it
-    private BranchTask parseBranchTask(JSONObject jsonObject) {
+    private BranchTask parseBranchTask(JSONObject jsonObject, Task parentTask) {
         String name = jsonObject.getString("name");
         String description = jsonObject.getString("description");
         int depth = jsonObject.getInt("depth");
         ArrayList<Task> subtasks = new ArrayList<>();
+        BranchTask task = new BranchTask(name, description, subtasks, depth, parentTask);
         for (Object json : jsonObject.getJSONArray("subtasks")) {
             JSONObject subtaskObject = (JSONObject) json;
             String type = subtaskObject.getString("type");
             if (type.equals("leaf")) {
-                LeafTask subtask = parseLeafTask(subtaskObject);
+                LeafTask subtask = parseLeafTask(subtaskObject, task);
                 subtasks.add(subtask);
             } else {
-                BranchTask subtask = parseBranchTask(subtaskObject);
+                BranchTask subtask = parseBranchTask(subtaskObject, task);
                 subtasks.add(subtask);
             }
         }
-        BranchTask task = new BranchTask(name, description, subtasks, depth);
+        
         return task;
     }
 
     // EFFECTS: parses the leaf task from the JSON object and returns it
-    private LeafTask parseLeafTask(JSONObject jsonObject) {
+    private LeafTask parseLeafTask(JSONObject jsonObject, Task parentTask) {
         String name = jsonObject.getString("name");
         String description = jsonObject.getString("description");
         int dueDateDay = jsonObject.getInt("due_date_day");
@@ -126,7 +127,7 @@ public class JsonReader {
         int depth = jsonObject.getInt("depth");
         boolean completionstatus = jsonObject.getBoolean("completion_status");
         Date dueDate = new Date(dueDateDay, dueDateMonth, dueDateYear);
-        LeafTask task = new LeafTask(name, description, dueDate, weight, depth);
+        LeafTask task = new LeafTask(name, description, dueDate, weight, depth, parentTask);
         task.setCompletion(completionstatus);
         return task;
     }
