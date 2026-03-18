@@ -157,6 +157,17 @@ public class ProjectTrackerUI extends JFrame {
     }
 
     // MODIFIES: this
+    // EFFECTS: removes the given project from the project list and updates project list view
+    public void removeProject(Project project) {
+        projectList.removeProject(project);
+
+        projectListView = new ProjectListView(this);
+        setContentPane(projectListView);
+        projectListView.revalidate();
+        projectListView.repaint();
+    }
+
+    // MODIFIES: this
     // EFFECTS: selects the given project and switches panel to ProjectView
     public void selectProject(Project project){
         selectedProject = project;

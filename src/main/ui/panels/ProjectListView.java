@@ -22,10 +22,13 @@ public class ProjectListView extends JPanel {
     private JList projectJList;
     private List<Project> projectListObjects;
     private ProjectTrackerUI controller;
+    private boolean alreadyDisplayedSelectionOptions;
+    private JLabel descriptionText;
 
     public ProjectListView(ProjectTrackerUI controller) {
         super();    
         this.controller = controller;
+        this.alreadyDisplayedSelectionOptions = false;
         setLayout(new GridBagLayout());
         GridBagConstraints gbConstraints = new GridBagConstraints();
 
@@ -54,7 +57,7 @@ public class ProjectListView extends JPanel {
             gbConstraints.gridx = 0;
             gbConstraints.gridy = 0;
             gbConstraints.anchor = GridBagConstraints.PAGE_START;
-            gbConstraints.gridwidth = 2;
+            gbConstraints.gridwidth = 3;
             gbConstraints.weighty = 1;
             add(headerText, gbConstraints);
 
@@ -86,14 +89,33 @@ public class ProjectListView extends JPanel {
     // MODIFIES: this
     // EFFECTS: shows the select project, remove project options when a project is selected in the list
     private void showProjectSelectionOptions(int projectIndex) {
-        JButton selectProjectButton = new JButton("Select Project");
-        selectProjectButton.addActionListener(e -> controller.selectProject(projectListObjects.get(projectIndex)));
-        GridBagConstraints gbConstraints = new GridBagConstraints();
-        gbConstraints.gridx = 1;
-        gbConstraints.gridy = 2;
-        gbConstraints.anchor = GridBagConstraints.PAGE_END;
-        add(selectProjectButton, gbConstraints);
-        revalidate();
-        repaint();
+        if (!alreadyDisplayedSelectionOptions) {
+            alreadyDisplayedSelectionOptions = true;
+
+            JButton selectProjectButton = new JButton("Select Project");
+            selectProjectButton.addActionListener(e -> controller.selectProject(projectListObjects.get(projectIndex)));
+            GridBagConstraints gbConstraints = new GridBagConstraints();
+            gbConstraints.gridx = 1;
+            gbConstraints.gridy = 2;
+            gbConstraints.anchor = GridBagConstraints.PAGE_END;
+            add(selectProjectButton, gbConstraints);
+
+            JButton removeProjectButton = new JButton("Remove Project");
+            removeProjectButton.addActionListener(e -> controller.removeProject(projectListObjects.get(projectIndex)));
+            gbConstraints.gridx = 2;
+            gbConstraints.gridy = 2;
+            add(removeProjectButton, gbConstraints);
+
+            descriptionText = new JLabel();
+            gbConstraints.gridx = 3;
+            gbConstraints.gridy = 1;
+            gbConstraints.anchor = GridBagConstraints.PAGE_START;
+            add(descriptionText, gbConstraints);
+
+            revalidate();
+            repaint();
+        }
+
+        descriptionText.setText("Project Description: " + projectListObjects.get(projectIndex).getDescription());
     }   
 }
