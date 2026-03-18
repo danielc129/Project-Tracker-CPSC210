@@ -36,7 +36,7 @@ import ui.panels.ProjectView;
 // ATTRIBUTION: EdX Project Phase 3 Page
 public class ProjectTrackerUI extends JFrame {
     private static final String JSON_STORE = "./data/projectlist.json";
-    private static final int WIDTH = 600;
+    private static final int WIDTH = 700;
     private static final int HEIGHT = 400;
 
     private ProjectList projectList;
@@ -141,8 +141,8 @@ public class ProjectTrackerUI extends JFrame {
 
     // MODIFIES: this, task
     // EFFECTS: opens a dialog allowing user to edit the given task
-    public void showEditTaskDialog(Task task) {
-        new EditTaskDialog(this, task);
+    public void showEditTaskDialog(Project project, Task task) {
+        new EditTaskDialog(this, project, task);
     }
 
     // MODIFIES: this
@@ -244,6 +244,24 @@ public class ProjectTrackerUI extends JFrame {
         } else {
             task.setCompletion(false);
         }
+        updateProjectView(project);
+    }
+
+    // MODIFIES: this, project, task
+    // EFFECTS: edits the given leaf task with the given name, description, weight, and due date
+    public void editLeafTask(Project project, LeafTask task, String name, String description, int weight, Date dueDate) {
+        task.setName(name);
+        task.setDescription(description);
+        task.setWeight(weight);
+        task.setDueDate(dueDate);
+        updateProjectView(project);
+    }
+
+    // MODIFIES: this, project, task
+    // EFFECTS: edits the given branch task with the given name and description
+    public void editBranchTask(Project project, BranchTask task, String name, String description) {
+        task.setName(name);
+        task.setDescription(description);
         updateProjectView(project);
     }
 

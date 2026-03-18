@@ -22,6 +22,7 @@ public class ProjectView extends JPanel{
     private Project project;
     private JPanel taskPanel;
     private JPanel buttonPanel;
+    private JLabel descriptionText;
     private JList taskList;
     private boolean alreadyShownSelectionOptions;
 
@@ -70,7 +71,7 @@ public class ProjectView extends JPanel{
         taskList = new JList<>(listModel);
         taskList.addListSelectionListener(e -> showSelectedTaskActions());
         JScrollPane listScroller = new JScrollPane(taskList);
-        listScroller.setPreferredSize(new Dimension(300, 200));
+        listScroller.setPreferredSize(new Dimension(400, 200));
         gbConstraints.gridx = 0;
         gbConstraints.gridy = 0;
         gbConstraints.weightx = 5;
@@ -91,7 +92,7 @@ public class ProjectView extends JPanel{
         gbConstraints.weightx = 1;
         gbConstraints.gridx = 0;
         gbConstraints.gridy = 2;
-        gbConstraints.anchor = GridBagConstraints.CENTER;
+        gbConstraints.anchor = GridBagConstraints.PAGE_START;
         add(taskPanel, gbConstraints);
 
         taskPanel.revalidate();
@@ -133,7 +134,7 @@ public class ProjectView extends JPanel{
             buttonPanel.add(toggleCompletionButton, gbConstraints);
 
             JButton editTaskButton = new JButton("Edit Task");
-            editTaskButton.addActionListener(e -> controller.showEditTaskDialog(getSelectedTask()));
+            editTaskButton.addActionListener(e -> controller.showEditTaskDialog(project, getSelectedTask()));
             gbConstraints.gridx = 0;
             gbConstraints.gridy = 4;
             buttonPanel.add(editTaskButton, gbConstraints);
@@ -142,6 +143,15 @@ public class ProjectView extends JPanel{
             buttonPanel.repaint();
             taskPanel.revalidate();
             taskPanel.repaint();
+
+            descriptionText = new JLabel();
+            gbConstraints.gridx = 0;
+            gbConstraints.gridy = 3;
+            gbConstraints.anchor = GridBagConstraints.CENTER;
+            gbConstraints.fill = GridBagConstraints.BOTH;
+            add(descriptionText, gbConstraints);
         }
+        
+        descriptionText.setText("            Task Description: " + getSelectedTask().getDescription());
     }
 }
