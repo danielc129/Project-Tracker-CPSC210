@@ -478,6 +478,7 @@ public class ProjectTrackerApp {
         ArrayList<Task> subtaskList = new ArrayList<>();
         subtaskList.add(subtask);
         BranchTask newBranchTask = new BranchTask(existingName, existingDescription, subtaskList, currentTask.getDepth(), null);
+        subtask.setParentTask(newBranchTask);
 
         removeTaskSkipSideEffects();
 

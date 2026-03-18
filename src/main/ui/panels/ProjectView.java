@@ -20,11 +20,16 @@ import ui.ProjectTrackerUI;
 public class ProjectView extends JPanel{
     private ProjectTrackerUI controller;
     private Project project;
+    private JPanel taskPanel;
+    private JList taskList;
+    private boolean alreadyShownSelectionOptions;
 
     public ProjectView(ProjectTrackerUI controller, Project project) {
         super();
         this.controller = controller;
+        this.project = project;
         setLayout(new GridBagLayout());
+        alreadyShownSelectionOptions = false;
         GridBagConstraints gbConstraints = new GridBagConstraints();
 
         JLabel headerText = new JLabel("Selected project: " + project.getName());
@@ -35,7 +40,7 @@ public class ProjectView extends JPanel{
         gbConstraints.weighty = 1;
         add(headerText, gbConstraints);
 
-        JPanel taskPanel = new JPanel();
+        taskPanel = new JPanel();
         taskPanel.setLayout(new GridBagLayout());
 
         JButton addTaskToRootButton = new JButton("Add Project-Level Task");
@@ -46,30 +51,26 @@ public class ProjectView extends JPanel{
         taskPanel.add(addTaskToRootButton, gbConstraints);
 
         DefaultListModel<String> listModel = new DefaultListModel<>();
-        listModel.addElement("there should be something after this");
         for (Task task : project.getDescendantTasks()) {
-            listModel.addElement(task.getStringFormatNoSubtasks());
-            listModel.addElement("test");
-        }
-        for (String text : List.of("[ ] another task: (Due: March 15, 2026 | Weight: 5)")) {
-            listModel.addElement(text);
+            listModel.addElement(task.getStringFormatNoSubtasksNoDescription());
         }
 
-        System.out.println(listModel);
-        JList taskList = new JList<>(listModel);
+        taskList = new JList<>(listModel);
+        taskList.addListSelectionListener(e -> showSelectedTaskActions());
         JScrollPane listScroller = new JScrollPane(taskList);
-        listScroller.setPreferredSize(new Dimension(250, 150));
+        listScroller.setPreferredSize(new Dimension(300, 150));
         gbConstraints.gridx = 0;
         gbConstraints.gridy = 0;
+        gbConstraints.weightx = 5;
         gbConstraints.anchor = GridBagConstraints.CENTER;
         taskPanel.add(listScroller, gbConstraints);
-        System.out.println(taskList.getModel().getSize());
         
         taskList.revalidate();
         taskList.repaint();
         listScroller.revalidate();
         listScroller.repaint();
 
+        gbConstraints.weightx = 1;
         gbConstraints.gridx = 0;
         gbConstraints.gridy = 1;
         gbConstraints.anchor = GridBagConstraints.CENTER;
@@ -78,5 +79,34 @@ public class ProjectView extends JPanel{
         taskPanel.revalidate();
         taskPanel.repaint();
 
+    }
+
+    private Task getSelectedTask() {
+        int index = taskList.getSelectedIndex();
+        return project.getDescendantTasks().get(index);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: shows the actions available when a task is selected
+    private void showSelectedTaskActions() {
+        if (!alreadyShownSelectionOptions) {
+            alreadyShownSelectionOptions = true;
+            GridBagConstraints gbConstraints = new GridBagConstraints();
+            JButton addSubtaskButton = new JButton("Add Subtask");
+            addSubtaskButton.addActionListener(e -> controller.showAddSubtaskDialog(project, getSelectedTask()));
+            gbConstraints.gridx = 1;
+            gbConstraints.gridy = 1;
+            taskPanel.add(addSubtaskButton, gbConstraints);
+            taskPanel.revalidate();
+            taskPanel.repaint();
+
+            JButton removeTaskButton = new JButton("Remove Task");
+            removeTaskButton.addActionListener(e -> controller.removeTask(project, getSelectedTask()));
+            gbConstraints.gridx = 1;
+            gbConstraints.gridy = 2;
+            taskPanel.add(removeTaskButton, gbConstraints);
+            taskPanel.revalidate();
+            taskPanel.repaint();
+        }
     }
 }

@@ -10,17 +10,20 @@ import javax.swing.JTextField;
 
 import model.Date;
 import model.Project;
+import model.Task;
 import ui.ProjectTrackerUI;
 
 public class AddTaskDialog extends JDialog {
     private ProjectTrackerUI controller;
     private boolean isProjectLevel;
     private Project project;
+    private Task selectedTask;
     
-    public AddTaskDialog(ProjectTrackerUI controller, Project project, boolean isProjectLevel) {
+    public AddTaskDialog(ProjectTrackerUI controller, Project project, Task task, boolean isProjectLevel) {
         super(controller, "Add Task");
         this.controller = controller;
         this.project = project;
+        this.selectedTask = task;
         this.isProjectLevel = isProjectLevel;
         setLocationRelativeTo(null);
         setVisible(true);
@@ -125,6 +128,8 @@ public class AddTaskDialog extends JDialog {
     private void handleAddTask(String name, String description, int weight, Date dueDate) {
         if (isProjectLevel) {
             controller.addTaskToRoot(project, name, description, weight, dueDate);
+        } else {
+            controller.addSubtask(project, selectedTask, name, description, weight, dueDate);
         }
         dispose();
     }
