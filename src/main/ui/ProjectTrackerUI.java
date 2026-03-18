@@ -22,9 +22,12 @@ import model.Project;
 import model.ProjectList;
 import model.Task;
 import model.Utilities;
+import netscape.javascript.JSException;
 import persistence.JsonReader;
+import persistence.JsonWriter;
 import ui.panels.AddProjectDialog;
 import ui.panels.AddTaskDialog;
+import ui.panels.EditTaskDialog;
 import ui.panels.ProjectListView;
 import ui.panels.ProjectView;
 
@@ -40,6 +43,7 @@ public class ProjectTrackerUI extends JFrame {
     private ProjectListView projectListView;
     private Project selectedProject;
     private JsonReader jsonReader;
+    private JsonWriter jsonWriter;
     private Utilities utilities;
 
     public static void main(String[] args) {
@@ -53,6 +57,7 @@ public class ProjectTrackerUI extends JFrame {
         projectList = new ProjectList();
         utilities = new Utilities();
         jsonReader = new JsonReader(JSON_STORE);
+        jsonWriter = new JsonWriter(JSON_STORE);
 
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -84,6 +89,7 @@ public class ProjectTrackerUI extends JFrame {
         loadMenuItem.addActionListener(e -> loadFromFile());
         menu.add(loadMenuItem);
         JMenuItem saveMenuItem = new JMenuItem("Save projects");
+        saveMenuItem.addActionListener(e -> saveToFile());
         menu.add(saveMenuItem);
 
         setJMenuBar(menuBar);
@@ -103,20 +109,40 @@ public class ProjectTrackerUI extends JFrame {
         }
     }
 
+    // EFFECTS: saves the current state of the project list (all of the projects and their tasks)
+    //          to JSON_STORE
+    private void saveToFile() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(projectList);
+            jsonWriter.close();
+        } catch (IOException e) {
+            System.out.println("Unable to save to file");
+        }
+    }
+
     // MODIFIES: this
     // EFFECTS: opens a dialog allowing user to add a project
     public void showAddProjectDialog() {
         new AddProjectDialog(this);
     }
 
-    // MODIFIES: this
+    // MODIFIES: this, project
     // EFFECTS: opens a dialog allowing user to add a root-level task to the given project
     public void showAddProjectLevelTaskDialog(Project project) {
         new AddTaskDialog(this, project, null, true);
     }
 
+    // MODIFIES: this, project, task
+    // EFFECTS: opens a dialog allowing user to add a subtask to the given task
     public void showAddSubtaskDialog(Project project, Task task) {
         new AddTaskDialog(this, project, task, false);
+    }
+
+    // MODIFIES: this, task
+    // EFFECTS: opens a dialog allowing user to edit the given task
+    public void showEditTaskDialog(Task task) {
+        new EditTaskDialog(this, task);
     }
 
     // MODIFIES: this
@@ -210,6 +236,17 @@ public class ProjectTrackerUI extends JFrame {
         updateProjectView(project);
     }
 
+    // MODIFIES: this, project, task
+    // EFFECTS: toggles the completion status of the given task
+    public void toggleCompletion(Project project, Task task) {
+        if (!task.isCompleted()) {
+            task.setCompletion(true);
+        } else {
+            task.setCompletion(false);
+        }
+        updateProjectView(project);
+    }
+
     // MODIFIES: this
     // EFFECTS: updates project view to show the given project and sets it as the content pane
     public void updateProjectView(Project project) {
@@ -219,4 +256,12 @@ public class ProjectTrackerUI extends JFrame {
         repaint();
     }
 
+    // MODIFIES: this
+    // EFFECTS: updates project list view and switches content pane to it
+    public void switchToProjectListView() {
+        projectListView = new ProjectListView(this);
+        setContentPane(projectListView);
+        revalidate();
+        repaint();
+    }
 }

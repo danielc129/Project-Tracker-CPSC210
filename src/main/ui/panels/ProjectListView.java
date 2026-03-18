@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -36,8 +37,14 @@ public class ProjectListView extends JPanel {
             JLabel noProjectsText = new JLabel("There are no projects added");
             add(noProjectsText, gbConstraints);
 
-            JButton addProjectButton = new JButton("Add Project");
+            ImageIcon icon = new ImageIcon("data/header_image.jpg");
+            JLabel imageLabel = new JLabel(icon);
             gbConstraints.gridy = 1;
+            gbConstraints.weighty = 1;
+            add(imageLabel, gbConstraints);
+
+            JButton addProjectButton = new JButton("Add Project");
+            gbConstraints.gridy = 2;
             gbConstraints.weighty = 1;
             gbConstraints.anchor = GridBagConstraints.PAGE_END;
             add(addProjectButton, gbConstraints);
