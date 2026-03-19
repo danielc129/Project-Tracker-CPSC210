@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
 import model.BranchTask;
@@ -121,6 +122,7 @@ public class ProjectTrackerUI extends JFrame {
             jsonWriter.open();
             jsonWriter.write(projectList);
             jsonWriter.close();
+            JOptionPane.showMessageDialog(this, "Sucessfully saved projects to file");
         } catch (IOException e) {
             System.out.println("Unable to save to file");
         }
