@@ -34,3 +34,10 @@ This project is of interest to me because as a student, I have to manage multipl
 - As a user, I want to be able to save my projects and their tasks (if I so choose)
 - As a user, I want to be able to load projects and their tasks from a file (if I so choose)
 
+## Instructions for End User
+- You can view the panel that display the tasks that have already been added to the project by selecting a project from the list and clicking the "Select Project" button. This will open up a panel that shows a list of tasks under the selected project.
+- You can generate the first required action related to the user story "adding multiple tasks to a project" by first selecting a project, and then either clicking the "Add Project-Level Task" button or selecting a task and clicking the "Add Subtask" button. A popup will open allowing you to fill out the task name, task description, task weight, and task due date. Click the "Add" button on the popup to add the task. Use "Add Project-Level Task" or "Add Subtask" again to add more tasks to the selected project.
+- You can generate the second required action related to the user story "mark a task and its subtasks as completed" by selecting a task in the project view that is marked incomplete and clicking the "Toggle Completion" button. This will mark the task and any of its descendant tasks as complete. 
+- You can locate my visual component by starting the application without loading any projects from file or adding any projects. A splash image will be displayed. 
+- You can save the state of my application by navigating to the menu bar, hovering over "Files", and selecting "Save Projects to File"
+- You can reload the state of my application by navigating to the menu bar, hovering over "Files", and selecting "Load Projects From File"
