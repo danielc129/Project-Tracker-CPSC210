@@ -53,7 +53,8 @@ public class ProjectView extends JPanel {
         gbConstraints.anchor = GridBagConstraints.LINE_START;
         add(exitProjectButton, gbConstraints);
 
-        JLabel headerText = new JLabel("Selected project: " + project.getName());
+        JLabel headerText = new JLabel("Selected project: " + project.getName() + " ("
+                + project.getCompletionPercentage() + "% completed)");
         gbConstraints.gridx = 0;
         gbConstraints.gridy = 1;
         gbConstraints.anchor = GridBagConstraints.PAGE_START;

@@ -25,6 +25,7 @@ public class ProjectListView extends JPanel {
     private ProjectTrackerUI controller;
     private boolean alreadyDisplayedSelectionOptions;
     private JLabel descriptionText;
+    private JLabel completionText;
 
     // EFFECTS: creates a new project list view with the given base UI controller
     public ProjectListView(ProjectTrackerUI controller) {
@@ -76,18 +77,33 @@ public class ProjectListView extends JPanel {
             gbConstraints.gridx = 2;
             gbConstraints.gridy = 2;
             add(removeProjectButton, gbConstraints);
+            
+
+            JPanel descriptionPanel = new JPanel();
+            descriptionPanel.setLayout(new GridBagLayout());
 
             descriptionText = new JLabel();
+            gbConstraints.gridx = 0;
+            gbConstraints.gridy = 0;
+            gbConstraints.anchor = GridBagConstraints.PAGE_START;
+            descriptionPanel.add(descriptionText, gbConstraints);
+
+            completionText = new JLabel();
+            gbConstraints.gridx = 0;
+            gbConstraints.gridy = 3;
+            descriptionPanel.add(completionText, gbConstraints);
+
             gbConstraints.gridx = 3;
             gbConstraints.gridy = 1;
-            gbConstraints.anchor = GridBagConstraints.PAGE_START;
-            add(descriptionText, gbConstraints);
+            add(descriptionPanel, gbConstraints);
+
 
             revalidate();
             repaint();
         }
 
         descriptionText.setText("Project Description: " + projectListObjects.get(projectIndex).getDescription());
+        completionText.setText("Progress: " + projectListObjects.get(projectIndex).getCompletionPercentage() + "%");
     }
 
     // MODIFIES: this
