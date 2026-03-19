@@ -165,7 +165,7 @@ public class ProjectTrackerUI extends JFrame {
         LeafTask newTask = new LeafTask(name, description, dueDate, weight, 0, null);
         project.addTask(newTask);
         
-        updateProjectView(project);
+        updateProjectViewAndSelect(project, newTask);
     }
 
     // MODIFIES: this, project, task
@@ -193,7 +193,7 @@ public class ProjectTrackerUI extends JFrame {
             ((BranchTask) task).addSubtask(newTask);
         }
 
-        updateProjectView(project);
+        updateProjectViewAndSelect(project, newTask);
     }
 
     // MODIFIES: this, project
@@ -229,7 +229,7 @@ public class ProjectTrackerUI extends JFrame {
         } else {
             task.setCompletion(false);
         }
-        updateProjectView(project);
+        updateProjectViewAndSelect(project, task);
     }
 
     // MODIFIES: this, project, task
@@ -241,7 +241,7 @@ public class ProjectTrackerUI extends JFrame {
         task.setDescription(description);
         task.setWeight(weight);
         task.setDueDate(dueDate);
-        updateProjectView(project);
+        updateProjectViewAndSelect(project, task);
     }
 
     // MODIFIES: this, project, task
@@ -250,7 +250,7 @@ public class ProjectTrackerUI extends JFrame {
     public void editBranchTask(Project project, BranchTask task, String name, String description) {
         task.setName(name);
         task.setDescription(description);
-        updateProjectView(project);
+        updateProjectViewAndSelect(project, task);
     }
 
     // MODIFIES: this
@@ -267,6 +267,17 @@ public class ProjectTrackerUI extends JFrame {
     public void updateProjectView(Project project) {
         ProjectView newProjectView = new ProjectView(this, project);
         setContentPane(newProjectView);
+        revalidate();
+        repaint();
+    }
+
+    // REQUIRES: task is within project
+    // MODIFIES: this
+    // EFFECTS: updates project view to show the given project and selects the given task in the list
+    public void updateProjectViewAndSelect(Project project, Task task) {
+        ProjectView newProjectView = new ProjectView(this, project);
+        setContentPane(newProjectView);
+        newProjectView.selectTaskInList(task);
         revalidate();
         repaint();
     }

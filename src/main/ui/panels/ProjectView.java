@@ -131,6 +131,14 @@ public class ProjectView extends JPanel {
         return project.getDescendantTasks().get(index);
     }
 
+    // REQUIRES: task is within project
+    // MODIFIES: this
+    // EFFECTS: selects the given task in the list of tasks
+    public void selectTaskInList(Task task) {
+        int index = project.getDescendantTasks().indexOf(task);
+        taskList.setSelectedIndex(index);
+    }
+
     // MODIFIES: this
     // EFFECTS: shows the actions available when a task is selected
     private void showSelectedTaskActions() {
