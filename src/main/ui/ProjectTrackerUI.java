@@ -172,9 +172,11 @@ public class ProjectTrackerUI extends JFrame {
     // EFFECTS: adds a leaf task with the given name, description, weight, and due date as a 
     //          root-level task to the given project
     //          updates project view and sets it as the content pane
+    //          updates progress history
     public void addTaskToRoot(Project project, String name, String description, int weight, Date dueDate) {
         LeafTask newTask = new LeafTask(name, description, dueDate, weight, 0, null);
         project.addTask(newTask);
+        project.updateProgressHistory();
         
         updateProjectViewAndSelect(project, newTask);
     }
@@ -184,6 +186,7 @@ public class ProjectTrackerUI extends JFrame {
     //          as a subtask to the given task. If given task is a leaf task, converts it
     //          to branch task. 
     //          updates project view 
+    //          updates progress history
     public void addSubtask(Project project, Task task, String name, String description, int weight, Date dueDate) {
         LeafTask newTask = new LeafTask(name, description, dueDate, weight, task.getDepth() + 1, task);
         if (utilities.isLeafTask(task)) {
@@ -204,11 +207,13 @@ public class ProjectTrackerUI extends JFrame {
             ((BranchTask) task).addSubtask(newTask);
         }
 
+        project.updateProgressHistory();
         updateProjectViewAndSelect(project, newTask);
     }
 
     // MODIFIES: this, project
     // EFFECTS: removes the selected task and updates project view
+    //          updates progress history
     public void removeTask(Project project, Task task) {
         if (task.getParentTask() == null) {
             project.removeTask(task);
@@ -228,39 +233,46 @@ public class ProjectTrackerUI extends JFrame {
                 }
             }
         }
+        project.updateProgressHistory();
         updateProjectView(project);
     }
 
     // MODIFIES: this, project, task
     // EFFECTS: toggles the completion status of the given task
     //          updates project view
+    //          updates progress history
     public void toggleCompletion(Project project, Task task) {
         if (!task.isCompleted()) {
             task.setCompletion(true);
         } else {
             task.setCompletion(false);
         }
+        project.updateProgressHistory();
         updateProjectViewAndSelect(project, task);
     }
 
     // MODIFIES: this, project, task
     // EFFECTS: updates the given leaf task with the given name, description, weight, and due date
     //          updates project view
+    //          updates progress history
     public void editLeafTask(Project project, LeafTask task, String name, 
             String description, int weight, Date dueDate) {
         task.setName(name);
         task.setDescription(description);
         task.setWeight(weight);
         task.setDueDate(dueDate);
+        project.updateProgressHistory();
         updateProjectViewAndSelect(project, task);
     }
 
     // MODIFIES: this, project, task
     // EFFECTS: updates the given branch task with the given name and description
     //          updates project view
+    //          updates progress history
     public void editBranchTask(Project project, BranchTask task, String name, String description) {
         task.setName(name);
         task.setDescription(description);
+        project.updateProgressHistory();
         updateProjectViewAndSelect(project, task);
     }
 
