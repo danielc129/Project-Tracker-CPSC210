@@ -1,18 +1,13 @@
 package ui;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import model.BranchTask;
@@ -22,7 +17,6 @@ import model.Project;
 import model.ProjectList;
 import model.Task;
 import model.Utilities;
-import netscape.javascript.JSException;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 import ui.panels.AddProjectDialog;
@@ -34,14 +28,15 @@ import ui.panels.ProjectView;
 // ATTRIBUTION: SmartHome
 // ATTRIBUTION: Oracle Java Swing Components Tutorial
 // ATTRIBUTION: EdX Project Phase 3 Page
+// Project tracker GUI application
 public class ProjectTrackerUI extends JFrame {
     private static final String JSON_STORE = "./data/projectlist.json";
+    private static final String WINDOW_NAME = "Project Tracker";
     private static final int WIDTH = 700;
     private static final int HEIGHT = 400;
 
     private ProjectList projectList;
     private ProjectListView projectListView;
-    private Project selectedProject;
     private JsonReader jsonReader;
     private JsonWriter jsonWriter;
     private Utilities utilities;
@@ -50,10 +45,9 @@ public class ProjectTrackerUI extends JFrame {
         new ProjectTrackerUI();
     }
 
-    // MODIFIES: this
     // EFFECTS: Creates the project tracker UI application
     private ProjectTrackerUI() {
-        super("Project Tracker");
+        super(WINDOW_NAME);
         projectList = new ProjectList();
         utilities = new Utilities();
         jsonReader = new JsonReader(JSON_STORE);
@@ -121,39 +115,32 @@ public class ProjectTrackerUI extends JFrame {
         }
     }
 
-    // MODIFIES: this
     // EFFECTS: opens a dialog allowing user to add a project
     public void showAddProjectDialog() {
         new AddProjectDialog(this);
     }
 
-    // MODIFIES: this, project
     // EFFECTS: opens a dialog allowing user to add a root-level task to the given project
     public void showAddProjectLevelTaskDialog(Project project) {
         new AddTaskDialog(this, project, null, true);
     }
 
-    // MODIFIES: this, project, task
     // EFFECTS: opens a dialog allowing user to add a subtask to the given task
     public void showAddSubtaskDialog(Project project, Task task) {
         new AddTaskDialog(this, project, task, false);
     }
 
-    // MODIFIES: this, task
     // EFFECTS: opens a dialog allowing user to edit the given task
     public void showEditTaskDialog(Project project, Task task) {
         new EditTaskDialog(this, project, task);
     }
 
     // MODIFIES: this
-    // EFFECTS: adds a project and updates projectListView 
+    // EFFECTS: adds a project and updates project list view
     public void addProject(String name, String description) {
         Project newProject = new Project(name, description);
         projectList.addProject(newProject);
-        projectListView = new ProjectListView(this);
-        setContentPane(projectListView);
-        projectListView.revalidate();
-        projectListView.repaint();
+        updateProjectListView();
     }
 
     // MODIFIES: this
@@ -161,51 +148,38 @@ public class ProjectTrackerUI extends JFrame {
     public void removeProject(Project project) {
         projectList.removeProject(project);
 
-        projectListView = new ProjectListView(this);
-        setContentPane(projectListView);
-        projectListView.revalidate();
-        projectListView.repaint();
+        updateProjectListView();
     }
 
     // MODIFIES: this
-    // EFFECTS: selects the given project and switches panel to ProjectView
-    public void selectProject(Project project){
-        selectedProject = project;
-        ProjectView projectView = new ProjectView(this, project);
-
-        setContentPane(projectView);
-        projectView.revalidate();
-        projectView.repaint();
-        
+    // EFFECTS: selects the given project and switches panel to project view
+    public void selectProject(Project project) {
+        updateProjectView(project);
     }
 
     // MODIFIES: this, project 
     // EFFECTS: adds a leaf task with the given name, description, weight, and due date as a 
     //          root-level task to the given project
-    //          updates ProjectView
+    //          updates project view and sets it as the content pane
     public void addTaskToRoot(Project project, String name, String description, int weight, Date dueDate) {
         LeafTask newTask = new LeafTask(name, description, dueDate, weight, 0, null);
         project.addTask(newTask);
-        ProjectView newProjectView = new ProjectView(this, project);
         
-        setContentPane(newProjectView);
-        newProjectView.revalidate();
-        newProjectView.repaint();
-        revalidate();
-        repaint();
+        updateProjectView(project);
     }
 
     // MODIFIES: this, project, task
     // EFFECTS: adds a leaf task with the given name, description, weight, and due date 
     //          as a subtask to the given task. If given task is a leaf task, converts it
     //          to branch task. 
-    //          updatesProjectView
+    //          updates project view 
     public void addSubtask(Project project, Task task, String name, String description, int weight, Date dueDate) {
         LeafTask newTask = new LeafTask(name, description, dueDate, weight, task.getDepth() + 1, task);
         if (utilities.isLeafTask(task)) {
             ArrayList<Task> subtaskList = new ArrayList<>();
             subtaskList.add(newTask);
-            BranchTask newBranchTask = new BranchTask(task.getName(), task.getDescription(), subtaskList, task.getDepth(), task.getParentTask());
+            BranchTask newBranchTask = new BranchTask(task.getName(), task.getDescription(), 
+                    subtaskList, task.getDepth(), task.getParentTask());
             newTask.setParentTask(newBranchTask);
             if (task.getParentTask() == null) {
                 project.removeTask(task);
@@ -219,13 +193,10 @@ public class ProjectTrackerUI extends JFrame {
             ((BranchTask) task).addSubtask(newTask);
         }
 
-        ProjectView newProjectView = new ProjectView(this, project);
-        setContentPane(newProjectView);
-        revalidate();
-        repaint();
+        updateProjectView(project);
     }
 
-    // MODIFIES: this, project, task
+    // MODIFIES: this, project
     // EFFECTS: removes the selected task and updates project view
     public void removeTask(Project project, Task task) {
         if (task.getParentTask() == null) {
@@ -237,10 +208,12 @@ public class ProjectTrackerUI extends JFrame {
             } else {
                 if (parentTask.getParentTask() == null) {
                     project.removeTask(parentTask);
-                    addTaskToRoot(project, parentTask.getName(), parentTask.getDescription(), task.getWeight(), task.getDueDate());
+                    addTaskToRoot(project, parentTask.getName(), parentTask.getDescription(), 
+                            task.getWeight(), task.getDueDate());
                 } else {
                     ((BranchTask) parentTask.getParentTask()).removeSubtask(parentTask);
-                    addSubtask(project, parentTask.getParentTask(), parentTask.getName(), parentTask.getDescription(), task.getWeight(), task.getDueDate());
+                    addSubtask(project, parentTask.getParentTask(), parentTask.getName(), 
+                            parentTask.getDescription(), task.getWeight(), task.getDueDate());
                 }
             }
         }
@@ -249,6 +222,7 @@ public class ProjectTrackerUI extends JFrame {
 
     // MODIFIES: this, project, task
     // EFFECTS: toggles the completion status of the given task
+    //          updates project view
     public void toggleCompletion(Project project, Task task) {
         if (!task.isCompleted()) {
             task.setCompletion(true);
@@ -259,8 +233,10 @@ public class ProjectTrackerUI extends JFrame {
     }
 
     // MODIFIES: this, project, task
-    // EFFECTS: edits the given leaf task with the given name, description, weight, and due date
-    public void editLeafTask(Project project, LeafTask task, String name, String description, int weight, Date dueDate) {
+    // EFFECTS: updates the given leaf task with the given name, description, weight, and due date
+    //          updates project view
+    public void editLeafTask(Project project, LeafTask task, String name, 
+            String description, int weight, Date dueDate) {
         task.setName(name);
         task.setDescription(description);
         task.setWeight(weight);
@@ -269,7 +245,8 @@ public class ProjectTrackerUI extends JFrame {
     }
 
     // MODIFIES: this, project, task
-    // EFFECTS: edits the given branch task with the given name and description
+    // EFFECTS: updates the given branch task with the given name and description
+    //          updates project view
     public void editBranchTask(Project project, BranchTask task, String name, String description) {
         task.setName(name);
         task.setDescription(description);
@@ -277,19 +254,19 @@ public class ProjectTrackerUI extends JFrame {
     }
 
     // MODIFIES: this
-    // EFFECTS: updates project view to show the given project and sets it as the content pane
-    public void updateProjectView(Project project) {
-        ProjectView newProjectView = new ProjectView(this, project);
-        setContentPane(newProjectView);
+    // EFFECTS: updates project list view and sets it as the content pane
+    public void updateProjectListView() {
+        ProjectListView newProjectListView = new ProjectListView(this);
+        setContentPane(newProjectListView);
         revalidate();
         repaint();
     }
 
     // MODIFIES: this
-    // EFFECTS: updates project list view and switches content pane to it
-    public void switchToProjectListView() {
-        projectListView = new ProjectListView(this);
-        setContentPane(projectListView);
+    // EFFECTS: updates project view to show the given project and sets it as the content pane
+    public void updateProjectView(Project project) {
+        ProjectView newProjectView = new ProjectView(this, project);
+        setContentPane(newProjectView);
         revalidate();
         repaint();
     }

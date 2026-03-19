@@ -83,7 +83,8 @@ public class LeafTask extends Task {
         } else {
             result += "[ ] ";
         }
-        result = result + this.name + " " + "(Due: " + this.dueDate.getDateAsString() + " | Weight: " + this.weight + ")";
+        result = result + this.name + " " + "(Due: " 
+                + this.dueDate.getDateAsString() + " | Weight: " + this.weight + ")";
         return result;
     }
 

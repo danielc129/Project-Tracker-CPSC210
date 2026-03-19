@@ -477,7 +477,8 @@ public class ProjectTrackerApp {
         String existingDescription = currentTask.getDescription();
         ArrayList<Task> subtaskList = new ArrayList<>();
         subtaskList.add(subtask);
-        BranchTask newBranchTask = new BranchTask(existingName, existingDescription, subtaskList, currentTask.getDepth(), null);
+        BranchTask newBranchTask = new BranchTask(existingName, existingDescription, subtaskList, 
+                currentTask.getDepth(), null);
         subtask.setParentTask(newBranchTask);
 
         removeTaskSkipSideEffects();
@@ -561,7 +562,8 @@ public class ProjectTrackerApp {
         int weight = input.nextInt();
 
         BranchTask parentTask = (BranchTask) taskStack.get(taskStack.size() - 1);
-        LeafTask newLeafTask = new LeafTask(parentTask.getName(), parentTask.getDescription(), date, weight, parentTask.getDepth(), null);
+        LeafTask newLeafTask = new LeafTask(parentTask.getName(), parentTask.getDescription(), 
+                date, weight, parentTask.getDepth(), null);
         if (taskStack.size() == 1) {
             currentProject.removeTask(parentTask);
             currentProject.addTask(newLeafTask);
