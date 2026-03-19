@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.Dimension;
+import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -85,8 +86,18 @@ public class ProjectTrackerUI extends JFrame {
         JMenuItem saveMenuItem = new JMenuItem("Save projects");
         saveMenuItem.addActionListener(e -> saveToFile());
         menu.add(saveMenuItem);
+        JMenuItem clearMenuItem = new JMenuItem("Clear project list");
+        clearMenuItem.addActionListener(e -> clearProjectList());
+        menu.add(clearMenuItem);
 
         setJMenuBar(menuBar);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: clears the project list and all of its data (projects, tasks, etc.)
+    private void clearProjectList() {
+        projectList = new ProjectList();
+        updateProjectListView();
     }
 
     // MODIFIES: this
