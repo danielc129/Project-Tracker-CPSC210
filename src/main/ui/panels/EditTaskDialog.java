@@ -210,8 +210,7 @@ public class EditTaskDialog extends JDialog {
     // EFFECTS: updates this dialog's associated leaf task with the given name, description,
     //          weight, and due date
     private void handleEditLeafTask(String name, String description, String weightString,
-            String dueDateDayString, String dueDateMonthString, String dueDateYearString) 
-    {   
+            String dueDateDayString, String dueDateMonthString, String dueDateYearString) {   
         int weight;
         Date dueDate;
         try {
@@ -221,16 +220,8 @@ public class EditTaskDialog extends JDialog {
             return;
         }
 
-        try {
-            int dueDateDay = Integer.parseInt(dueDateDayString);
-            int dueDateMonth = Integer.parseInt(dueDateMonthString);
-            int dueDateYear = Integer.parseInt(dueDateYearString);
-            if (!Date.isDateValid(dueDateDay, dueDateMonth, dueDateYear)) {
-                throw new Exception();
-            }
-            dueDate = new Date(dueDateDay, dueDateMonth, dueDateYear);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Invalid due date", "Error", JOptionPane.ERROR_MESSAGE);
+        dueDate = parseDate(dueDateDayString, dueDateMonthString, dueDateYearString);
+        if (dueDate == null) {
             return;
         }
 
@@ -251,8 +242,25 @@ public class EditTaskDialog extends JDialog {
             JOptionPane.showMessageDialog(this, "Task name cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         controller.editBranchTask(project, (BranchTask) task, name, description);
         dispose();
+    }
+
+    // EFFECTS: parses the due date from the given fields
+    //          shows an error dialog if invalid and returns null
+    private Date parseDate(String dueDateDayString, String dueDateMonthString, String dueDateYearString) {
+        try {
+            int dueDateDay = Integer.parseInt(dueDateDayString);
+            int dueDateMonth = Integer.parseInt(dueDateMonthString);
+            int dueDateYear = Integer.parseInt(dueDateYearString);
+            if (!Date.isDateValid(dueDateDay, dueDateMonth, dueDateYear)) {
+                throw new Exception();
+            }
+            return new Date(dueDateDay, dueDateMonth, dueDateYear);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Invalid due date", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
     }
 }

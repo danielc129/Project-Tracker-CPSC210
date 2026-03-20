@@ -77,26 +77,8 @@ public class ProjectListView extends JPanel {
             gbConstraints.gridx = 2;
             gbConstraints.gridy = 2;
             add(removeProjectButton, gbConstraints);
-            
 
-            JPanel descriptionPanel = new JPanel();
-            descriptionPanel.setLayout(new GridBagLayout());
-
-            descriptionText = new JLabel();
-            gbConstraints.gridx = 0;
-            gbConstraints.gridy = 0;
-            gbConstraints.anchor = GridBagConstraints.PAGE_START;
-            descriptionPanel.add(descriptionText, gbConstraints);
-
-            completionText = new JLabel();
-            gbConstraints.gridx = 0;
-            gbConstraints.gridy = 3;
-            descriptionPanel.add(completionText, gbConstraints);
-
-            gbConstraints.gridx = 3;
-            gbConstraints.gridy = 1;
-            add(descriptionPanel, gbConstraints);
-
+            addDescriptionPanel();
 
             revalidate();
             repaint();
@@ -104,6 +86,30 @@ public class ProjectListView extends JPanel {
 
         descriptionText.setText("Project Description: " + projectListObjects.get(projectIndex).getDescription());
         completionText.setText("Progress: " + projectListObjects.get(projectIndex).getCompletionPercentage() + "%");
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds the components to show project description and completion percentage
+    private void addDescriptionPanel() {
+        GridBagConstraints gbConstraints = new GridBagConstraints();
+        
+        JPanel descriptionPanel = new JPanel();
+        descriptionPanel.setLayout(new GridBagLayout());
+
+        descriptionText = new JLabel();
+        gbConstraints.gridx = 0;
+        gbConstraints.gridy = 0;
+        gbConstraints.anchor = GridBagConstraints.PAGE_START;
+        descriptionPanel.add(descriptionText, gbConstraints);
+
+        completionText = new JLabel();
+        gbConstraints.gridx = 0;
+        gbConstraints.gridy = 3;
+        descriptionPanel.add(completionText, gbConstraints);
+
+        gbConstraints.gridx = 3;
+        gbConstraints.gridy = 1;
+        add(descriptionPanel, gbConstraints);
     }
 
     // MODIFIES: this

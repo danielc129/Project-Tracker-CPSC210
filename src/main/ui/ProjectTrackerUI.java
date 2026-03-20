@@ -205,9 +205,8 @@ public class ProjectTrackerUI extends JFrame {
                 project.removeTask(task);
                 project.addTask(newBranchTask);
             } else {
-                BranchTask parentTask = (BranchTask) (task.getParentTask());
-                parentTask.removeSubtask(task);
-                parentTask.addSubtask(newBranchTask);
+                ((BranchTask) task.getParentTask()).removeSubtask(task);
+                ((BranchTask) task.getParentTask()).addSubtask(newBranchTask);
             }
         } else {
             if (utilities.containsTaskWithName(((BranchTask) task).getSubtasks(), name)) {
@@ -345,6 +344,7 @@ public class ProjectTrackerUI extends JFrame {
 
     // EFFECTS: shows an error dialog for when a task with the given name already exists
     private void showDuplicateTaskDialog() {
-        JOptionPane.showMessageDialog(this, "There is already a task with that name", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "There is already a task with that name", 
+                "Error", JOptionPane.ERROR_MESSAGE);
     }
 }

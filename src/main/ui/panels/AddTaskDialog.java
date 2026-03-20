@@ -205,16 +205,8 @@ public class AddTaskDialog extends JDialog {
             return;
         }
 
-        try {
-            int dueDateDay = Integer.parseInt(dueDateDayString);
-            int dueDateMonth = Integer.parseInt(dueDateMonthString);
-            int dueDateYear = Integer.parseInt(dueDateYearString);
-            if (!Date.isDateValid(dueDateDay, dueDateMonth, dueDateYear)) {
-                throw new Exception();
-            }
-            dueDate = new Date(dueDateDay, dueDateMonth, dueDateYear);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Invalid due date", "Error", JOptionPane.ERROR_MESSAGE);
+        dueDate = parseDate(dueDateDayString, dueDateMonthString, dueDateYearString);
+        if (dueDate == null) {
             return;
         }
 
@@ -229,6 +221,23 @@ public class AddTaskDialog extends JDialog {
             controller.addSubtask(project, selectedTask, name, description, weight, dueDate);
         }
         dispose();
+    }
+
+    // EFFECTS: parses the due date from the given fields
+    //          shows an error dialog if invalid and returns null
+    private Date parseDate(String dueDateDayString, String dueDateMonthString, String dueDateYearString) {
+        try {
+            int dueDateDay = Integer.parseInt(dueDateDayString);
+            int dueDateMonth = Integer.parseInt(dueDateMonthString);
+            int dueDateYear = Integer.parseInt(dueDateYearString);
+            if (!Date.isDateValid(dueDateDay, dueDateMonth, dueDateYear)) {
+                throw new Exception();
+            }
+            return new Date(dueDateDay, dueDateMonth, dueDateYear);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Invalid due date", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
     }
 }
  
