@@ -1,6 +1,8 @@
 package model;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -94,5 +96,71 @@ public class DateTest {
         assertEquals(-1, date13.compareTo(date1));
         assertEquals(-1, date10.compareTo(date11));
         assertEquals(-1, date2.compareTo(date1));
+    }
+
+    @Test
+    public void testIsDateValidInvalidMonthUpper() {
+        assertFalse(Date.isDateValid(5, 13, 2026));
+    }
+
+    @Test
+    public void testIsDateValidInvalidMonthLower() {
+        assertFalse(Date.isDateValid(5, 0, 2026));
+    }
+
+    @Test
+    public void testIsDateValidJanuaryInvalidDateUpper() {
+        assertFalse(Date.isDateValid(32, 1, 2026));
+    }
+
+    @Test
+    public void testIsDateValidJanuaryInvalidDateLower() {
+        assertFalse(Date.isDateValid(0, 1, 2026));
+    }
+
+    @Test
+    public void testIsDateValidAprilInvalidDateUpper() {
+        assertFalse(Date.isDateValid(31, 4, 2026));
+    }
+
+    @Test
+    public void testIsDateValidAprilInvalidDateLower() {
+        assertFalse(Date.isDateValid(0, 4, 2026));
+    }
+
+    @Test
+    public void testIsDateValidFebruaryLeapYearInvalidDate() {
+        assertFalse(Date.isDateValid(30, 2, 2024));
+        assertFalse(Date.isDateValid(0, 2, 2024));
+    }
+
+    @Test
+    public void testIsDateValidFebruaryNonLeapYearInvalidDate() {
+        assertFalse(Date.isDateValid(29, 2, 2026));
+        assertFalse(Date.isDateValid(0, 2, 2026));
+    }
+
+    @Test
+    public void testIsDateValidValid() {
+        assertTrue(Date.isDateValid(5, 12, 2026));
+        assertTrue(Date.isDateValid(31, 1, 2026));
+        assertTrue(Date.isDateValid(30, 4, 2026));
+        assertTrue(Date.isDateValid(29, 2, 2024));
+        assertTrue(Date.isDateValid(28, 2, 2026));
+        assertTrue(Date.isDateValid(5, 1, 2026));
+        assertTrue(Date.isDateValid(5, 2, 2026));
+        assertTrue(Date.isDateValid(5, 3, 2026));
+        assertTrue(Date.isDateValid(5, 4, 2026));
+        assertTrue(Date.isDateValid(5, 5, 2026));
+        assertTrue(Date.isDateValid(5, 6, 2026));
+        assertTrue(Date.isDateValid(5, 7, 2026));
+        assertTrue(Date.isDateValid(5, 8, 2026));
+        assertTrue(Date.isDateValid(5, 9, 2026));
+        assertTrue(Date.isDateValid(5, 10, 2026));
+        assertTrue(Date.isDateValid(5, 11, 2026));
+        assertTrue(Date.isDateValid(5, 12, 2026));
+        assertTrue(Date.isDateValid(5, 2, 2000));
+        assertTrue(Date.isDateValid(5, 2, 1900));
+        assertTrue(Date.isDateValid(5, 2, 2026));
     }
 }

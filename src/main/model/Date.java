@@ -71,10 +71,6 @@ public class Date {
 
     // EFFECTS: checks if the given day, month, and year values represent a valid date
     public static boolean isDateValid(int day, int month, int year) {
-        if (month < 1 || month > 12) {
-            return false;
-        }
-
         switch (month) {
             case 1: case 3: case 5: case 7: case 8: case 10: case 12:
                 if (day < 1 || day > 31) {
@@ -85,11 +81,15 @@ public class Date {
                 if (day < 1 || day > 30) {
                     return false;
                 }
+                break;
             case 2:
                 if ((isLeapYear(year) && (day < 1 || day > 29)) 
                         || (!isLeapYear(year) && (day < 1 || day > 28))) {
                     return false;
                 }
+                break;
+            default:
+                return false;
         }
         return true;
     }
