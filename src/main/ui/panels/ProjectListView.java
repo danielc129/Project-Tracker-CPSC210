@@ -13,6 +13,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import model.Project;
 import ui.ProjectTrackerUI;
 
@@ -21,6 +22,7 @@ import ui.ProjectTrackerUI;
 // ATTRIBUTION: EdX Project Phase 3 Page
 // The project list view screen for the project tracker UI
 // Displays a list of projects and actions pertaining to projects
+@ExcludeFromJacocoGeneratedReport
 public class ProjectListView extends JPanel {
     private JList<Object> projectJList;
     private List<Project> projectListObjects;

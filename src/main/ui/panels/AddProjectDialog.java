@@ -8,6 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import ui.ProjectTrackerUI;
 
 // ATTRIBUTION: SmartHome
@@ -15,6 +16,7 @@ import ui.ProjectTrackerUI;
 // ATTRIBUTION: EdX Project Phase 3 Page
 // The dialog to handle adding a project in the project tracker UI
 // Displays fields to let user enter project details
+@ExcludeFromJacocoGeneratedReport
 public class AddProjectDialog extends JDialog {
     private ProjectTrackerUI controller;
     private JTextField nameField;

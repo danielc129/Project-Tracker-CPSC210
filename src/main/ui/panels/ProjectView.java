@@ -11,6 +11,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import model.Project;
 import model.Task;
 import ui.ProjectTrackerUI;
@@ -20,6 +21,7 @@ import ui.ProjectTrackerUI;
 // ATTRIBUTION: EdX Project Phase 3 Page
 // The project view screen for the project tracker UI
 // Displays a project and its tasks, and actions pertaining to tasks
+@ExcludeFromJacocoGeneratedReport
 public class ProjectView extends JPanel {
     private ProjectTrackerUI controller;
     private Project project;

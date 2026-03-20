@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import model.Date;
 import model.Project;
 import model.Task;
@@ -19,6 +20,7 @@ import ui.ProjectTrackerUI;
 // ATTRIBUTION: EdX Project Phase 3 Page
 // The dialog to handle adding a task in the project tracker UI 
 // Displays fields to let user enter task details 
+@ExcludeFromJacocoGeneratedReport
 public class AddTaskDialog extends JDialog {
     private ProjectTrackerUI controller;
     private boolean isProjectLevel;

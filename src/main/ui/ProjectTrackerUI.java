@@ -11,6 +11,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import model.BranchTask;
 import model.Date;
 import model.LeafTask;
@@ -30,6 +31,7 @@ import ui.panels.ProjectView;
 // ATTRIBUTION: Oracle Java Swing Components Tutorial
 // ATTRIBUTION: EdX Project Phase 3 Page
 // Project tracker GUI application
+@ExcludeFromJacocoGeneratedReport
 public class ProjectTrackerUI extends JFrame {
     private static final String JSON_STORE = "./data/projectlist.json";
     private static final String WINDOW_NAME = "Project Tracker";

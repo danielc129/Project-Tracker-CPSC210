@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import model.BranchTask;
 import model.Date;
 import model.LeafTask;
@@ -22,6 +23,7 @@ import ui.ProjectTrackerUI;
 // ATTRIBUTION: EdX Project Phase 3 Page
 // The dialog to handle editing a task's details 
 // Displays fields to let user change task details
+@ExcludeFromJacocoGeneratedReport
 public class EditTaskDialog extends JDialog {
     private ProjectTrackerUI controller;
     private Task task;
