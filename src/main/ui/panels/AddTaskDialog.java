@@ -14,6 +14,9 @@ import model.Project;
 import model.Task;
 import ui.ProjectTrackerUI;
 
+// ATTRIBUTION: SmartHome
+// ATTRIBUTION: Oracle Java Swing Components Tutorial
+// ATTRIBUTION: EdX Project Phase 3 Page
 // The dialog to handle adding a task in the project tracker UI 
 // Displays fields to let user enter task details 
 public class AddTaskDialog extends JDialog {
@@ -28,9 +31,10 @@ public class AddTaskDialog extends JDialog {
     private JTextField dueDateMonthField;
     private JTextField dueDateYearField;
 
-    // EFFECTS: creates a new add task dialog 
+    // EFFECTS: creates a new add task dialog with the given base UI controller
     //          when user clicks the add button, the given controller will be
-    //          instructed to add the new task to the given task and project
+    //          instructed to add the new task to the given task if isProjectLevel == false
+    //          or add the new task to the given project's root if isProjectLevel == true
     public AddTaskDialog(ProjectTrackerUI controller, Project project, Task task, boolean isProjectLevel) {
         super(controller, "Add Task");
         this.controller = controller;
@@ -41,26 +45,18 @@ public class AddTaskDialog extends JDialog {
         setVisible(true);
 
         setLayout(new GridBagLayout());
-
         addNameComponents();
-
         addDescriptionComponents();
-
         addWeightComponents();
-
         addDueDateDayComponents();
-        
         addDueDateMonthComponents();
-
         addDueDateYearComponents();
-
         addAddButton();
-
         pack();
     }
 
     // MODIFIES: this
-    // EFFECTS: adds button to add a task, to this dialog
+    // EFFECTS: adds button component to add a task, to this dialog
     private void addAddButton() {
         GridBagConstraints gbConstraints = new GridBagConstraints();
 
@@ -78,7 +74,7 @@ public class AddTaskDialog extends JDialog {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds label and field for task name to this dialog
+    // EFFECTS: adds label and field components for entering task name to this dialog
     private void addNameComponents() {
         GridBagConstraints gbConstraints = new GridBagConstraints();
 
@@ -97,7 +93,7 @@ public class AddTaskDialog extends JDialog {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds label and field for task description to this dialog
+    // EFFECTS: adds label and field components for entering for task description to this dialog
     private void addDescriptionComponents() {
         GridBagConstraints gbConstraints = new GridBagConstraints();
 
@@ -116,7 +112,7 @@ public class AddTaskDialog extends JDialog {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds label and field for task weight to this dialog
+    // EFFECTS: adds label and field components for entering task weight to this dialog
     private void addWeightComponents() {
         GridBagConstraints gbConstraints = new GridBagConstraints();
 
@@ -135,7 +131,7 @@ public class AddTaskDialog extends JDialog {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds label and field for task due date day to this dialog
+    // EFFECTS: adds label and field components for entering task due date day to this dialog
     private void addDueDateDayComponents() {
         GridBagConstraints gbConstraints = new GridBagConstraints();
 
@@ -154,7 +150,7 @@ public class AddTaskDialog extends JDialog {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds label and field for task due date month to this dialog
+    // EFFECTS: adds label and field components for entering task due date month to this dialog
     private void addDueDateMonthComponents() {
         GridBagConstraints gbConstraints = new GridBagConstraints();
 
@@ -173,7 +169,7 @@ public class AddTaskDialog extends JDialog {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds label and field for task due date year to this dialog
+    // EFFECTS: adds label and field components for entering task due date year to this dialog
     private void addDueDateYearComponents() {
         GridBagConstraints gbConstraints = new GridBagConstraints();
 
@@ -192,8 +188,10 @@ public class AddTaskDialog extends JDialog {
     }
 
     // MODIFIES: this
-    // EFFECTS: instructs controller to add the task to the project or selected task
-    //          with the information specified in the dialog fields
+    // EFFECTS: instructs controller to add the task to the project (if isProjectLevel == true) 
+    //          or selected task (if isProjectLevel == false) with the information specified in the dialog fields
+    //          closes this dialog afterwards
+    //          if field values are invalid, shows error dialog and does not add task
     private void handleAddTask(String name, String description, String weightString, 
                 String dueDateDayString, String dueDateMonthString, String dueDateYearString) {
         int weight;
@@ -223,7 +221,8 @@ public class AddTaskDialog extends JDialog {
         dispose();
     }
 
-    // EFFECTS: parses the due date from the given fields
+    // EFFECTS: parses the due date from the given strings for day, month, and year
+    //          and returns the date object
     //          shows an error dialog if invalid and returns null
     private Date parseDate(String dueDateDayString, String dueDateMonthString, String dueDateYearString) {
         try {

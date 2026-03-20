@@ -19,7 +19,7 @@ import persistence.JsonReader;
 import persistence.JsonWriter;
 
 
-// Project tracker application
+// Project tracker console application
 // ATTRIBUTION: Based on Teller project 
 @ExcludeFromJacocoGeneratedReport
 public class ProjectTrackerApp {

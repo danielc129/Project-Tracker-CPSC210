@@ -47,7 +47,7 @@ public class ProjectTrackerUI extends JFrame {
     }
 
     // EFFECTS: Creates the project tracker UI application
-    private ProjectTrackerUI() {
+    public ProjectTrackerUI() {
         super(WINDOW_NAME);
         projectList = new ProjectList();
         utilities = new Utilities();
@@ -73,7 +73,7 @@ public class ProjectTrackerUI extends JFrame {
     }
 
     // MODIFIES: this
-    // EFFECTS: creates the top menu with options to load and save
+    // EFFECTS: creates the top menu with options to load, save, and clear project list
     private void createMenu() {
         JMenuBar menuBar = new JMenuBar();
 
@@ -95,6 +95,7 @@ public class ProjectTrackerUI extends JFrame {
 
     // MODIFIES: this
     // EFFECTS: clears the project list and all of its data (projects, tasks, etc.)
+    //          and updates project list view
     private void clearProjectList() {
         projectList = new ProjectList();
         updateProjectListView();
@@ -148,7 +149,7 @@ public class ProjectTrackerUI extends JFrame {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds a project and updates project list view
+    // EFFECTS: adds a project with the given name and description and updates project list view
     public void addProject(String name, String description) {
         Project newProject = new Project(name, description);
         projectList.addProject(newProject);
@@ -164,7 +165,7 @@ public class ProjectTrackerUI extends JFrame {
     }
 
     // MODIFIES: this
-    // EFFECTS: selects the given project and switches panel to project view
+    // EFFECTS: selects the given project and switches content pane to project view
     public void selectProject(Project project) {
         updateProjectView(project);
     }
@@ -173,7 +174,8 @@ public class ProjectTrackerUI extends JFrame {
     // EFFECTS: adds a leaf task with the given name, description, weight, and due date as a 
     //          root-level task to the given project, if there is not already a task with the same
     //          name at the project root level
-    //          updates project view and sets it as the content pane
+    //          shows error dialog when attempting to add a task with the same name as another task
+    //          updates project view
     //          updates progress history
     public void addTaskToRoot(Project project, String name, String description, int weight, Date dueDate) {
         if (utilities.containsTaskWithName(project.getTasks(), name)) {
@@ -187,10 +189,13 @@ public class ProjectTrackerUI extends JFrame {
         updateProjectViewAndSelect(project, newTask);
     }
 
+    // REQUIRES: project contains task
     // MODIFIES: this, project, task
     // EFFECTS: adds a leaf task with the given name, description, weight, and due date 
     //          as a subtask to the given task. If given task is a leaf task, converts it
-    //          to branch task. 
+    //          to branch task
+    //          If there is already a task with the same name at the same level, shows
+    //          error dialog and does not add task 
     //          updates project view 
     //          updates progress history
     public void addSubtask(Project project, Task task, String name, String description, int weight, Date dueDate) {
@@ -220,8 +225,12 @@ public class ProjectTrackerUI extends JFrame {
         updateProjectViewAndSelect(project, newTask);
     }
 
+    // REQUIRES: project contains task
     // MODIFIES: this, project
     // EFFECTS: removes the selected task and updates project view
+    //          if the given task's parent task will have no subtasks after removing the given task, 
+    //          changes parent task to a leaf task, taking on the the given task's weight and due date
+    //          updates project view
     //          updates progress history
     public void removeTask(Project project, Task task) {
         if (task.getParentTask() == null) {
@@ -246,6 +255,7 @@ public class ProjectTrackerUI extends JFrame {
         updateProjectView(project);
     }
 
+    // REQUIRES: project contains task
     // MODIFIES: this, project, task
     // EFFECTS: toggles the completion status of the given task
     //          updates project view
@@ -260,8 +270,11 @@ public class ProjectTrackerUI extends JFrame {
         updateProjectViewAndSelect(project, task);
     }
 
+    // REQUIRES: project contains task
     // MODIFIES: this, project, task
     // EFFECTS: updates the given leaf task with the given name, description, weight, and due date
+    //          if there is already a task with the given name at the given task's level, shows error
+    //          dialog and does not change task fields
     //          updates project view
     //          updates progress history
     public void editLeafTask(Project project, LeafTask task, String name, 
@@ -288,8 +301,11 @@ public class ProjectTrackerUI extends JFrame {
         updateProjectViewAndSelect(project, task);
     }
 
+    // REQUIRES: project contains task
     // MODIFIES: this, project, task
     // EFFECTS: updates the given branch task with the given name and description
+    //          if there is already a task with the given name at the given task's level, shows error dialog
+    //          and does not change task fields
     //          updates project view
     //          updates progress history
     public void editBranchTask(Project project, BranchTask task, String name, String description) {
@@ -331,7 +347,7 @@ public class ProjectTrackerUI extends JFrame {
         repaint();
     }
 
-    // REQUIRES: task is within project
+    // REQUIRES: project contains task
     // MODIFIES: this
     // EFFECTS: updates project view to show the given project and selects the given task in the list
     public void updateProjectViewAndSelect(Project project, Task task) {

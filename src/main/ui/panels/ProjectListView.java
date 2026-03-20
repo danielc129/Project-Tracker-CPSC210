@@ -16,9 +16,11 @@ import javax.swing.JScrollPane;
 import model.Project;
 import ui.ProjectTrackerUI;
 
+// ATTRIBUTION: SmartHome
 // ATTRIBUTION: Oracle Java Swing Components Tutorial
+// ATTRIBUTION: EdX Project Phase 3 Page
 // The project list view screen for the project tracker UI
-// Displays a list of projects and related actions pertaining to projects
+// Displays a list of projects and actions pertaining to projects
 public class ProjectListView extends JPanel {
     private JList<Object> projectJList;
     private List<Project> projectListObjects;
@@ -58,7 +60,7 @@ public class ProjectListView extends JPanel {
     }
 
     // MODIFIES: this
-    // EFFECTS: shows the select project and remove project options when a project is
+    // EFFECTS: shows the select project and remove project buttons when a project is
     // selected in the list
     private void showProjectSelectionOptions(int projectIndex) {
         if (!alreadyDisplayedSelectionOptions) {

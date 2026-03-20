@@ -10,11 +10,17 @@ import javax.swing.JTextField;
 
 import ui.ProjectTrackerUI;
 
+// ATTRIBUTION: SmartHome
+// ATTRIBUTION: Oracle Java Swing Components Tutorial
+// ATTRIBUTION: EdX Project Phase 3 Page
+// The dialog to handle adding a project in the project tracker UI
+// Displays fields to let user enter project details
 public class AddProjectDialog extends JDialog {
     private ProjectTrackerUI controller;
     private JTextField nameField;
     private JTextField descriptionField;
 
+    // EFFECTS: creates a new add project dialog with the given base UI controller
     public AddProjectDialog(ProjectTrackerUI controller) {
         super(controller, "Add Project");
         this.controller = controller;
@@ -40,7 +46,7 @@ public class AddProjectDialog extends JDialog {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds label and field for project name to this dialog
+    // EFFECTS: adds label and field components for entering project name to this dialog
     private void addNameComponents() {
         GridBagConstraints gbConstraints = new GridBagConstraints();
         JLabel nameText = new JLabel("Name");
@@ -58,7 +64,7 @@ public class AddProjectDialog extends JDialog {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds label and field for project description to this dialog
+    // EFFECTS: adds label and field components for entering project description to this dialog
     private void addDescriptionComponents() {
         GridBagConstraints gbConstraints = new GridBagConstraints();
 
@@ -77,8 +83,9 @@ public class AddProjectDialog extends JDialog {
     }
 
     // MODIFIES: this
-    // EFFECTS: instructs controller to add a new project with given name and description
-    //          in the text fields. Closes this dialog.
+    // EFFECTS: instructs controller to add a new project with the given name and description
+    //          from the text fields
+    //          closes this dialog
     private void addProject(String name, String description) {
         controller.addProject(name, description);
         dispose();

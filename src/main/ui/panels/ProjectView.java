@@ -15,9 +15,11 @@ import model.Project;
 import model.Task;
 import ui.ProjectTrackerUI;
 
+// ATTRIBUTION: SmartHome
 // ATTRIBUTION: Oracle Java Swing Components Tutorial
+// ATTRIBUTION: EdX Project Phase 3 Page
 // The project view screen for the project tracker UI
-// Displays a project and its tasks, along with related actions
+// Displays a project and its tasks, and actions pertaining to tasks
 public class ProjectView extends JPanel {
     private ProjectTrackerUI controller;
     private Project project;
@@ -42,7 +44,7 @@ public class ProjectView extends JPanel {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds exit project button and selected project label to this JPanel
+    // EFFECTS: adds exit project button and selected project label to this panel
     private void addHeaderComponents() {
         GridBagConstraints gbConstraints = new GridBagConstraints();
 
@@ -132,7 +134,7 @@ public class ProjectView extends JPanel {
         return project.getDescendantTasks().get(index);
     }
 
-    // REQUIRES: task is within project
+    // REQUIRES: project contains task
     // MODIFIES: this
     // EFFECTS: selects the given task in the list of tasks
     public void selectTaskInList(Task task) {
@@ -141,7 +143,7 @@ public class ProjectView extends JPanel {
     }
 
     // MODIFIES: this
-    // EFFECTS: shows the actions available when a task is selected
+    // EFFECTS: shows the actions available and task description when a task is selected
     private void showSelectedTaskActions() {
         if (!alreadyShownSelectionOptions) {
             GridBagConstraints gbConstraints = new GridBagConstraints();

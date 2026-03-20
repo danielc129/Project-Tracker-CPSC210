@@ -17,6 +17,11 @@ import model.Task;
 import model.Utilities;
 import ui.ProjectTrackerUI;
 
+// ATTRIBUTION: SmartHome
+// ATTRIBUTION: Oracle Java Swing Components Tutorial
+// ATTRIBUTION: EdX Project Phase 3 Page
+// The dialog to handle editing a task's details 
+// Displays fields to let user change task details
 public class EditTaskDialog extends JDialog {
     private ProjectTrackerUI controller;
     private Task task;
@@ -30,9 +35,9 @@ public class EditTaskDialog extends JDialog {
     private JTextField dueDateYearField;
     private JButton editButton;
 
-    // EFFECTS: creates a new edit task dialog
+    // EFFECTS: creates a new edit task dialog with the given base UI controller
     //          when the user clicks confirm, the given controller will be 
-    //          instructed to update the given task's details 
+    //          instructed to update the given task's details in the given project
     public EditTaskDialog(ProjectTrackerUI controller, Project project, Task task) {
         super(controller, "Edit Task");
         this.controller = controller;
@@ -86,7 +91,7 @@ public class EditTaskDialog extends JDialog {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds label and field for task name to this dialog
+    // EFFECTS: adds label and field components for entering task name to this dialog
     private void addNameComponents() {
         GridBagConstraints gbConstraints = new GridBagConstraints();
 
@@ -106,7 +111,7 @@ public class EditTaskDialog extends JDialog {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds label and field for task description to this dialog
+    // EFFECTS: adds label and field components for entering task description to this dialog
     private void addDescriptionComponents() {
         GridBagConstraints gbConstraints = new GridBagConstraints();
 
@@ -126,7 +131,7 @@ public class EditTaskDialog extends JDialog {
     }
     
     // MODIFIES: this
-    // EFFECTS: adds label and field for task weight to this dialog
+    // EFFECTS: adds label and field components for entering task weight to this dialog
     private void addWeightComponents() {
         GridBagConstraints gbConstraints = new GridBagConstraints();
 
@@ -146,7 +151,7 @@ public class EditTaskDialog extends JDialog {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds label and field for task due date day to this dialog
+    // EFFECTS: adds label and field components for entering task due date day to this dialog
     private void addDueDateDayComponents() {
         GridBagConstraints gbConstraints = new GridBagConstraints();
 
@@ -166,7 +171,7 @@ public class EditTaskDialog extends JDialog {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds label and field for task due date month to this dialog
+    // EFFECTS: adds label and field components for entering task due date month to this dialog
     private void addDueDateMonthComponents() {
         GridBagConstraints gbConstraints = new GridBagConstraints();
 
@@ -186,7 +191,7 @@ public class EditTaskDialog extends JDialog {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds label and field for task due date year to this dialog
+    // EFFECTS: adds label and field components for entering task due date year to this dialog
     private void addDueDateYearComponents() {
         GridBagConstraints gbConstraints = new GridBagConstraints();
 
@@ -207,8 +212,9 @@ public class EditTaskDialog extends JDialog {
 
     // REQUIRES: task is of actual type LeafTask
     // MODIFIES: this
-    // EFFECTS: updates this dialog's associated leaf task with the given name, description,
+    // EFFECTS: instructs controller to update this dialog's associated leaf task with the given name, description,
     //          weight, and due date
+    //          if field values are not valid, shows error dialog and does not update task 
     private void handleEditLeafTask(String name, String description, String weightString,
             String dueDateDayString, String dueDateMonthString, String dueDateYearString) {   
         int weight;
@@ -236,7 +242,8 @@ public class EditTaskDialog extends JDialog {
 
     // REQUIRES: task is of actual type BranchTask
     // MODIFIES: this
-    // EFFECTS: updates this dialog's associated branch task with the given name and description
+    // EFFECTS: instructs controller to update this dialog's associated branch task with the given name and description
+    //          if given name is empty, shows error dialog and does not update task
     private void handleEditBranchTask(String name, String description) {
         if (name.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Task name cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
@@ -247,7 +254,8 @@ public class EditTaskDialog extends JDialog {
         dispose();
     }
 
-    // EFFECTS: parses the due date from the given fields
+    // EFFECTS: parses the due date from the given strings for day, month, and year
+    //          and returns the date object
     //          shows an error dialog if invalid and returns null
     private Date parseDate(String dueDateDayString, String dueDateMonthString, String dueDateYearString) {
         try {
