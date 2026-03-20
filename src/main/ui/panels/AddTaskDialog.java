@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import model.Date;
@@ -65,10 +66,10 @@ public class AddTaskDialog extends JDialog {
 
         JButton addButton = new JButton("Add");
         addButton.addActionListener(e -> handleAddTask(nameField.getText(), descriptionField.getText(), 
-                                        Integer.parseInt(weightField.getText()), 
-                                        new Date(Integer.parseInt(dueDateDayField.getText()), 
-                                                Integer.parseInt(dueDateMonthField.getText()), 
-                                                Integer.parseInt(dueDateYearField.getText()))));
+                                        weightField.getText(), 
+                                        dueDateDayField.getText(), 
+                                        dueDateMonthField.getText(), 
+                                        dueDateYearField.getText()));
         gbConstraints.gridx = 0;
         gbConstraints.gridy = 6;
         gbConstraints.gridwidth = 2;
@@ -193,7 +194,35 @@ public class AddTaskDialog extends JDialog {
     // MODIFIES: this
     // EFFECTS: instructs controller to add the task to the project or selected task
     //          with the information specified in the dialog fields
-    private void handleAddTask(String name, String description, int weight, Date dueDate) {
+    private void handleAddTask(String name, String description, String weightString, 
+                String dueDateDayString, String dueDateMonthString, String dueDateYearString) {
+        int weight;
+        Date dueDate = null;
+        try {
+            weight = Integer.parseInt(weightString);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Invalid weight", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            int dueDateDay = Integer.parseInt(dueDateDayString);
+            int dueDateMonth = Integer.parseInt(dueDateMonthString);
+            int dueDateYear = Integer.parseInt(dueDateYearString);
+            if (!Date.isDateValid(dueDateDay, dueDateMonth, dueDateYear)) {
+                throw new Exception();
+            }
+            dueDate = new Date(dueDateDay, dueDateMonth, dueDateYear);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Invalid due date", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Task name cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         if (isProjectLevel) {
             controller.addTaskToRoot(project, name, description, weight, dueDate);
         } else {
