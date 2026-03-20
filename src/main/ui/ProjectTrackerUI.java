@@ -113,7 +113,7 @@ public class ProjectTrackerUI extends JFrame {
             revalidate();
             repaint();
         } catch (IOException e) {
-            System.out.println("Unable to load from file");
+            JOptionPane.showMessageDialog(this, "Unable to load from file", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -126,7 +126,7 @@ public class ProjectTrackerUI extends JFrame {
             jsonWriter.close();
             JOptionPane.showMessageDialog(this, "Sucessfully saved projects to file");
         } catch (IOException e) {
-            System.out.println("Unable to save to file");
+            JOptionPane.showMessageDialog(this, "Unable to save to file", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
