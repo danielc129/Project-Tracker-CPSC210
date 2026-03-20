@@ -1,7 +1,6 @@
 package ui;
 
 import java.awt.Dimension;
-import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -172,10 +171,15 @@ public class ProjectTrackerUI extends JFrame {
 
     // MODIFIES: this, project 
     // EFFECTS: adds a leaf task with the given name, description, weight, and due date as a 
-    //          root-level task to the given project
+    //          root-level task to the given project, if there is not already a task with the same
+    //          name at the project root level
     //          updates project view and sets it as the content pane
     //          updates progress history
     public void addTaskToRoot(Project project, String name, String description, int weight, Date dueDate) {
+        if (utilities.containsTaskWithName(project.getTasks(), name)) {
+            showDuplicateTaskDialog();
+            return;
+        }
         LeafTask newTask = new LeafTask(name, description, dueDate, weight, 0, null);
         project.addTask(newTask);
         project.updateProgressHistory();
@@ -206,6 +210,10 @@ public class ProjectTrackerUI extends JFrame {
                 parentTask.addSubtask(newBranchTask);
             }
         } else {
+            if (utilities.containsTaskWithName(((BranchTask) task).getSubtasks(), name)) {
+                showDuplicateTaskDialog();
+                return;
+            }
             ((BranchTask) task).addSubtask(newTask);
         }
 
@@ -259,6 +267,20 @@ public class ProjectTrackerUI extends JFrame {
     //          updates progress history
     public void editLeafTask(Project project, LeafTask task, String name, 
             String description, int weight, Date dueDate) {
+        Task parentTask = task.getParentTask();
+        if (!task.getName().equals(name)) {
+            if (parentTask == null) {
+                if (utilities.containsTaskWithName(project.getTasks(), name)) {
+                    showDuplicateTaskDialog();
+                    return;
+                }
+            } else {
+                if (utilities.containsTaskWithName(((BranchTask) parentTask).getSubtasks(), name)) {
+                    showDuplicateTaskDialog();
+                    return;
+                }
+            }
+        }
         task.setName(name);
         task.setDescription(description);
         task.setWeight(weight);
@@ -272,6 +294,20 @@ public class ProjectTrackerUI extends JFrame {
     //          updates project view
     //          updates progress history
     public void editBranchTask(Project project, BranchTask task, String name, String description) {
+        Task parentTask = task.getParentTask();
+        if (!task.getName().equals(name)) {
+            if (parentTask == null) {
+                if (utilities.containsTaskWithName(project.getTasks(), name)) {
+                    showDuplicateTaskDialog();
+                    return;
+                }
+            } else {
+                if (utilities.containsTaskWithName(((BranchTask) parentTask).getSubtasks(), name)) {
+                    showDuplicateTaskDialog();
+                    return;
+                }
+            }
+        }
         task.setName(name);
         task.setDescription(description);
         project.updateProgressHistory();
@@ -305,5 +341,10 @@ public class ProjectTrackerUI extends JFrame {
         newProjectView.selectTaskInList(task);
         revalidate();
         repaint();
+    }
+
+    // EFFECTS: shows an error dialog for when a task with the given name already exists
+    private void showDuplicateTaskDialog() {
+        JOptionPane.showMessageDialog(this, "There is already a task with that name", "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
