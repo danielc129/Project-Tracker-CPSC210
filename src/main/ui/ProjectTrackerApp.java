@@ -33,6 +33,10 @@ public class ProjectTrackerApp {
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
+    public static void main(String[] args) {
+        new ProjectTrackerApp();
+    }
+
     // EFFECTS: runs the project tracker application
     public ProjectTrackerApp() {
         runProjectTracker();
