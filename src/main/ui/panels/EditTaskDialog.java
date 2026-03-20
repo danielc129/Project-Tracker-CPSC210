@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import model.BranchTask;
@@ -67,10 +68,10 @@ public class EditTaskDialog extends JDialog {
     // EFFECTS: adds the action listener to the edit button for when a leaf task is being edited
     private void setEditButtonActionListenerForLeafTask() {
         editButton.addActionListener(e -> handleEditLeafTask(nameField.getText(), descriptionField.getText(),
-                            Integer.parseInt(weightField.getText()),
-                            new Date(Integer.parseInt(dueDateDayField.getText()), 
-                                    Integer.parseInt(dueDateMonthField.getText()),
-                                    Integer.parseInt(dueDateYearField.getText()))));
+                            weightField.getText(),
+                            dueDateDayField.getText(), 
+                            dueDateMonthField.getText(),
+                            dueDateYearField.getText()));
     }
 
     // MODIFIES: this
@@ -208,7 +209,36 @@ public class EditTaskDialog extends JDialog {
     // MODIFIES: this
     // EFFECTS: updates this dialog's associated leaf task with the given name, description,
     //          weight, and due date
-    private void handleEditLeafTask(String name, String description, int weight, Date dueDate) {
+    private void handleEditLeafTask(String name, String description, String weightString,
+            String dueDateDayString, String dueDateMonthString, String dueDateYearString) 
+    {   
+        int weight;
+        Date dueDate;
+        try {
+            weight = Integer.parseInt(weightString);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Invalid weight", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            int dueDateDay = Integer.parseInt(dueDateDayString);
+            int dueDateMonth = Integer.parseInt(dueDateMonthString);
+            int dueDateYear = Integer.parseInt(dueDateYearString);
+            if (!Date.isDateValid(dueDateDay, dueDateMonth, dueDateYear)) {
+                throw new Exception();
+            }
+            dueDate = new Date(dueDateDay, dueDateMonth, dueDateYear);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Invalid due date", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Task name cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         controller.editLeafTask(project, (LeafTask) task, name, description, weight, dueDate);
         dispose();
     }
@@ -217,6 +247,11 @@ public class EditTaskDialog extends JDialog {
     // MODIFIES: this
     // EFFECTS: updates this dialog's associated branch task with the given name and description
     private void handleEditBranchTask(String name, String description) {
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Task name cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         controller.editBranchTask(project, (BranchTask) task, name, description);
         dispose();
     }
