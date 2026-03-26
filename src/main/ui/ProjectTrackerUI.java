@@ -376,10 +376,12 @@ public class ProjectTrackerUI extends JFrame implements WindowListener {
         // do nothing
     }
 
+    // MODIFIES: this
+    // EFFECTS: prints out all log messages and closes window when the close button is pressed
     @Override
     public void windowClosing(WindowEvent e) {
-        for (Event logEvent : EventLog.getInstance()) {
-            System.out.println(logEvent.toString());
+        for (Event log : EventLog.getInstance()) {
+            System.out.println(log.toString());
         }
         dispose();
     }

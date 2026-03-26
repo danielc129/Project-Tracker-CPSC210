@@ -33,14 +33,16 @@ public abstract class Task implements Writable {
     // EFFECTS: sets the task name to the given name
     public void setName(String name) {
         this.name = name;
-        EventLog.getInstance().logEvent(new Event("Set task(" + getUniqueIdentifier() + ") name to " + name));
+        EventLog.getInstance().logEvent(new Event("Set task " + name + "(" + getUniqueIdentifier() 
+                + ") name to " + name));
     }
 
     // MODIFIES: this
     // EFFECTS: sets the task description to the given description
     public void setDescription(String description) {
         this.description = description;
-        EventLog.getInstance().logEvent(new Event("Set task(" + getUniqueIdentifier() + ") to " + description));
+        EventLog.getInstance().logEvent(new Event("Set task " + name + "(" + getUniqueIdentifier() 
+                + ") description to " + description));
     }
 
     // EFFECTS: returns a string representation of the task, suitable for command line viewing
@@ -96,10 +98,10 @@ public abstract class Task implements Writable {
     public void setParentTask(Task task) {
         parentTask = task;
         if (task == null) {
-            EventLog.getInstance().logEvent(new Event("Set task(" + getUniqueIdentifier() 
+            EventLog.getInstance().logEvent(new Event("Set task " + name + "(" + getUniqueIdentifier() 
                     + ") parent task field to project root"));
         } else {
-            EventLog.getInstance().logEvent(new Event("Set task(" + getUniqueIdentifier() 
+            EventLog.getInstance().logEvent(new Event("Set task " + name + "(" + getUniqueIdentifier() 
                     + ") parent task field to " + task.getName() + "(" + task.getUniqueIdentifier() + ")"));
         }
     }

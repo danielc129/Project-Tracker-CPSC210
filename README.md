@@ -41,3 +41,100 @@ This project is of interest to me because as a student, I have to manage multipl
 - You can locate my visual component by starting the application without loading any projects from file or adding any projects. A splash image will be displayed. 
 - You can save the state of my application by navigating to the menu bar, hovering over "Files", and selecting "Save projects"
 - You can reload the state of my application by navigating to the menu bar, hovering over "Files", and selecting "Load saved projects"
+
+## Phase 4: Task 2
+```
+Thu Mar 26 15:47:35 PDT 2026
+New project list instantiated
+Thu Mar 26 15:48:56 PDT 2026
+Project(#1) created with name CPSC210 Project, and description Make a project tracker program
+Thu Mar 26 15:48:56 PDT 2026
+Added project(#1) to project list : CPSC210 Project
+Thu Mar 26 15:55:47 PDT 2026
+Created leaf task(#2) with name Phase 1, at project root-level, and description Console application
+Thu Mar 26 15:55:47 PDT 2026
+Added project(#1) root-level task: Phase 1(#2)
+Thu Mar 26 15:55:47 PDT 2026
+Progress history for project #1 updated
+Thu Mar 26 15:56:20 PDT 2026
+Created leaf task(#3) with name Phase 2, at project root-level, and description Data persistence
+Thu Mar 26 15:56:20 PDT 2026
+Added project(#1) root-level task: Phase 2(#3)
+Thu Mar 26 15:56:30 PDT 2026
+Created leaf task(#4) with name Model, parent task Phase 1(#2), and description
+Thu Mar 26 15:56:30 PDT 2026
+Created branch task(#5) with name Phase 1, at project root-level, description Console application, and subtasks:
+    [ ] Model (Due: February 15, 2026 | Weight: 5)
+Thu Mar 26 15:56:30 PDT 2026
+Set task Model(#4) parent task field to Phase 1(#5)
+Thu Mar 26 15:56:30 PDT 2026
+Removed project(#1) root-level task: Phase 1(#2)
+Thu Mar 26 15:56:30 PDT 2026
+Added project(#1) root-level task: Phase 1(#5)
+Thu Mar 26 15:56:58 PDT 2026
+Created leaf task(#6) with name Ttest, parent task Phase 1(#5), and description Ttest classes
+Thu Mar 26 15:56:58 PDT 2026
+Set leaf task Ttest(#6) depth field to 1
+Thu Mar 26 15:56:58 PDT 2026
+Set task Ttest(#6) parent task field to Phase 1(#5)
+Thu Mar 26 15:56:58 PDT 2026
+Added subtask Ttest(#6) to branch task Phase 1(#5)
+Thu Mar 26 15:57:08 PDT 2026
+Set task Test(#6) name to Test
+Thu Mar 26 15:57:08 PDT 2026
+Set task Test(#6) description to Test classes
+Thu Mar 26 15:57:08 PDT 2026
+Set leaf task Test(#6) weight to 5
+Thu Mar 26 15:57:08 PDT 2026
+Set leaf task Test(#6) due date to February 15, 2026
+Thu Mar 26 15:57:10 PDT 2026
+Set leaf task Test(#6) completion status to true
+Thu Mar 26 15:57:10 PDT 2026
+Progress history for project #1 updated
+Thu Mar 26 15:57:12 PDT 2026
+Set leaf task Model(#4) completion status to true
+Thu Mar 26 15:57:12 PDT 2026
+Set leaf task Test(#6) completion status to true
+Thu Mar 26 15:57:12 PDT 2026
+Set branch task Phase 1(#5) completion status to true
+Thu Mar 26 15:57:12 PDT 2026
+Progress history for project #1 updated
+Thu Mar 26 15:57:15 PDT 2026
+Set leaf task Phase 2(#3) completion status to true
+Thu Mar 26 15:57:15 PDT 2026
+Progress history for project #1 updated
+Thu Mar 26 15:57:17 PDT 2026
+Removed subtask Test(#6) from branch task Phase 1(#5)
+Thu Mar 26 15:57:43 PDT 2026
+Created leaf task(#7) with name Specify classes, parent task Model(#4), and description
+Thu Mar 26 15:57:43 PDT 2026
+Created branch task(#8) with name Model, parent task Phase 1(#5), description , and subtasks:
+        [ ] Specify classes (Due: February 15, 2026 | Weight: 5)
+Thu Mar 26 15:57:43 PDT 2026
+Set task Specify classes(#7) parent task field to Model(#8)
+Thu Mar 26 15:57:43 PDT 2026
+Removed subtask Model(#4) from branch task Phase 1(#5)
+Thu Mar 26 15:57:43 PDT 2026
+Set leaf task Specify classes(#7) depth field to 2
+Thu Mar 26 15:57:43 PDT 2026
+Removed subtask Model(#4) from branch task Phase 1(#5)
+Thu Mar 26 15:57:43 PDT 2026
+Set leaf task Specify classes(#7) depth field to 2
+Thu Mar 26 15:57:43 PDT 2026
+Thu Mar 26 15:57:43 PDT 2026
+Set leaf task Specify classes(#7) depth field to 2
+Thu Mar 26 15:57:43 PDT 2026
+Set leaf task Specify classes(#7) depth field to 2
+Thu Mar 26 15:57:43 PDT 2026
+Thu Mar 26 15:57:43 PDT 2026
+Set branch task Model(#8) depth field to 1
+Set branch task Model(#8) depth field to 1
+Thu Mar 26 15:57:43 PDT 2026
+Set task Model(#8) parent task field to Phase 1(#5)
+Thu Mar 26 15:57:43 PDT 2026
+Added subtask Model(#8) to branch task Phase 1(#5)
+Thu Mar 26 15:57:43 PDT 2026
+Progress history for project #1 updated
+Thu Mar 26 15:57:49 PDT 2026
+Removed project(#1) : CPSC210 Project
+```

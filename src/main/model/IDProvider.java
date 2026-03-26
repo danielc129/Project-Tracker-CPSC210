@@ -6,11 +6,13 @@ public class IDProvider {
     private static IDProvider singleton;
     private int currentID; 
 
+    // EFFECTS: creates the IDProvider singleton instance with current ID 0,
+    //          meaning the first ID given out will be 1
     private IDProvider() {
         currentID = 0;
     }
 
-    // EFFECTS: returns the instance of this singleton
+    // EFFECTS: returns the instance of this singleton, creating it if it doesn't exist yet
     public static IDProvider getInstance() {
         if (singleton == null) {
             singleton = new IDProvider();

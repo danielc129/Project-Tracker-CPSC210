@@ -240,12 +240,19 @@ public class BranchTask extends Task {
     // EFFECTS: returns the message used for logging when this branch task is first initialized
     private String getConstructorLogMessage() {
         String subtasksMessage = "";
+        String resultMessage = "";
         for (Task task : subtasks) {
             subtasksMessage += "\n";
             subtasksMessage += task.getStringFormatNoSubtasksNoDescription();
         }
-        String resultMessage = "Created branch task(" + getUniqueIdentifier() + ") with name " 
-                + name + ", description " + description + ", and subtasks:";
+        if (parentTask != null) {
+            resultMessage = "Created branch task(" + getUniqueIdentifier() + ") with name " 
+                    + name + ", parent task " + parentTask.getName() + "(" + parentTask.getUniqueIdentifier() 
+                    + "), description " + description + ", and subtasks:";
+        } else {
+            resultMessage = "Created branch task(" + getUniqueIdentifier() + ") with name " 
+                    + name + ", at project root-level, description " + description + ", and subtasks:";
+        }
         resultMessage += subtasksMessage;
         return resultMessage;
     }

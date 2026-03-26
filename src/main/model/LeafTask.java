@@ -19,8 +19,14 @@ public class LeafTask extends Task {
         this.dueDate = dueDate;
         this.weight = weight;
         this.isCompleted = false;
-        EventLog.getInstance().logEvent(new Event("Created leaf task(" + getUniqueIdentifier() + ") with name " 
-                + name + ", and description " + description));
+        if (parentTask != null) { 
+            EventLog.getInstance().logEvent(new Event("Created leaf task(" + getUniqueIdentifier() + ") with name " 
+                    + name + ", parent task " + parentTask.getName() + "(" + parentTask.getUniqueIdentifier()
+                    + "), and description " + description));
+        } else {
+            EventLog.getInstance().logEvent(new Event("Created leaf task(" + getUniqueIdentifier() + ") with name " 
+                    + name + ", at project root-level, and description " + description));
+        }
     }
 
     // MODIFIES: this
