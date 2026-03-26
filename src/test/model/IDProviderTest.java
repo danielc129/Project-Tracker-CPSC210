@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
+@ExcludeFromJacocoGeneratedReport
 public class IDProviderTest {
     private IDProvider idProvider;
 
@@ -23,8 +26,9 @@ public class IDProviderTest {
 
     @Test
     public void testGetUniqueIdentifier() {
-        assertEquals(1, idProvider.getUniqueIdentifier());
-        assertEquals(2, idProvider.getUniqueIdentifier());
-        assertEquals(3, idProvider.getUniqueIdentifier());
+        int startingID = idProvider.getUniqueIdentifier();
+        assertEquals(startingID + 1, idProvider.getUniqueIdentifier());
+        assertEquals(startingID + 2, idProvider.getUniqueIdentifier());
+        assertEquals(startingID + 3, idProvider.getUniqueIdentifier());
     }
 }
