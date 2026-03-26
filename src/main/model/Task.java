@@ -96,9 +96,11 @@ public abstract class Task implements Writable {
     public void setParentTask(Task task) {
         parentTask = task;
         if (task == null) {
-            EventLog.getInstance().logEvent(new Event("Set task(" + getUniqueIdentifier() + ") parent task field to project root"));
+            EventLog.getInstance().logEvent(new Event("Set task(" + getUniqueIdentifier() 
+                    + ") parent task field to project root"));
         } else {
-            EventLog.getInstance().logEvent(new Event("Set task(" + getUniqueIdentifier() + ") parent task field to " + task.getName() + "(" + task.getUniqueIdentifier() + ")"));
+            EventLog.getInstance().logEvent(new Event("Set task(" + getUniqueIdentifier() 
+                    + ") parent task field to " + task.getName() + "(" + task.getUniqueIdentifier() + ")"));
         }
     }
 

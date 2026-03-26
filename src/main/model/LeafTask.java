@@ -19,14 +19,16 @@ public class LeafTask extends Task {
         this.dueDate = dueDate;
         this.weight = weight;
         this.isCompleted = false;
-        EventLog.getInstance().logEvent(new Event("Created leaf task(" + getUniqueIdentifier() + ") with name " + name + ", and description " + description));
+        EventLog.getInstance().logEvent(new Event("Created leaf task(" + getUniqueIdentifier() + ") with name " 
+                + name + ", and description " + description));
     }
 
     // MODIFIES: this
     // EFFECTS: sets the due date to the given date
     public void setDueDate(Date newDate) {
         this.dueDate = newDate;
-        EventLog.getInstance().logEvent(new Event("Set leaf task " + name + "(" + getUniqueIdentifier() + ") due date to " + newDate.getDateAsString()));
+        EventLog.getInstance().logEvent(new Event("Set leaf task " + name + "(" + getUniqueIdentifier() 
+                + ") due date to " + newDate.getDateAsString()));
     }
 
     // REQUIRES: weight > 0
@@ -34,14 +36,16 @@ public class LeafTask extends Task {
     // EFFECTS: sets the task weight to the given weight
     public void setWeight(int newWeight) {
         this.weight = newWeight;
-        EventLog.getInstance().logEvent(new Event("Set leaf task " + name + "(" + getUniqueIdentifier() + ") weight to " + newWeight));
+        EventLog.getInstance().logEvent(new Event("Set leaf task " + name + "(" + getUniqueIdentifier() 
+                + ") weight to " + newWeight));
     }
 
     // MODIFIES: this
     // EFFECTS: sets the completion status of the task to the given boolean value
     public void setCompletion(boolean isCompleted) {
         this.isCompleted = isCompleted;
-        EventLog.getInstance().logEvent(new Event("Set leaf task " + name + "(" + getUniqueIdentifier() + ") completion status to " + isCompleted));
+        EventLog.getInstance().logEvent(new Event("Set leaf task " + name + "(" + getUniqueIdentifier() 
+                + ") completion status to " + isCompleted));
     }
 
     // EFFECTS: returns the due date of this task
@@ -114,7 +118,8 @@ public class LeafTask extends Task {
     @Override
     public void setDepth(int depth) {
         this.depth = depth;
-        EventLog.getInstance().logEvent(new Event("Set leaf task " + name + "(" + getUniqueIdentifier() + ") depth field to " + depth));
+        EventLog.getInstance().logEvent(new Event("Set leaf task " + name + "(" + getUniqueIdentifier() 
+                + ") depth field to " + depth));
     }
 
     // EFFECTS: returns this task as the only element in a list
