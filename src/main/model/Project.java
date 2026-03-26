@@ -11,6 +11,7 @@ import persistence.Writable;
 
 // Represents a project 
 public class Project implements Writable {
+    private final int id;
     private List<Task> tasks;
     private List<ProgressSnapshot> progressHistory;
     private String name;
@@ -24,12 +25,15 @@ public class Project implements Writable {
         this.description = description;
         this.utilities = new Utilities();
         this.progressHistory = new ArrayList<ProgressSnapshot>();
+        id = IDProvider.getInstance().getUniqueIdentifier();
+        EventLog.getInstance().logEvent(new Event("Project(" + getUniqueIdentifier() + ") created with name " + name + ", and description " + description));
     }
 
     // MODIFIES: this
     // EFFECTS: adds the given task to the project
     public void addTask(Task task) {
         this.tasks.add(task);
+        EventLog.getInstance().logEvent(new Event("Added project(" + getUniqueIdentifier() + ") " + "root-level task: " + task.getName() + "(" + task.getUniqueIdentifier() + ")"));
     }
 
     // REQUIRES: given task is in the list of tasks
@@ -37,6 +41,7 @@ public class Project implements Writable {
     // EFFECTS: removes the given task from the project
     public void removeTask(Task task) {
         this.tasks.remove(task);
+        EventLog.getInstance().logEvent(new Event("Removed project(" + getUniqueIdentifier() + ") " + "root-level task: " + task.getName() + "(" + task.getUniqueIdentifier() + ")"));
     }
 
     // EFFECTS: gets the percentage completion of the project (as an integer from 0 to 100), 
@@ -66,6 +71,7 @@ public class Project implements Writable {
 
         ProgressSnapshot newSnapshot = new ProgressSnapshot(this.getCompletionPercentage(), LocalDateTime.now());
         progressHistory.add(newSnapshot);
+        EventLog.getInstance().logEvent(new Event("Progress history for project " + getUniqueIdentifier() + " updated"));
     }
 
     // EFFECTS: returns a list of progress snapshots in the progress history
@@ -77,6 +83,7 @@ public class Project implements Writable {
     // EFFECTS: sets the progress history to the given list of progress snapshots
     public void setProgressHistory(List<ProgressSnapshot> progressHistory) {
         this.progressHistory = progressHistory;
+        EventLog.getInstance().logEvent(new Event("Set progress history of project " + getUniqueIdentifier()));
     }
 
     // EFFECTS: returns the sum of the weight of the tasks 
@@ -163,5 +170,10 @@ public class Project implements Writable {
             result.addAll(task.getDescendants());
         }
         return result;
+    }
+    
+    // EFFECTS: returns the unique ID of this project
+    public String getUniqueIdentifier() {
+        return "#" + Integer.toString(id);
     }
 }

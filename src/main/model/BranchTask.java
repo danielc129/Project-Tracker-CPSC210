@@ -17,6 +17,7 @@ public class BranchTask extends Task {
     public BranchTask(String name, String description, List<Task> subtasks, int depth, Task parentTask) {
         super(name, description, depth, parentTask);
         this.subtasks = subtasks;
+        EventLog.getInstance().logEvent(new Event(getConstructorLogMessage()));
     }
 
     // MODIFIES: this
@@ -25,6 +26,7 @@ public class BranchTask extends Task {
         this.subtasks.add(task);
         task.setDepth(this.depth + 1);
         task.setParentTask(this);
+        EventLog.getInstance().logEvent(new Event("Added subtask " + task.getName() + "(" + task.getUniqueIdentifier() + ") to branch task " + name + "(" + getUniqueIdentifier() + ")"));
     }
 
     // REQUIRES: getSubtasks().length() > 1, given task is in the list of subtasks
@@ -32,6 +34,7 @@ public class BranchTask extends Task {
     // EFFECTS: removes the given task from the list of subtasks of this task
     public void removeSubtask(Task task) {
         this.subtasks.remove(task);
+        EventLog.getInstance().logEvent(new Event("Removed subtask " + task.getName() + "(" + task.getUniqueIdentifier() + ") from branch task " + name + "(" + getUniqueIdentifier() + ")"));
     }
 
     // MODIFIES: this
@@ -42,6 +45,7 @@ public class BranchTask extends Task {
         for (Task subtask : subtasks) {
             subtask.setCompletion(completionStatus);
         }
+        EventLog.getInstance().logEvent(new Event("Set branch task " + name + "(" + getUniqueIdentifier() + ") completion status to " + completionStatus));
     }
 
     // REQUIRES: getSubtasks() is not empty
@@ -213,6 +217,7 @@ public class BranchTask extends Task {
         for (Task subtask : subtasks) {
             subtask.setDepth(depth + 1);
         }
+        EventLog.getInstance().logEvent(new Event("Set branch task " + name + "(" + getUniqueIdentifier() + ") depth field to " + depth));
     }
 
     // EFFECTS: returns a list of all of this task's descendants, including itself
@@ -226,6 +231,18 @@ public class BranchTask extends Task {
             result.addAll(subtask.getDescendants());
         }
         return result;
+    }
+
+    // EFFECTS: returns the message used for logging when this branch task is first initialized
+    private String getConstructorLogMessage() {
+        String subtasksMessage = "";
+        for (Task task : subtasks) {
+            subtasksMessage += "\n";
+            subtasksMessage += task.getStringFormatNoSubtasksNoDescription();
+        }
+        String resultMessage = "Created branch task(" + getUniqueIdentifier() + ") with name " + name + ", description " + description + ", and subtasks:";
+        resultMessage += subtasksMessage;
+        return resultMessage;
     }
 
 }

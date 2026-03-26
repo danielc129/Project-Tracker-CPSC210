@@ -1,6 +1,8 @@
 package ui;
 
 import java.awt.Dimension;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -14,6 +16,8 @@ import javax.swing.WindowConstants;
 import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import model.BranchTask;
 import model.Date;
+import model.Event;
+import model.EventLog;
 import model.LeafTask;
 import model.Project;
 import model.ProjectList;
@@ -29,10 +33,10 @@ import ui.panels.ProjectView;
 
 // ATTRIBUTION: SmartHome
 // ATTRIBUTION: Oracle Java Swing Components Tutorial
-// ATTRIBUTION: EdX Project Phase 3 Page
+// ATTRIBUTION: EdX Project Phase 3 Page, Phase 4 Page
 // Project tracker GUI application
 @ExcludeFromJacocoGeneratedReport
-public class ProjectTrackerUI extends JFrame {
+public class ProjectTrackerUI extends JFrame implements WindowListener {
     private static final String JSON_STORE = "./data/projectlist.json";
     private static final String WINDOW_NAME = "Project Tracker";
     private static final int WIDTH = 700;
@@ -57,7 +61,8 @@ public class ProjectTrackerUI extends JFrame {
         jsonWriter = new JsonWriter(JSON_STORE);
 
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(this);
 
         createMenu();
 
@@ -364,5 +369,43 @@ public class ProjectTrackerUI extends JFrame {
     private void showDuplicateTaskDialog() {
         JOptionPane.showMessageDialog(this, "There is already a task with that name", 
                 "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+        // do nothing
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        for (Event logEvent : EventLog.getInstance()) {
+            System.out.println(logEvent.toString());
+        }
+        dispose();
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+        // do nothing
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+        // do nothing
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+        // do nothing
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+        // do nothing
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+        // do nothing
     }
 }

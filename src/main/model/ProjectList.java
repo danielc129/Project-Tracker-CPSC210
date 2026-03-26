@@ -16,12 +16,14 @@ public class ProjectList implements Writable {
     // EFFECTS: creates an empty project list
     public ProjectList() {
         projects = new ArrayList<>();
+        EventLog.getInstance().logEvent(new Event("New project list instantiated"));
     }
 
     // MODIFIES: this
     // EFFECTS: adds the given project to the project list
     public void addProject(Project project) {
         projects.add(project);
+        EventLog.getInstance().logEvent(new Event("Added project(" + project.getUniqueIdentifier() + ") to project list : " + project.getName()));
     }
     
     // EFFECTS: returns the projects added to the list
@@ -34,6 +36,7 @@ public class ProjectList implements Writable {
     // EFFECTS: removes the given project from the project list
     public void removeProject(Project project) {
         projects.remove(project);
+        EventLog.getInstance().logEvent(new Event("Removed project(" + project.getUniqueIdentifier() + ") : " + project.getName()));
     }
 
     // EFFECTS: returns this as a JSON object

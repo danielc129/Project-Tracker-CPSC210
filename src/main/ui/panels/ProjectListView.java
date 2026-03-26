@@ -49,7 +49,7 @@ public class ProjectListView extends JPanel {
             gbConstraints.weighty = 1;
             add(headerText, gbConstraints);
 
-            addTaskList(gbConstraints);
+            addProjectList(gbConstraints);
 
             JButton addProjectButton = new JButton("Add Project");
             gbConstraints.gridy = 2;
@@ -142,8 +142,8 @@ public class ProjectListView extends JPanel {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds the list view to see the tasks in this project
-    public void addTaskList(GridBagConstraints gbConstraints) {
+    // EFFECTS: adds the list view to see the different projects
+    public void addProjectList(GridBagConstraints gbConstraints) {
         ArrayList<String> projectListContents = new ArrayList<>();
         projectListObjects = controller.getProjectList().getProjects();
         for (Project project : projectListObjects) {

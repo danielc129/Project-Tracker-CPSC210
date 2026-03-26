@@ -9,6 +9,7 @@ import persistence.Writable;
 public abstract class Task implements Writable {
     protected static final int DESCRIPTION_MAX_LENGTH = 20;
     protected static final String INDENT = "    ";
+    protected final int id;
 
     protected String name;
     protected String description;
@@ -25,18 +26,21 @@ public abstract class Task implements Writable {
         this.depth = depth;
         this.parentTask = parentTask;
         this.utilities = new Utilities();
+        this.id = IDProvider.getInstance().getUniqueIdentifier();
     }
 
     // MODIFIES: this
     // EFFECTS: sets the task name to the given name
     public void setName(String name) {
         this.name = name;
+        EventLog.getInstance().logEvent(new Event("Set task(" + getUniqueIdentifier() + ") name to " + name));
     }
 
     // MODIFIES: this
     // EFFECTS: sets the task description to the given description
     public void setDescription(String description) {
         this.description = description;
+        EventLog.getInstance().logEvent(new Event("Set task(" + getUniqueIdentifier() + ") to " + description));
     }
 
     // EFFECTS: returns a string representation of the task, suitable for command line viewing
@@ -91,6 +95,15 @@ public abstract class Task implements Writable {
     // EFFECTS: sets the parent task to the given task (null if at root level)
     public void setParentTask(Task task) {
         parentTask = task;
+        if (task == null) {
+            EventLog.getInstance().logEvent(new Event("Set task(" + getUniqueIdentifier() + ") parent task field to project root"));
+        } else {
+            EventLog.getInstance().logEvent(new Event("Set task(" + getUniqueIdentifier() + ") parent task field to " + task.getName() + "(" + task.getUniqueIdentifier() + ")"));
+        }
     }
 
+    // EFFECTS: returns the unique ID of this project
+    public String getUniqueIdentifier() {
+        return "#" + Integer.toString(id);
+    }
 }
