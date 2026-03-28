@@ -29,6 +29,7 @@ public class ProjectList implements Writable {
     
     // EFFECTS: returns the projects added to the list
     public List<Project> getProjects() {
+        EventLog.getInstance().logEvent(new Event("Retrieving updated project list information"));
         return projects;    
     }
 

@@ -126,6 +126,7 @@ public class Project implements Writable {
 
     // EFFECTS: returns this project's tasks
     public List<Task> getTasks() {
+        EventLog.getInstance().logEvent(new Event("Retrieving tasks in project " + getUniqueIdentifier()));
         return this.tasks;
     }
 
