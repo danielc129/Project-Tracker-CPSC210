@@ -82,6 +82,12 @@ public class ProjectListView extends JPanel {
             gbConstraints.gridy = 2;
             add(removeProjectButton, gbConstraints);
 
+            JButton viewProgressButton = new JButton("View Progress");
+            viewProgressButton.addActionListener(e -> controller.viewProgress(projectListObjects.get(projectIndex)));
+            gbConstraints.gridx = 3;
+            gbConstraints.gridy = 2;
+            add(viewProgressButton, gbConstraints);
+
             addDescriptionPanel();
 
             revalidate();

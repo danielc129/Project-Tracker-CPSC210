@@ -28,6 +28,7 @@ import persistence.JsonWriter;
 import ui.panels.AddProjectDialog;
 import ui.panels.AddTaskDialog;
 import ui.panels.EditTaskDialog;
+import ui.panels.ProgressView;
 import ui.panels.ProjectListView;
 import ui.panels.ProjectView;
 
@@ -175,6 +176,11 @@ public class ProjectTrackerUI extends JFrame implements WindowListener {
     // EFFECTS: selects the given project and switches content pane to project view
     public void selectProject(Project project) {
         updateProjectView(project);
+    }
+
+    // EFFECTS: opens progress chart for the given project
+    public void viewProgress(Project project) {
+        updateProgressView(project);
     }
 
     // MODIFIES: this, project 
@@ -350,6 +356,15 @@ public class ProjectTrackerUI extends JFrame implements WindowListener {
     public void updateProjectView(Project project) {
         ProjectView newProjectView = new ProjectView(this, project);
         setContentPane(newProjectView);
+        revalidate();
+        repaint();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: shows a chart of progress history for the given project
+    public void updateProgressView(Project project) {
+        ProgressView newProgressView = new ProgressView(this, project);
+        setContentPane(newProgressView);
         revalidate();
         repaint();
     }
